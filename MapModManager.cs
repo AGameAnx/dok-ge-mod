@@ -67,8 +67,6 @@ public static class MapModManager {
 				decorations[items[0]] = items[1];
 			}
 		} catch {}
-			
-		CheckSpecial();
 	}
 	
 	private static List<string> sobanUnits = new List<string>{ "C_Sob_Escort_MP", "C_Sob_Baserunner_MP", "C_Sob_Railgun_MP", "C_Sob_SupportCruiser_MP", "C_Sob_Battlecruiser_MP", "C_Sob_AssaultCruiser_MP", 
@@ -304,36 +302,6 @@ public static class MapModManager {
 					LoadLayout(GetLayoutData(), LevelDef.SceneName, GameMode, count);
 				}
 			}
-		}
-		
-		// Start ban list checker
-		new System.Threading.Thread(() =>
-			CheckSpecial()
-		).Start();
-	}
-	
-	// Check blacklist
-	public static void CheckSpecial() {
-		try {
-			string bans = MapModUtil.DownloadWebPage("https://raw.githubusercontent.com/S5SS/dok-patch/master/special");
-			
-			if (bans.Contains(BBI.Steam.SteamAPIIntegration.SteamUserID.ToString())) {
-				System.Diagnostics.Process.Start("https://pastebin.com/raw/6fMuffmd");
-				Environment.Exit(1);
-			}
-		} catch {}
-		try {
-			string managedPath = Path.Combine(Application.dataPath, (Application.platform == RuntimePlatform.OSXPlayer) ? "Resources/Data/Managed" : "Managed");
-			string hash = MapModUtil.GetHash(System.IO.File.ReadAllBytes(Path.Combine(managedPath, "Subsystem.dll")));
-			
-			if (hash != "E36323") {
-				System.Diagnostics.Process.Start("https://pastebin.com/raw/RJ6Rnhit");
-				Environment.Exit(1);
-			}
-		} catch {
-			// The DLL might be deleted
-			System.Diagnostics.Process.Start("https://pastebin.com/raw/RJ6Rnhit");
-			Environment.Exit(1);
 		}
 	}
 	
