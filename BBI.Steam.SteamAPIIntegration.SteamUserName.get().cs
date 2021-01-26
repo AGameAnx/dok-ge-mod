@@ -15,12 +15,6 @@ namespace BBI.Steam
 		{
 			get
 			{
-				// MOD change usernames based on online decorators
-				if (MapModManager.decorations.ContainsKey(SteamAPIIntegration.SteamUserID.ToString()))
-				{
-					return MapModManager.decorations[SteamAPIIntegration.SteamUserID.ToString()];
-				}
-				// MOD
 				if (SteamAPIIntegration.IsSteamRunning)
 				{
 					return Marshal.PtrToStringAnsi(SteamAPIIntegration.BBI_SteamUser_GetUserName());
