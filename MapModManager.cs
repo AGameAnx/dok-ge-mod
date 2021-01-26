@@ -251,10 +251,6 @@ public static class MapModManager {
 		GameMode = gameMode;
 		FrameNumber = 0;
 		
-		if (GameType == BBI.Game.Data.GameMode.Multiplayer && Subsystem.AttributeLoader.PatchOverrideData == "") {
-			Subsystem.AttributeLoader.PatchOverrideData = "_";
-		}
-		
 		SExtractionZoneViewController = null;
 		SWinConditionPanelController = null;
 		
