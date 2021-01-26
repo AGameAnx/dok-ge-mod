@@ -45,7 +45,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					
 					// Set the address
 					string address = (command == "/lpb" || command == "/layoutpb") ? String.Format("https://pastebin.com/raw/{0}", arg)
-						: String.Format("https://raw.githubusercontent.com/S5SS/dok-repo/master/layouts/{0}.dokmap", arg);
+						: String.Format("http://frejwedlund.se/jaraci/index.php?l={0}", arg);
 					
 					// Download the layout
 					try {
@@ -110,7 +110,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					}
 					
 					// Set the address
-					string address = String.Format("https://raw.githubusercontent.com/S5SS/dok-repo/master/patches/{0}.json", arg);
+					string address = String.Format("http://frejwedlund.se/jaraci/index.php?p={0}", arg);
 					
 					// Download the patch
 					try {
