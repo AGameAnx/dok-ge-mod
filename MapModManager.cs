@@ -50,23 +50,6 @@ public static class MapModManager {
 		} catch {}
 		
 		ResetLayout();
-
-		// Start ban list checker
-		new System.Threading.Thread(() =>
-			GetDecorations()
-		).Start();
-	}
-	
-	public static Dictionary<string, string> decorations = new Dictionary<string, string>();
-	
-	public static void GetDecorations() {
-		try {
-			string decor = MapModUtil.DownloadWebPage("https://raw.githubusercontent.com/S5SS/dok-patch/master/decorations");
-			foreach (string item in decor.Split()) {
-				string[] items = item.Split(new char[]{':'}, 2);
-				decorations[items[0]] = items[1];
-			}
-		} catch {}
 	}
 	
 	private static List<string> sobanUnits = new List<string>{ "C_Sob_Escort_MP", "C_Sob_Baserunner_MP", "C_Sob_Railgun_MP", "C_Sob_SupportCruiser_MP", "C_Sob_Battlecruiser_MP", "C_Sob_AssaultCruiser_MP", 
