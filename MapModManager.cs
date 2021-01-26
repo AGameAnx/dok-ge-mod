@@ -595,8 +595,8 @@ public static class MapModManager {
 	// Mod meta data
 	
 	public static readonly object artUiLock = new object();
-	public static string ModDescription { get { return "More Maps " + ModVersion; } }
-	public static string ModVersion { get { return "v1.1t"; } }
+	public static string ModDescription { get { return "GE mod " + ModVersion; } }
+	public static string ModVersion { get { return "v1.2"; } }
 	
 	// Mod state data
 	
