@@ -65,8 +65,12 @@ public static class MapModManager {
 	// Map layouts include spawn, artifact, resource and extraction zone locations
 	// This function also removes certain aspects of the level that are already there e.g. wrecks
 	public static void LoadMapLayout() {
-		MapXml = ""; // No map loaded anymore
+		// No map loaded anymore
+		MapXml = "";
+		LayoutName = "";
+
 		Subsystem.AttributeLoader.PatchOverrideData = "";
+		PatchName = "";
 		
 		if (CustomLayout) {
 			// Move DoK engine objects
@@ -276,6 +280,7 @@ public static class MapModManager {
 			if (!LoadLayout(GetLayoutData(), LevelDef.SceneName, GameMode, count)) {
 				ResetLayout();
 				MapXml = "";
+				LayoutName = "";
 				CustomLayout = GameType != BBI.Game.Data.GameMode.SinglePlayer && maps.ContainsKey(LevelDef.SceneName);
 				if (CustomLayout) { // Only load default layout if its not a vanilla map
 					LoadLayout(GetLayoutData(), LevelDef.SceneName, GameMode, count);
@@ -508,6 +513,7 @@ public static class MapModManager {
 			System.Diagnostics.Process.Start(logName);
 			ResetLayout();
 			MapXml = "";
+			LayoutName = "";
 			return false;
 		}
 	}
@@ -594,6 +600,10 @@ public static class MapModManager {
 	public static string ModDescription { get { return "GE mod " + ModVersion; } }
 	public static string ModVersion { get { return "v1.2"; } }
 	
+	// Lobby command memorization
+	public static string LayoutName { get; set; } = "";
+	public static string PatchName { get; set; } = "";
+
 	// Mod state data
 	
 	public static bool CustomLayout { get; private set; } // Whether this map has a custom layout

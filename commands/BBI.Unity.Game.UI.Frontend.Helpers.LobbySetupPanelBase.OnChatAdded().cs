@@ -39,6 +39,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					if (command == "/bundle" || command == "/b") i--; 
 					if (arg == "none") {
 						MapModManager.MapXml = "";
+						MapModManager.LayoutName = "";
 						Print(SteamAPIIntegration.SteamUserName + " cleared layout");
 						return;
 					}
@@ -52,6 +53,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 						string text = MapModUtil.DownloadWebPage(address);
 						Print(SteamAPIIntegration.SteamUserName + " received layout [ " + MapModUtil.GetHash(text) + " ]");
 						MapModManager.MapXml = text;
+						MapModManager.LayoutName = arg;
 						
 						// Select the correct map
 						if (this.IsLobbyHost) {
@@ -105,6 +107,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					string arg = words[++i];
 					if (arg == "none") {
 						Subsystem.AttributeLoader.PatchOverrideData = "";
+						MapModManager.PatchName = "";
 						Print(SteamAPIIntegration.SteamUserName + " cleared patch");
 						return;
 					}
@@ -120,6 +123,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 							AttributesPatch patch = AttributeLoader.GetPatchObject(patchData);
 							Print(SteamAPIIntegration.SteamUserName + " received patch [ " + MapModUtil.GetHash(patchData) + " ]");
 							Subsystem.AttributeLoader.PatchOverrideData = patchData;
+							MapModManager.PatchName = arg;
 						} catch (Exception e) {
 							Print(String.Format("[FF0000][b][i]{0}: '{1}' PARSE FAILED", SteamAPIIntegration.SteamUserName, command));
 						}
@@ -131,7 +135,9 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					Print("[FF00FF][b][i]" + SteamAPIIntegration.SteamUserName + " PRAISES SAJUUK");
 				} else if (command == "/clear") { // Clear both layout and patch
 					MapModManager.MapXml = "";
+					MapModManager.LayoutName = "";
 					Subsystem.AttributeLoader.PatchOverrideData = "";
+					MapModManager.PatchName = "";
 					Print(SteamAPIIntegration.SteamUserName + " cleared layout and patch");
 				} else if (command == "/zoom") { // Get the zoom of all players in lobby
 					Print(SteamAPIIntegration.SteamUserName + "'s zoom extended by " + MapModManager.GetMaxCameraDistance(0).ToString());
@@ -144,6 +150,34 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 				} else if (command == "/check" || command == "/c") { // Advanced state check
 					Print(String.Format("{0}: {1} [ {2} ] [ {3} ]", SteamAPIIntegration.SteamUserName, MapModManager.ModVersion, 
 						MapModUtil.GetHash(MapModManager.MapXml), MapModUtil.GetHash(Subsystem.AttributeLoader.PatchOverrideData)));
+				} else if (command == "/pm" || command == "/patchmeta") {
+					if (this.IsLobbyHost) {
+						if (AttributeLoader.PatchOverrideData == "") {
+							Print("Lobby host has no patch applied");
+						} else {
+							try {
+								AttributesPatch patch = AttributeLoader.GetPatchObject(AttributeLoader.PatchOverrideData);
+								string outputStr = String.Format("Lobby host patch: {0}", MapModManager.PatchName);
+								if (patch.Meta.Name.Length > 0) {
+									outputStr += String.Format("\n      [b]{0}[/b]", patch.Meta.Name);
+									if (patch.Meta.Version.Length > 0) {
+										outputStr += String.Format(" {0}", patch.Meta.Version);
+									}
+								} else if (patch.Meta.Version.Length > 0) {
+									outputStr += String.Format("\n      Version: {0}", patch.Meta.Version);
+								}
+								if (patch.Meta.Author.Length > 0) {
+									outputStr += String.Format("\n      By: {0}", patch.Meta.Author);
+								}
+								if (patch.Meta.LastUpdate.Length > 0) {
+									outputStr += String.Format("\n      Updated: {0}", patch.Meta.LastUpdate);
+								}
+								Print(outputStr);
+							} catch (Exception e) {
+								Print("[FF0000][b][i]Failed to get patch object");
+							}
+						}
+					}
 				} else if (s.IndexOf("[FFFFFF]" + SteamAPIIntegration.SteamUserName + ": ", StringComparison.Ordinal) == 0) { // Client based commands
 					string address = "";
 					if (command == "/repo") {
