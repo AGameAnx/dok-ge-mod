@@ -314,8 +314,8 @@ public static class MapModManager {
 				if (xmlDokmapReader.NodeType == XmlNodeType.Element) {
 					switch (xmlDokmapReader.Name) {
 						default:
-							System.IO.File.AppendAllText(logName, string.Format("[More Maps] WARNING: Unknown tag '{0}'" + Environment.NewLine, xmlDokmapReader.Name));
-							Debug.LogWarning(string.Format("[More Maps] WARNING: Unknown tag '{0}'", xmlDokmapReader.Name));
+							System.IO.File.AppendAllText(logName, string.Format("[GE mod] WARNING: Unknown tag '{0}'" + Environment.NewLine, xmlDokmapReader.Name));
+							Debug.LogWarning(string.Format("[GE mod] WARNING: Unknown tag '{0}'", xmlDokmapReader.Name));
 							break;
 						
 						case "meta": case "dokmap":
@@ -492,8 +492,8 @@ public static class MapModManager {
 													break;
 													
 												default:
-													System.IO.File.AppendAllText(logName, string.Format("[More Maps] WARNING: Unknown tag '{0}'" + Environment.NewLine, xmlLayoutReader.Name));
-													Debug.LogWarning(string.Format("[More Maps] WARNING: Unknown tag '{0}'", xmlLayoutReader.Name));
+													System.IO.File.AppendAllText(logName, string.Format("[GE mod] WARNING: Unknown tag '{0}'" + Environment.NewLine, xmlLayoutReader.Name));
+													Debug.LogWarning(string.Format("[GE mod] WARNING: Unknown tag '{0}'", xmlLayoutReader.Name));
 													break;
 											}
 										}
@@ -508,8 +508,8 @@ public static class MapModManager {
 					
 					return false;
 		} catch (Exception e) {
-			System.IO.File.AppendAllText(logName, string.Format("[More Maps] ERROR: parsing layout: {0}" + Environment.NewLine, e));
-			Debug.LogWarning(string.Format("[More Maps] ERROR: parsing layout: {0}", e));
+			System.IO.File.AppendAllText(logName, string.Format("[GE mod] ERROR: parsing layout: {0}" + Environment.NewLine, e));
+			Debug.LogWarning(string.Format("[GE mod] ERROR: parsing layout: {0}", e));
 			System.Diagnostics.Process.Start(logName);
 			ResetLayout();
 			MapXml = "";

@@ -64,7 +64,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 									if (xmlDokmapReader.NodeType == XmlNodeType.Element) {
 										switch (xmlDokmapReader.Name) {
 											default:
-												Debug.LogWarning(string.Format("[More Maps] WARNING: Unknown tag '{0}'", xmlDokmapReader.Name));
+												Debug.LogWarning(string.Format("[GE mod] WARNING: Unknown tag '{0}'", xmlDokmapReader.Name));
 												break;
 											
 											case "meta": case "dokmap":
