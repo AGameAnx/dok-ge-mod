@@ -115,13 +115,13 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					
 					// Download the patch
 					try {
-						string patch = MapModUtil.DownloadWebPage(address);
-						if (Subsystem.AttributeLoader.IsPatchValid(patch)) {
-							Print(SteamAPIIntegration.SteamUserName + " received patch [ " + MapModUtil.GetHash(patch) + " ]");
-							Subsystem.AttributeLoader.PatchOverrideData = patch;							
-						} else {
-							string reason = "PARSE FAILED";
-							Print(String.Format("[FF0000][b][i]{0}: '{1}' FAILED ({2})", SteamAPIIntegration.SteamUserName, command, reason));
+						string patchData = MapModUtil.DownloadWebPage(address);
+						try {
+							AttributesPatch patch = AttributeLoader.GetPatchObject(patchData);
+							Print(SteamAPIIntegration.SteamUserName + " received patch [ " + MapModUtil.GetHash(patchData) + " ]");
+							Subsystem.AttributeLoader.PatchOverrideData = patchData;
+						} catch (Exception e) {
+							Print(String.Format("[FF0000][b][i]{0}: '{1}' PARSE FAILED", SteamAPIIntegration.SteamUserName, command));
 						}
 					} catch(WebException e) {
 						string reason = (e.Status == WebExceptionStatus.Timeout) ? "TIMEOUT" : "NOT FOUND";
