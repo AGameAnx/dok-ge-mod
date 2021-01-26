@@ -38,7 +38,7 @@ public static class MapModManager {
 		}
 	}
 	
-	private static string logName = "moremaps.log";
+	private static string logName = "ge_mod.log";
 	
 	static MapModManager() {
 		// Only read the zoom value once so you can't change it between /zoom commands
