@@ -146,13 +146,13 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 				} else if (s.IndexOf("[FFFFFF]" + SteamAPIIntegration.SteamUserName + ": ", StringComparison.Ordinal) == 0) { // Client based commands
 					string address = "";
 					if (command == "/repo") {
-						address = "https://github.com/S5SS/dok-repo/blob/master/README.md#homeworld-deserts-of-kharak---more-maps-repository";
+						address = "https://github.com/AGameAnx/dok-repo";
 					} else if (command == "/layouts" || command == "/ls") {
-						address = "https://github.com/S5SS/dok-repo#layouts";
+						address = "https://github.com/AGameAnx/dok-repo#tournament-layouts";
 					} else if (command == "/patches" || command == "/ps") {
-						address = "https://github.com/S5SS/dok-repo#patches";
+						address = "https://github.com/AGameAnx/dok-repo#patches";
 					} else if (command == "/help") {
-						address = "https://github.com/S5SS/dok-repo/blob/master/info/help.md#help";
+						address = "https://github.com/AGameAnx/dok-repo/blob/master/info/help.md#help";
 					}
 					
 					if (address != "") {
