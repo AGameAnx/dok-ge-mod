@@ -101,7 +101,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 				}
 				
 				// Deliberate missing else to run both the patch and layout command if /bundle is typed
-				if ((command == "/patch" || command == "/p" || command == "/bundle" || command == "/b") && i < words.Length - 1) {
+				if ((command == "/patchpb" || command == "/ppb" || command == "/patch" || command == "/p" || command == "/bundle" || command == "/b") && i < words.Length - 1) {
 					string arg = words[++i];
 					if (arg == "none") {
 						Subsystem.AttributeLoader.PatchOverrideData = "";
@@ -110,7 +110,8 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					}
 					
 					// Set the address
-					string address = String.Format("http://frejwedlund.se/jaraci/index.php?p={0}", arg);
+					string address = (command == "/patchpb" || command == "/ppb") ? String.Format("https://pastebin.com/raw/{0}", arg)
+						: String.Format("http://frejwedlund.se/jaraci/index.php?p={0}", arg);
 					
 					// Download the patch
 					try {
