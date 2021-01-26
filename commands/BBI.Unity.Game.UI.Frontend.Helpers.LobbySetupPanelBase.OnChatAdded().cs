@@ -178,6 +178,24 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 							}
 						}
 					}
+				} else if (command == "/pv" || command == "/patchversion") {
+					try {
+						AttributesPatch patch = AttributeLoader.GetPatchObject(AttributeLoader.PatchOverrideData);
+						string versionStr = "";
+						if (patch.Meta.Version.Length > 0) {
+							versionStr = patch.Meta.Version;
+							if (patch.Meta.LastUpdate.Length > 0) {
+								versionStr += String.Format(" {0}", patch.Meta.LastUpdate);
+							}
+							versionStr += " ";
+						} else if (patch.Meta.LastUpdate.Length > 0) {
+							versionStr = String.Format("{0} ", patch.Meta.LastUpdate);
+						}
+						Print(String.Format("{0}: {1}[ {2} ]",
+							SteamAPIIntegration.SteamUserName, versionStr, MapModUtil.GetHash(Subsystem.AttributeLoader.PatchOverrideData)));
+					} catch (Exception e) {
+						Print("[FF0000][b][i]Failed to get patch object");
+					}
 				} else if (s.IndexOf("[FFFFFF]" + SteamAPIIntegration.SteamUserName + ": ", StringComparison.Ordinal) == 0) { // Client based commands
 					string address = "";
 					if (command == "/repo") {
