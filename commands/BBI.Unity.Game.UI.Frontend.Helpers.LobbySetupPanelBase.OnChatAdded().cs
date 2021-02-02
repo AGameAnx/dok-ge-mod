@@ -211,7 +211,9 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					if (address != "") {
 						try {
 							BBI.Steam.SteamFriendsIntegration.ActivateGameOverlayToWebPage(address);
-						} catch {}
+						} catch {
+							Print("[FF0000][b][i]Failed to open steam overlay");
+						}
 					}
 				}
 			}
