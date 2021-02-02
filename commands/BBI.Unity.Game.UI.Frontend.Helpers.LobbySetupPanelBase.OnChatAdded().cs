@@ -206,6 +206,17 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 						address = "https://github.com/AGameAnx/dok-repo#patches";
 					} else if (command == "/help") {
 						address = "https://github.com/AGameAnx/dok-repo/blob/master/info/help.md#help";
+					} else if (command == "/pn" || command == "/patchnotes") {
+						try {
+							AttributesPatch patch = AttributeLoader.GetPatchObject(AttributeLoader.PatchOverrideData);
+							if (patch.Meta.Link.Length > 0) {
+								address = patch.Meta.Link;
+							} else if (patch.Meta.LastUpdate.Length > 0) {
+								Print("Patch doesn't have link meta");
+							}
+						} catch (Exception e) {
+							Print("[FF0000][b][i]Failed to get patch object");
+						}
 					}
 					
 					if (address != "") {
