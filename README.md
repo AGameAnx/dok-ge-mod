@@ -1,0 +1,23 @@
+# Homeworld: Deserts of Kharak - **Gameplay Extensions mod**
+
+Formerly known as **More-Maps mod**
+
+## Features
+- Apply auto-updated unit statistics modification patches - can range from balance mods to gameplay overhauls, although we can't add completely new functionality to units.
+- Play additional maps and map layouts - campaign maps are now available in multiplayer, apply community-made layouts to any map.
+- Ability to increase max zoom distance outside sensors.
+- See enemy tech and view bubbles in the replay viewer.
+- Basic spectator mode.
+
+## Installation
+Extract the archive to your DoK directory (should prompt to replace all files within Managed directory).
+If installation is successful, you will see [ GE mod v1.2 ] alongside game version in the bottom left corner of the screen in the main menu as well as a message when joining a multiplayer lobby.
+
+In case of issues, verify the integrity of your DoK installation, this will revert all the mod changes.
+
+## Using the mod
+The mod is generally used by typing commands into a multiplayer lobby, even if you want to play against AI opponents only.
+Type /help in the lobby to see the list of all available commands.
+
+- List of all available patches and layouts: https://github.com/AGameAnx/dok-repo
+- Follow GE mod development progress and contribute: https://github.com/AGameAnx/dok-ge-mod
