@@ -598,7 +598,7 @@ public static class MapModManager {
 
 	public static readonly object artUiLock = new object();
 	public static string ModDescription { get { return "GE mod " + ModVersion; } }
-	public static string ModVersion { get { return "v1.2"; } }
+	public static string ModVersion { get { return "v1.3"; } }
 
 	// Lobby command memorization
 	public static string LayoutName { get; set; } = "";
