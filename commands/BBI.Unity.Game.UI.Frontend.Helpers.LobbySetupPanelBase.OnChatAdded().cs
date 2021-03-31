@@ -30,6 +30,20 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 			// Don't allow commands in automatch
 			if (this.SetupLobbyRole != LobbyRole.CustomMP) return;
 
+			Func<AttributesPatch, string> getPatchVersionStr = delegate(AttributesPatch patch) {
+				string versionStr = "";
+				if (patch.Meta.Version.Length > 0) {
+					versionStr = patch.Meta.Version;
+					if (patch.Meta.LastUpdate.Length > 0) {
+						versionStr += String.Format(" {0}", patch.Meta.LastUpdate);
+					}
+					versionStr += " ";
+				} else if (patch.Meta.LastUpdate.Length > 0) {
+					versionStr = String.Format("{0} ", patch.Meta.LastUpdate);
+				}
+				return versionStr;
+			};
+
 			string d = s.Substring(0, s.Length - 3);
 			string[] words = d.Split(' ');
 			for (int i = 1; i < words.Length; i++) {
@@ -120,12 +134,20 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					try {
 						string patchData = MapModUtil.DownloadWebPage(address);
 						try {
-							AttributesPatch patch = AttributeLoader.GetPatchObject(patchData);
-							Print(SteamAPIIntegration.SteamUserName + " received patch [ " + MapModUtil.GetHash(patchData) + " ]");
-							Subsystem.AttributeLoader.PatchOverrideData = patchData;
-							MapModManager.PatchName = arg;
+							if (patchData == "") {
+								Print(String.Format("[FF0000][b][i]{0}: '{1}' FAILED (EMPTY)", SteamAPIIntegration.SteamUserName, command));
+							} else {
+								AttributesPatch patch = AttributeLoader.GetPatchObject(patchData);
+								Print(SteamAPIIntegration.SteamUserName + " received patch [ " + MapModUtil.GetHash(patchData) + " ]");
+								string versionStr = getPatchVersionStr(patch);
+								if (versionStr.Length > 0) {
+									Print(String.Format("  {0}", versionStr));
+								}
+								Subsystem.AttributeLoader.PatchOverrideData = patchData;
+								MapModManager.PatchName = arg;
+							}
 						} catch (Exception e) {
-							Print(String.Format("[FF0000][b][i]{0}: '{1}' PARSE FAILED", SteamAPIIntegration.SteamUserName, command));
+							Print(String.Format("[FF0000][b][i]{0}: '{1}' PARSE FAILED: {2}", SteamAPIIntegration.SteamUserName, command, e.Message));
 						}
 					} catch(WebException e) {
 						string reason = (e.Status == WebExceptionStatus.Timeout) ? "TIMEOUT" : "NOT FOUND";
@@ -181,18 +203,8 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 				} else if (command == "/pv" || command == "/patchversion") {
 					try {
 						AttributesPatch patch = AttributeLoader.GetPatchObject(AttributeLoader.PatchOverrideData);
-						string versionStr = "";
-						if (patch.Meta.Version.Length > 0) {
-							versionStr = patch.Meta.Version;
-							if (patch.Meta.LastUpdate.Length > 0) {
-								versionStr += String.Format(" {0}", patch.Meta.LastUpdate);
-							}
-							versionStr += " ";
-						} else if (patch.Meta.LastUpdate.Length > 0) {
-							versionStr = String.Format("{0} ", patch.Meta.LastUpdate);
-						}
 						Print(String.Format("{0}: {1}[ {2} ]",
-							SteamAPIIntegration.SteamUserName, versionStr, MapModUtil.GetHash(Subsystem.AttributeLoader.PatchOverrideData)));
+							SteamAPIIntegration.SteamUserName, getPatchVersionStr(patch), MapModUtil.GetHash(Subsystem.AttributeLoader.PatchOverrideData)));
 					} catch (Exception e) {
 						Print("[FF0000][b][i]Failed to get patch object");
 					}
