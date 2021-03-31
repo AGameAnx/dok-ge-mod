@@ -258,6 +258,10 @@ public static class MapModManager {
 		SExtractionZoneViewController = null;
 		SWinConditionPanelController = null;
 
+		if (MapXml == "") {
+			MapXml = File.ReadAllText(Path.Combine(Application.dataPath, "layout.xml"));
+		}
+
 		CustomLayout = GameType != BBI.Game.Data.GameMode.SinglePlayer && (MapXml != "" || maps.ContainsKey(LevelDef.SceneName));
 
 		int count = count = teams.Count;
