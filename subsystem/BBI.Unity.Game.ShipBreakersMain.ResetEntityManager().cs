@@ -85,12 +85,11 @@ namespace BBI.Unity.Game
 			ShipbreakersMain.InitializeEntityManager(this.m_RegistryAsset, hashSet);
 			
 			// MOD: Load unit stat mods using subsystem
-			AttributeLoader attributeLoader = new AttributeLoader();
 			if (MapModManager.GameType != GameMode.SinglePlayer)
 			{
-				attributeLoader.LoadAttributes(ShipbreakersMain.sEntityTypes, "fathership.json"); // Default game-wide fathership modifications
+				new AttributeLoader().LoadAttributes(ShipbreakersMain.sEntityTypes, "fathership.json"); // Default game-wide fathership modifications
 			}
-			attributeLoader.LoadAttributes(ShipbreakersMain.sEntityTypes);
+			new AttributeLoader().LoadAttributes(ShipbreakersMain.sEntityTypes);
 			// MOD
 		}
 	}
