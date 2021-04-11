@@ -18,7 +18,7 @@ using UnityEngine;
 [assembly: AssemblyCopyright("Copyright © Blackbird Interactive 2014")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("v1.3.0 [b][ GE mod 1.2 ]")]
+[assembly: AssemblyInformationalVersion("v1.3.0 [b][ GE mod 1.3 ]")]
 [assembly: AssemblyProduct("BBI.Unity.Game")]
 [assembly: AssemblyTitle("BBI.Unity.Game")]
 [assembly: AssemblyTrademark("")]
