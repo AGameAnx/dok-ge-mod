@@ -85,7 +85,8 @@ namespace BBI.Unity.Game
 			ShipbreakersMain.InitializeEntityManager(this.m_RegistryAsset, hashSet);
 			
 			// MOD: Load unit stat mods using subsystem
-			Subsystem.AttributeLoader.LoadAttributes(ShipbreakersMain.sEntityTypes);
+			AttributeLoader attributeLoader = new AttributeLoader();
+			attributeLoader.LoadAttributes(ShipbreakersMain.sEntityTypes);
 			// MOD
 		}
 	}
