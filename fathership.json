@@ -1,0 +1,17 @@
+{
+	"Entities": {
+		"G_Fathership": {
+			"UnitAttributes": {
+				"MaxHealth": 18000,
+				"PopCapCost": 75
+			},
+			"AbilityAttributes": {
+				"Ability_G_MissileBarrage_Fathership": {
+					"Resource1Cost": 1250,
+					"Resource2Cost": 650,
+					"CooldownTimeSecs": 20
+				}
+			}
+		}
+	}
+}
