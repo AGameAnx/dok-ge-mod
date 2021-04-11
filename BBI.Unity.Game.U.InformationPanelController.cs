@@ -281,13 +281,16 @@ namespace BBI.Unity.Game.UI
 					this.mSettings.SpeedValueLabel.color = this.mUnitInteractionAttributes.BuffInfo.BuffColor(buffComparison2);
 				}
 				int buffComparison3 = 0;
+				// MOD
 				int baseDamagePerRound = 0;
 				int damagePacketsPerShot = 1;
+				// MOD
 				if (!typeAttributes.WeaponLoadout.IsNullOrEmpty<WeaponBinding>())
 				{
 					WeaponBinding weaponBinding = typeAttributes.WeaponLoadout[0];
 					if (weaponBinding != null)
 					{
+						// MOD
 						damagePacketsPerShot = weaponBinding.Weapon.DamagePacketsPerShot;
 						baseDamagePerRound = Fixed64.IntValue(weaponBinding.Weapon.BaseDamagePerRound);
 						WeaponAttributes entityTypeAttributes4 = ShipbreakersMain.GetEntityTypeAttributes<WeaponAttributes>(typeID, weaponBinding.Weapon.Name);
@@ -303,6 +306,7 @@ namespace BBI.Unity.Game.UI
 								typeID
 							});
 						}
+						// MOD
 					}
 					else
 					{
@@ -312,6 +316,7 @@ namespace BBI.Unity.Game.UI
 						});
 					}
 				}
+				// MOD
 				if (flag || this.mLastWeaponDamageValue != baseDamagePerRound || this.mLastWeaponPacketsValue != damagePacketsPerShot)
 				{
 					this.mSettings.UnitDamageValueLabel.text = damagePacketsPerShot != 1 ? string.Format("{0} | {1}", baseDamagePerRound, damagePacketsPerShot) : string.Format("{0}", baseDamagePerRound);
@@ -319,6 +324,7 @@ namespace BBI.Unity.Game.UI
 					this.mLastWeaponPacketsValue = damagePacketsPerShot;
 					this.mSettings.UnitDamageValueLabel.color = this.mUnitInteractionAttributes.BuffInfo.BuffColor(buffComparison3);
 				}
+				// MOD
 				if (flag || this.mLastUnitArmourValue != typeAttributes.Armour)
 				{
 					this.mTempLocalizationFormatObjects[0] = typeAttributes.Armour;
@@ -408,7 +414,10 @@ namespace BBI.Unity.Game.UI
 
 		// Token: 0x04000AB3 RID: 2739
 		private int mLastWeaponDamageValue = -1;
+
+		// MOD
 		private int mLastWeaponPacketsValue = -1;
+		// MOD
 
 		// Token: 0x04000AB4 RID: 2740
 		private int mLastUnitArmourValue = -1;
