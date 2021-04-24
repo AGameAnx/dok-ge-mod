@@ -16,4 +16,11 @@ if (strlen($url) <= 0) {
 	die('Forbidden');
 }
 
-echo file_get_contents($url);
+$result = file_get_contents($url);
+if (empty($result))
+{
+	http_response_code(404);
+	die("Error reading remote file")
+}
+
+echo $result;
