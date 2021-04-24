@@ -6,9 +6,9 @@ $layout = basename($_GET['l']);
 $url = "";
 
 if ($patch) {
-	$url = "https://raw.githubusercontent.com/AGameAnx/dok-repo/master/patches/" . $patch . ".json";
+	$url = "https://raw.githubusercontent.com/AGameAnx/dok-repo/master/patches/" . rawurlencode($patch) . ".json";
 } elseif ($layout) {
-	$url = "https://raw.githubusercontent.com/AGameAnx/dok-repo/master/layouts/" . $layout . ".dokmap";
+	$url = "https://raw.githubusercontent.com/AGameAnx/dok-repo/master/layouts/" . rawurlencode($layout) . ".dokmap";
 }
 
 if (strlen($url) <= 0) {
