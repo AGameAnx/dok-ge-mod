@@ -64,50 +64,54 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					
 					// Download the layout
 					try {
-						string text = MapModUtil.DownloadWebPage(address);
-						Print(SteamAPIIntegration.SteamUserName + " received layout [ " + MapModUtil.GetHash(text) + " ]");
-						MapModManager.MapXml = text;
-						MapModManager.LayoutName = arg;
-						
-						// Select the correct map
-						if (this.IsLobbyHost) {
-							try {
-								bool cont = true;
-								XmlTextReader xmlDokmapReader = new XmlTextReader(new System.IO.StringReader(text));
-								while (xmlDokmapReader.Read() && cont) {
-									if (xmlDokmapReader.NodeType == XmlNodeType.Element) {
-										switch (xmlDokmapReader.Name) {
-											default:
-												Debug.LogWarning(string.Format("[GE mod] WARNING: Unknown tag '{0}'", xmlDokmapReader.Name));
-												break;
-											
-											case "meta": case "dokmap":
-												break;
-											
-											case "layout":
-												string[] maps = Regex.Replace(xmlDokmapReader.GetAttribute("map"), @"\s+", "").Split(',');
-												string map = maps[0];
-												TeamSetting mode = (TeamSetting)Enum.Parse(typeof(TeamSetting), xmlDokmapReader.GetAttribute("mode"));
-												cont = false;
-												if (map == "*") break; // Can't switch to a map if its meant for all of them
-												// Code to switch to map here
-												for (int j = 0; j < this.mLevelManager.LevelEntriesMP.Length; j++) {
-													if (this.mLevelManager.LevelEntriesMP[j].SceneName == map && 
-														this.mLevelManager.LevelEntriesMP[j].IsFFAOnly == (mode == TeamSetting.FFA)) {
-														
-														MultiplayerMissionPanel ths = ((MultiplayerMissionPanel)this);
-														Network.VictorySettings currentVictory = new Network.VictorySettings(ths.m_LobbyViewPanel.ActiveVictorySettings.VictoryConditions, mode);
-														GameModeSettings currentSettings = ths.m_LobbyViewPanel.ActiveGameModeSettings;
-														
-														ths.m_LobbyViewPanel.SetActiveSettings(currentVictory, currentSettings, j);
+						string layoutData = MapModUtil.DownloadWebPage(address);
+						if (layoutData == "") {
+							Print(String.Format("[FF0000][b][i]{0}: '{1}' FAILED (EMPTY)", SteamAPIIntegration.SteamUserName, command));
+						} else {
+							Print(SteamAPIIntegration.SteamUserName + " received layout [ " + MapModUtil.GetHash(layoutData) + " ]");
+							MapModManager.MapXml = layoutData;
+							MapModManager.LayoutName = arg;
+							
+							// Select the correct map
+							if (this.IsLobbyHost) {
+								try {
+									bool cont = true;
+									XmlTextReader xmlDokmapReader = new XmlTextReader(new System.IO.StringReader(layoutData));
+									while (xmlDokmapReader.Read() && cont) {
+										if (xmlDokmapReader.NodeType == XmlNodeType.Element) {
+											switch (xmlDokmapReader.Name) {
+												default:
+													Debug.LogWarning(string.Format("[GE mod] WARNING: Unknown tag '{0}'", xmlDokmapReader.Name));
+													break;
+												
+												case "meta": case "dokmap":
+													break;
+												
+												case "layout":
+													string[] maps = Regex.Replace(xmlDokmapReader.GetAttribute("map"), @"\s+", "").Split(',');
+													string map = maps[0];
+													TeamSetting mode = (TeamSetting)Enum.Parse(typeof(TeamSetting), xmlDokmapReader.GetAttribute("mode"));
+													cont = false;
+													if (map == "*") break; // Can't switch to a map if its meant for all of them
+													// Code to switch to map here
+													for (int j = 0; j < this.mLevelManager.LevelEntriesMP.Length; j++) {
+														if (this.mLevelManager.LevelEntriesMP[j].SceneName == map && 
+															this.mLevelManager.LevelEntriesMP[j].IsFFAOnly == (mode == TeamSetting.FFA)) {
+															
+															MultiplayerMissionPanel ths = ((MultiplayerMissionPanel)this);
+															Network.VictorySettings currentVictory = new Network.VictorySettings(ths.m_LobbyViewPanel.ActiveVictorySettings.VictoryConditions, mode);
+															GameModeSettings currentSettings = ths.m_LobbyViewPanel.ActiveGameModeSettings;
+															
+															ths.m_LobbyViewPanel.SetActiveSettings(currentVictory, currentSettings, j);
 
+														}
 													}
-												}
-												break;
-										}	
+													break;
+											}	
+										}
 									}
-								}
-							} catch {}
+								} catch {}
+							}
 						}
 						
 					} catch(WebException e) {
