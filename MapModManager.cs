@@ -259,7 +259,10 @@ public static class MapModManager {
 		SWinConditionPanelController = null;
 
 		if (MapXml == "") {
-			MapXml = File.ReadAllText(Path.Combine(Application.dataPath, "layout.xml"));
+			try {
+				MapXml = File.ReadAllText(Path.Combine(Application.dataPath, "layout.xml"));
+			}
+			catch (Exception e) {}
 		}
 
 		CustomLayout = GameType != BBI.Game.Data.GameMode.SinglePlayer && (MapXml != "" || maps.ContainsKey(LevelDef.SceneName));
