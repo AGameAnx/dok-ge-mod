@@ -19,8 +19,8 @@ Extract the release archive to:
 - **Windows**: `Steam/steamapps/common/Deserts of Kharak/Data/Managed` 
 - **Mac**: `Steam/steamapps/common/Deserts of Kharak/DesertsofKharak.app/Contents/Resources/Data/Managed`
 You may need to right click the apps and choose `Show package contents` to get to this directory.
-- **Linux**:`home/$username/.local/share/Steam/steamapps/common`
-For Linux simply use the files from MAC folder and paste them, overwritting everything. Easiest way to get to the directory is to browse to local files using Steam. As some Linux distros will have different default locations for steamapps.
+- **Linux**: `home/$username/.local/share/Steam/steamapps/common`
+Use the files from Mac folder. Easiest way to get to the directory is to browse to local files using Steam.
 
 Extracting the archive should prompt to replace all files within.
 
