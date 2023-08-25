@@ -1335,6 +1335,8 @@ namespace BBI.Unity.Game.UI
 						{
 							this.m_MapPopupList.AddItem(levelDefinition.NameLocId, i);
 						}
+						m_MapPopupList.position = (this.ActiveTeamSetting == TeamSetting.FFA) ? UIPopupList.Position.Below : UIPopupList.Position.Above;
+						m_MapPopupList.fontSize = 16;
 					}
 				}
 			}

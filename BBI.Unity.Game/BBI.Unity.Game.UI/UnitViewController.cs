@@ -1009,7 +1009,12 @@ namespace BBI.Unity.Game.UI
 			view.AltitudeIndicatorActive = altitudeIndicatorActive;
 			if (view.SensorView != null)
 			{
-				bool enabled = !view.IsDriverDead && flag3 && (!flag || !flag2);
+				bool enabled = !view.IsDriverDead && flag3 && (!flag || !flag2 || 
+					(ShipbreakersMain.ReplayMode == ReplayMode.ReplayingGame || 
+					mCommanderManager.GetCommanderFromID(mCommanderManager.LocalCommanderID).CommanderAttributes.Name == "SPECTATOR")
+					&& MapModManager.EnableEnemySensors); // Check if the player is spectating
+				view.SensorView.IsFriendly = (relationship == CommanderRelationship.Self || relationship == CommanderRelationship.Ally);
+
 				view.SensorView.Enabled = enabled;
 				view.SensorView.Mode = (this.mSensorsActive ? UnitSensorView.SensorMode.SensorsView : UnitSensorView.SensorMode.GameView);
 			}
