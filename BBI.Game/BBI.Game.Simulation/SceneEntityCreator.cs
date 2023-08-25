@@ -11,10 +11,10 @@ using BBI.Game.Queries;
 namespace BBI.Game.Simulation
 {
 	// Token: 0x02000396 RID: 918
-	internal static class SceneEntityCreator
+	public static class SceneEntityCreator
 	{
 		// Token: 0x06001275 RID: 4725 RVA: 0x00064200 File Offset: 0x00062400
-		internal static Entity CreateCollectibleEntity(string entityType, CollectibleType collectibleType, Vector2r spawnPosition, Orientation2 spawnOrientation)
+		public static Entity CreateCollectibleEntity(string entityType, CollectibleType collectibleType, Vector2r spawnPosition, Orientation2 spawnOrientation)
 		{
 			Entity entity = Entity.None;
 			switch (collectibleType)
@@ -119,13 +119,13 @@ namespace BBI.Game.Simulation
 				if (typeAttributes != null)
 				{
 					Shape component = Shape.Create(spawnPosition, spawnOrientation, typeAttributes.Radius, typeAttributes.Length, typeAttributes.BlocksLOF, typeAttributes.BlocksAllHeights, typeAttributes.WorldHeightOffset);
-					entity.AddComponent(33, component);
+					entity.AddComponent<Shape>(33, component);
 				}
 				TimerAttributes typeAttributes2 = entity.GetTypeAttributes<TimerAttributes>();
 				if (typeAttributes2 != null)
 				{
 					Timer component2 = Timer.Create(entity, typeAttributes2.DurationSeconds, typeAttributes2.Direction, typeAttributes2.ActionOnTimerComplete);
-					entity.AddComponent(26, component2);
+					entity.AddComponent<Timer>(26, component2);
 				}
 			}
 			return entity;
@@ -137,11 +137,11 @@ namespace BBI.Game.Simulation
 			Entity entity = Sim.CreateCommanderlessEntity(typeID);
 			if (entity.IsValid())
 			{
-				entity.AddComponent(10, Position.Create(position, orientation, Fixed64.Zero));
+				entity.AddComponent<Position>(10, Position.Create(position, orientation, Fixed64.Zero));
 				Sim.Instance.Map.SpatialHash.InsertEntity(entity);
 				if (tags != null && tags.Length > 0)
 				{
-					entity.AddComponent(1, Tags.Create(tags));
+					entity.AddComponent<Tags>(1, Tags.Create(tags));
 				}
 			}
 			return entity;
@@ -188,7 +188,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x0600127A RID: 4730 RVA: 0x000645D4 File Offset: 0x000627D4
-		private static Entity CreateRelic(string relicTypeID, Vector2r spawnPosition, Orientation2 spawnOrientation, string[] tags, RelicDescriptor descriptor)
+		public static Entity CreateRelic(string relicTypeID, Vector2r spawnPosition, Orientation2 spawnOrientation, string[] tags, RelicDescriptor descriptor)
 		{
 			Entity entity = SceneEntityCreator.CreateBasicEntity(relicTypeID, spawnPosition, spawnOrientation, tags);
 			if (entity.IsValid())
@@ -198,15 +198,15 @@ namespace BBI.Game.Simulation
 				{
 					Fixed64 extractionDuration = Fixed64.FromInt(Sim.Instance.Settings.GameMode.GameSessionSettings.GameModeSettings.Retrieval.ArtifactExtractionTimeSeconds);
 					Relic component = Relic.Create(entity, relicTypeID, extractionDuration);
-					entity.AddComponent(25, component);
+					entity.AddComponent<Relic>(25, component);
 					Collectible component2 = Collectible.Create(entity);
-					entity.AddComponent(36, component2);
+					entity.AddComponent<Collectible>(36, component2);
 					Fixed64 @fixed = Fixed64.FromInt(Sim.Instance.Settings.GameMode.GameSessionSettings.GameModeSettings.Retrieval.ArtifactInitialSpawnTimeSeconds);
 					Fixed64 fixed2 = Fixed64.FromInt(Sim.Instance.Settings.GameMode.GameSessionSettings.GameModeSettings.Retrieval.ArtifactRespawnTimeSeconds);
 					HashSet<Entity> hashSet = (descriptor != null) ? DynamicSceneSpawner.GetSimEntitiesFromDescriptor(descriptor) : null;
 					Fixed64 durationSeconds = (hashSet == null || hashSet.Count == 0) ? @fixed : fixed2;
 					Timer component3 = Timer.Create(entity, durationSeconds, TimerDirection.Countup, OnTimerCompleteAction.None);
-					entity.AddComponent(26, component3);
+					entity.AddComponent<Timer>(26, component3);
 					if (descriptor != null)
 					{
 						DynamicSceneSpawner.RegisterSceneEntity(entity, 0, descriptor);
@@ -230,7 +230,7 @@ namespace BBI.Game.Simulation
 				if (typeAttributes2 != null)
 				{
 					Detectable component4 = Detectable.Create(typeAttributes2, entity);
-					entity.AddComponent(21, component4);
+					entity.AddComponent<Detectable>(21, component4);
 				}
 			}
 			return entity;
@@ -247,8 +247,8 @@ namespace BBI.Game.Simulation
 				{
 					WreckArtifact component = WreckArtifact.Create(entity, typeAttributes.Name, typeAttributes.AnalysisTime);
 					Collectible component2 = Collectible.Create(entity);
-					entity.AddComponent(36, component2);
-					entity.AddComponent(35, component);
+					entity.AddComponent<Collectible>(36, component2);
+					entity.AddComponent<WreckArtifact>(35, component);
 				}
 				else
 				{
@@ -261,7 +261,7 @@ namespace BBI.Game.Simulation
 				if (typeAttributes2 != null)
 				{
 					Detectable component3 = Detectable.Create(typeAttributes2, entity);
-					entity.AddComponent(21, component3);
+					entity.AddComponent<Detectable>(21, component3);
 				}
 			}
 			return entity;
@@ -276,16 +276,16 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x0600127D RID: 4733 RVA: 0x0006487C File Offset: 0x00062A7C
-		internal static Entity CreateResourcePoint(string typeID, Vector2r modelSpawnPosition, Orientation2 simSpawnOrientation, string[] tags, ResourceAttributes resourceAttributes, DetectableAttributes detectableAttributes, bool startDisabled, ResourcePositionalVariations positionalVariations, bool skipResourceEntityCreatedEvent = false)
+		public static Entity CreateResourcePoint(string typeID, Vector2r modelSpawnPosition, Orientation2 simSpawnOrientation, string[] tags, ResourceAttributes resourceAttributes, DetectableAttributes detectableAttributes, bool startDisabled, ResourcePositionalVariations positionalVariations, bool skipResourceEntityCreatedEvent = false)
 		{
 			Vector2r position = modelSpawnPosition + simSpawnOrientation * positionalVariations.SimLocalSpawnPositionOffset;
 			Entity entity = SceneEntityCreator.CreateBasicEntity(typeID, position, simSpawnOrientation, tags);
 			if (entity.IsValid())
 			{
 				EntityTypeAttributes entityTypeAttributes = entity.GetTypeAttributes();
-				entity.RemoveComponent(0);
+				entity.RemoveComponent<EntityTypeAttributes>(0);
 				entityTypeAttributes = new EntityTypeAttributes(entityTypeAttributes);
-				entity.AddComponent(0, entityTypeAttributes);
+				entity.AddComponent<EntityTypeAttributes>(0, entityTypeAttributes);
 				if (resourceAttributes != null)
 				{
 					ResourceAttributes typeAttributes = entity.GetTypeAttributes<ResourceAttributes>();
@@ -301,7 +301,7 @@ namespace BBI.Game.Simulation
 						});
 					}
 					Resource component = Resource.Create(entity, resourceAttributes.StartingAmount, resourceAttributes.StartingAmount, resourceAttributes.ResourceType, resourceAttributes.MaxHarvesters, startDisabled, positionalVariations);
-					entity.AddComponent(11, component);
+					entity.AddComponent<Resource>(11, component);
 				}
 				else
 				{
@@ -325,7 +325,7 @@ namespace BBI.Game.Simulation
 						});
 					}
 					Detectable component2 = Detectable.Create(detectableAttributes, entity);
-					entity.AddComponent(21, component2);
+					entity.AddComponent<Detectable>(21, component2);
 				}
 				if (!skipResourceEntityCreatedEvent)
 				{
@@ -336,7 +336,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x0600127E RID: 4734 RVA: 0x000649D4 File Offset: 0x00062BD4
-		private static Entity CreateWreckFromDescriptor(WreckDescriptor descriptor)
+		public static Entity CreateWreckFromDescriptor(WreckDescriptor descriptor)
 		{
 			Orientation2 simSpawnOrientation = descriptor.Orientation.RotatedBy(descriptor.SimLocalSpawnOrientationOffsetDegrees * Fixed64.DegreesToRadians);
 			ResourcePositionalVariations positionalVariations = new ResourcePositionalVariations(descriptor.ModelOrientationEulersDegrees, descriptor.UseHeight, descriptor.Height, descriptor.SimLocalSpawnPositionOffset, descriptor.SimLocalSpawnOrientationOffsetDegrees);
@@ -353,9 +353,9 @@ namespace BBI.Game.Simulation
 			if (entity.IsValid())
 			{
 				EntityTypeAttributes entityTypeAttributes = entity.GetTypeAttributes();
-				entity.RemoveComponent(0);
+				entity.RemoveComponent<EntityTypeAttributes>(0);
 				entityTypeAttributes = new EntityTypeAttributes(entityTypeAttributes);
-				entity.AddComponent(0, entityTypeAttributes);
+				entity.AddComponent<EntityTypeAttributes>(0, entityTypeAttributes);
 				if (wreckAttributes != null)
 				{
 					WreckAttributes typeAttributes = entity.GetTypeAttributes<WreckAttributes>();
@@ -371,7 +371,7 @@ namespace BBI.Game.Simulation
 						});
 					}
 					Wreck wreck = Wreck.Create(entity, wreckAttributes.WreckSections, wreckArtifactType, wreckAttributes.WreckArtifactSpawnPositionOffsetX, wreckAttributes.WreckArtifactSpawnPositionOffsetY, wreckAttributes.ExplosionWeaponTypeID);
-					entity.AddComponent(37, wreck);
+					entity.AddComponent<Wreck>(37, wreck);
 					if (resourceAttributes != null)
 					{
 						ResourceAttributes typeAttributes2 = entity.GetTypeAttributes<ResourceAttributes>();
@@ -387,7 +387,7 @@ namespace BBI.Game.Simulation
 							});
 						}
 						Resource component = Resource.Create(entity, wreck.RemainingHealth, wreck.RemainingHealth, resourceAttributes.ResourceType, resourceAttributes.MaxHarvesters, startDisabled, positionalVariations);
-						entity.AddComponent(11, component);
+						entity.AddComponent<Resource>(11, component);
 					}
 					else
 					{
@@ -419,7 +419,7 @@ namespace BBI.Game.Simulation
 						});
 					}
 					Shape component2 = Shape.Create(vector2r, simSpawnOrientation, shapeAttributes.Radius, shapeAttributes.Length, shapeAttributes.BlocksLOF, shapeAttributes.BlocksAllHeights, shapeAttributes.WorldHeightOffset);
-					entity.AddComponent(33, component2);
+					entity.AddComponent<Shape>(33, component2);
 				}
 				if (detectableAttributes != null)
 				{
@@ -436,7 +436,7 @@ namespace BBI.Game.Simulation
 						});
 					}
 					Detectable component3 = Detectable.Create(detectableAttributes, entity);
-					entity.AddComponent(21, component3);
+					entity.AddComponent<Detectable>(21, component3);
 				}
 				if (!skipResourceEntityCreatedEvent)
 				{
@@ -461,10 +461,10 @@ namespace BBI.Game.Simulation
 				entity = SceneEntityCreator.CreateBasicEntity(descriptor.TypeID, descriptor.Position, descriptor.Orientation, descriptor.Tags);
 				if (entity.IsValid())
 				{
-					entity.AddComponent(14, TriggerVolume.Create(entity, descriptor.TriggerRadius, descriptor.QueryContainer, descriptor.StartEnabled));
+					entity.AddComponent<TriggerVolume>(14, TriggerVolume.Create(entity, descriptor.TriggerRadius, descriptor.QueryContainer, descriptor.StartEnabled));
 					if (descriptor.TriggeredByDetection)
 					{
-						entity.AddComponent(21, Detectable.Create(TriggerCircleDescriptor.DefaultTriggerVolumeDetectableAttributes, entity));
+						entity.AddComponent<Detectable>(21, Detectable.Create(TriggerCircleDescriptor.DefaultTriggerVolumeDetectableAttributes, entity));
 					}
 				}
 			}
@@ -479,7 +479,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06001282 RID: 4738 RVA: 0x00064DA0 File Offset: 0x00062FA0
-		internal static Entity CreateExtractionZoneEntity(ExtractionZoneDescriptor descriptor)
+		public static Entity CreateExtractionZoneEntity(ExtractionZoneDescriptor descriptor)
 		{
 			Entity entity = Entity.None;
 			ExtractionZoneAttributes extractionZoneAttribs = descriptor.ExtractionZoneAttribs;
@@ -492,9 +492,9 @@ namespace BBI.Game.Simulation
 					{
 						return entity;
 					}
-					entity.AddComponent(41, null);
+					entity.AddComponent<ExtractionZoneDescriptor>(41, null);
 					QueryHelper.CreatePredicateFromQueryData(extractionZoneAttribs.QueryData);
-					entity.AddComponent(14, TriggerVolume.Create(entity, extractionZoneAttribs.RadiusMeters, extractionZoneAttribs.QueryData, descriptor.StartEnabled));
+					entity.AddComponent<TriggerVolume>(14, TriggerVolume.Create(entity, extractionZoneAttribs.RadiusMeters, extractionZoneAttribs.QueryData, descriptor.StartEnabled));
 					DynamicSceneSpawner.RegisterSceneEntity(entity, 0, descriptor);
 					using (DictionaryExtensions.KeyIterator<CommanderID, Commander> enumerator = Sim.Instance.CommanderManager.CommanderIDs.GetEnumerator())
 					{
@@ -553,7 +553,7 @@ namespace BBI.Game.Simulation
 			if (entity.IsValid())
 			{
 				AIHint component = AIHint.Create(descriptor.AIHint, descriptor.AIHintData);
-				entity.AddComponent(29, component);
+				entity.AddComponent<AIHint>(29, component);
 			}
 			else
 			{

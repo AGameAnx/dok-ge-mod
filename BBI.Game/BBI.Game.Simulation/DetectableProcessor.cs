@@ -44,7 +44,7 @@ namespace BBI.Game.Simulation
 			{
 				foreach (Entity entity in sortedEntityList)
 				{
-					Detectable component = entity.GetComponent(21);
+					Detectable component = entity.GetComponent<Detectable>(21);
 					component.SwapDetectionMaps();
 				}
 			}
@@ -53,7 +53,7 @@ namespace BBI.Game.Simulation
 			Commander commanderFromID = Sim.Instance.CommanderManager.GetCommanderFromID(localPlayerCommanderID);
 			if (!flag && commanderFromID != null)
 			{
-				flag = commanderFromID.FogOfWarDisabled;
+				flag = commanderFromID.CommanderAttributes.Name == "SPECTATOR" || commanderFromID.FogOfWarDisabled;
 			}
 			foreach (CommanderID commanderID in DetectableProcessor.sCommanderDetectableMap.Keys<CommanderID, DetectableProcessor.SortedEntityList>())
 			{
@@ -63,7 +63,7 @@ namespace BBI.Game.Simulation
 					bool flag2 = Sim.Instance.InteractionProvider.AreFriendly(commanderID, commanderID2);
 					foreach (Entity entity2 in sortedEntityList2)
 					{
-						Detectable component2 = entity2.GetComponent(21);
+						Detectable component2 = entity2.GetComponent<Detectable>(21);
 						if (!entity2.HasComponent(10))
 						{
 							component2.SetDetectionState(commanderID2, DetectionState.Hidden);
@@ -91,9 +91,9 @@ namespace BBI.Game.Simulation
 							{
 								if (!flag2 && !Sim.IsEntityDead(entity3) && entity3.HasComponent(10) && entity3.HasComponent(20))
 								{
-									Sensor component3 = entity3.GetComponent(20);
-									Position component4 = entity3.GetComponent(10);
-									Position component5 = entity2.GetComponent(10);
+									Sensor component3 = entity3.GetComponent<Sensor>(20);
+									Position component4 = entity3.GetComponent<Position>(10);
+									Position component5 = entity2.GetComponent<Position>(10);
 									detectionState = component3.GetEntityDetectionState(component4, component5);
 								}
 								if (detectionState != DetectionState.Sensed)
@@ -145,8 +145,8 @@ namespace BBI.Game.Simulation
 						{
 							foreach (Entity entity in sortedEntityList)
 							{
-								Sensor component = entity.GetComponent(20);
-								Position component2 = entity.GetComponent(10);
+								Sensor component = entity.GetComponent<Sensor>(20);
+								Position component2 = entity.GetComponent<Position>(10);
 								Fixed64 y = Fixed64.Max(component.ContactRadius, component.SensorRadius);
 								Fixed64 y2 = component2.Position2D.X - y;
 								Fixed64 y3 = component2.Position2D.X + y;
@@ -154,14 +154,14 @@ namespace BBI.Game.Simulation
 								Fixed64 y5 = component2.Position2D.Y + y;
 								foreach (Entity entity2 in list2)
 								{
-									Position component3 = entity2.GetComponent(10);
+									Position component3 = entity2.GetComponent<Position>(10);
 									if (component3.Position2D.X > y3)
 									{
 										break;
 									}
 									if (component3.Position2D.X >= y2 && component3.Position2D.Y >= y4 && component3.Position2D.Y <= y5)
 									{
-										Detectable component4 = entity2.GetComponent(21);
+										Detectable component4 = entity2.GetComponent<Detectable>(21);
 										DetectionState entityDetectionState = component.GetEntityDetectionState(component2, component3);
 										if (entityDetectionState > DetectionState.Hidden)
 										{
@@ -310,7 +310,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x060011A5 RID: 4517 RVA: 0x0005C408 File Offset: 0x0005A608
 		internal static void PostDetectionStateEvents(Entity self)
 		{
-			Detectable component = self.GetComponent(21);
+			Detectable component = self.GetComponent<Detectable>(21);
 			DetectionState from;
 			DetectionState to;
 			if (component.HasSharedDetectionStateChangedSinceLastFrame(SimController.LocalPlayerCommanderID, out from, out to))
@@ -438,8 +438,8 @@ namespace BBI.Game.Simulation
 			// Token: 0x060011AC RID: 4524 RVA: 0x0005C57C File Offset: 0x0005A77C
 			private static int CompareEntities(Entity e1, Entity e2)
 			{
-				Position component = e1.GetComponent(10);
-				Position component2 = e2.GetComponent(10);
+				Position component = e1.GetComponent<Position>(10);
+				Position component2 = e2.GetComponent<Position>(10);
 				if (component != null && component2 != null)
 				{
 					Fixed64 x = component.Position2D.X;

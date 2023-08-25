@@ -196,6 +196,9 @@ public class M01_Core_Component : uScriptCode
 	// Token: 0x0600375D RID: 14173 RVA: 0x000F31B8 File Offset: 0x000F13B8
 	private void Awake()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		base.useGUILayout = false;
 		this.ExposedVariables.Awake();
 		this.ExposedVariables.SetParent(base.gameObject);
@@ -210,30 +213,45 @@ public class M01_Core_Component : uScriptCode
 	// Token: 0x0600375E RID: 14174 RVA: 0x000F3220 File Offset: 0x000F1420
 	private void Start()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		this.ExposedVariables.Start();
 	}
 
 	// Token: 0x0600375F RID: 14175 RVA: 0x000F3230 File Offset: 0x000F1430
 	private void OnEnable()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		this.ExposedVariables.OnEnable();
 	}
 
 	// Token: 0x06003760 RID: 14176 RVA: 0x000F3240 File Offset: 0x000F1440
 	private void OnDisable()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		this.ExposedVariables.OnDisable();
 	}
 
 	// Token: 0x06003761 RID: 14177 RVA: 0x000F3250 File Offset: 0x000F1450
 	private void Update()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		this.ExposedVariables.Update();
 	}
 
 	// Token: 0x06003762 RID: 14178 RVA: 0x000F3260 File Offset: 0x000F1460
 	private void OnDestroy()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		this.ExposedVariables.OnDestroy();
 	}
 

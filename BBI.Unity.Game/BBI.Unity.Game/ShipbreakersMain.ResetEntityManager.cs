@@ -46,6 +46,7 @@ using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.Connect;
 using PlayEveryWare.EpicOnlineServices;
 using UnityEngine;
+using Subsystem;
 
 namespace BBI.Unity.Game
 {
@@ -85,6 +86,12 @@ namespace BBI.Unity.Game
 				}
 			}
 			ShipbreakersMain.InitializeEntityManager(this.m_RegistryAsset, hashSet);
+
+			if (MapModManager.GameType != GameMode.SinglePlayer)
+			{
+				new AttributeLoader().LoadAttributes(ShipbreakersMain.sEntityTypes, "Managed/fathership.json"); // Default game-wide fathership modifications
+			}
+			new AttributeLoader().LoadAttributes(ShipbreakersMain.sEntityTypes);
 		}
 	}
 }

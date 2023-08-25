@@ -390,141 +390,146 @@ namespace BBI.Unity.Game.Data
 		{
 		}
 
+		public CommanderAttributesData Copy()
+		{
+			return (CommanderAttributesData)this.MemberwiseClone();
+		}
+
 		// Token: 0x0400030E RID: 782
 		[SerializeField]
-		private string m_Name = "_unset_";
+		public string m_Name = "_unset_";
 
 		// Token: 0x0400030F RID: 783
 		[SerializeField]
-		private string m_NameLocID;
+		public string m_NameLocID;
 
 		// Token: 0x04000310 RID: 784
 		[SerializeField]
 		[Tooltip("The starting popcap for multiplayer/skirmish, and for Medium Difficulty in single player")]
 		[FormerlySerializedAs("m_MaxPopCap")]
-		private int m_StartingPopCap = 20;
+		public int m_StartingPopCap = 20;
 
 		// Token: 0x04000311 RID: 785
 		[SerializeField]
 		[Tooltip("The maximum popcap for multiplayer/skirmish, and for Medium Difficulty in single player")]
-		private int m_MaximumPopCap = 1000;
+		public int m_MaximumPopCap = 1000;
 
 		// Token: 0x04000312 RID: 786
 		[Tooltip("The starting popcap for Easy Difficulty (campaign only)")]
 		[SerializeField]
-		private int m_StartingPopCapEasyDifficulty = 20;
+		public int m_StartingPopCapEasyDifficulty = 20;
 
 		// Token: 0x04000313 RID: 787
 		[Tooltip("The maximum popcap for Easy Difficulty (campaign only)")]
 		[SerializeField]
-		private int m_MaximumPopCapEasyDifficulty = 1000;
+		public int m_MaximumPopCapEasyDifficulty = 1000;
 
 		// Token: 0x04000314 RID: 788
 		[SerializeField]
 		[Tooltip("The starting popcap for Hard Difficulty (campaign only)")]
-		private int m_StartingPopCapHardDifficulty = 20;
+		public int m_StartingPopCapHardDifficulty = 20;
 
 		// Token: 0x04000315 RID: 789
 		[Tooltip("The maximum popcap for Hard Difficulty (campaign only)")]
 		[SerializeField]
-		private int m_MaximumPopCapHardDifficulty = 1000;
+		public int m_MaximumPopCapHardDifficulty = 1000;
 
 		// Token: 0x04000316 RID: 790
 		[SerializeField]
-		private float m_RefundPercentage = 1f;
+		public float m_RefundPercentage = 1f;
 
 		// Token: 0x04000317 RID: 791
 		[SerializeField]
-		private int m_StartingResource1 = 1500;
+		public int m_StartingResource1 = 1500;
 
 		// Token: 0x04000318 RID: 792
 		[SerializeField]
-		private int m_StartingResource2 = 1500;
+		public int m_StartingResource2 = 1500;
 
 		// Token: 0x04000319 RID: 793
 		[SerializeField]
-		private float m_Resource1RetirePercentage = 0.75f;
+		public float m_Resource1RetirePercentage = 0.75f;
 
 		// Token: 0x0400031A RID: 794
 		[SerializeField]
-		private float m_Resource2RetirePercentage = 0.75f;
+		public float m_Resource2RetirePercentage = 0.75f;
 
 		// Token: 0x0400031B RID: 795
 		[SerializeField]
-		private int m_TeamID = 1;
+		public int m_TeamID = 1;
 
 		// Token: 0x0400031C RID: 796
 		[SerializeField]
-		private int m_TeamColorIndex = -1;
+		public int m_TeamColorIndex = -1;
 
 		// Token: 0x0400031D RID: 797
 		[SerializeField]
-		private FactionAttributesAsset m_FactionAttributes;
+		public FactionAttributesAsset m_FactionAttributes;
 
 		// Token: 0x0400031E RID: 798
 		[SerializeField]
-		private StartingUnit[] m_StartingUnits;
+		public StartingUnit[] m_StartingUnits;
 
 		// Token: 0x0400031F RID: 799
 		[SerializeField]
-		private bool m_HackedTransferCommander;
+		public bool m_HackedTransferCommander;
 
 		// Token: 0x04000320 RID: 800
 		[SerializeField]
-		private bool m_BeginDeployed;
+		public bool m_BeginDeployed;
 
 		// Token: 0x04000321 RID: 801
 		[SerializeField]
-		private bool m_WaitForDeployCommand;
+		public bool m_WaitForDeployCommand;
 
 		// Token: 0x04000322 RID: 802
 		[SerializeField]
-		private bool m_UseAggroAlert;
+		public bool m_UseAggroAlert;
 
 		// Token: 0x04000323 RID: 803
 		[SerializeField]
-		private bool m_MaintainAggroThroughFOW;
+		public bool m_MaintainAggroThroughFOW;
 
 		// Token: 0x04000324 RID: 804
 		[SerializeField]
-		private SpawnFormationData[] m_OverriddenSpawnFormations = new SpawnFormationData[0];
+		public SpawnFormationData[] m_OverriddenSpawnFormations = new SpawnFormationData[0];
 
 		// Token: 0x04000325 RID: 805
 		[ObjectName(typeof(ResearchItemAttributesAsset))]
 		[SerializeField]
-		private string[] m_StartingTech;
+		public string[] m_StartingTech;
 
 		// Token: 0x04000326 RID: 806
 		[SerializeField]
-		private string[] m_LockedTech;
+		public string[] m_LockedTech;
 
 		// Token: 0x04000327 RID: 807
 		[SerializeField]
-		private UnitTypeBuffData[] m_StartingBuffs;
+		public UnitTypeBuffData[] m_StartingBuffs;
 
 		// Token: 0x04000328 RID: 808
 		[SerializeField]
 		[Tooltip("Abilities that are granted to this Commander at the start of the game, which override an ability's StartsRemovedInGameMode setting")]
 		[ObjectName(typeof(AbilityAttributesAsset))]
-		private string[] m_StartingGrantedAbilities;
+		public string[] m_StartingGrantedAbilities;
 
 		// Token: 0x04000329 RID: 809
 		[SerializeField]
-		private string[] m_StoryArtifacts = new string[0];
+		public string[] m_StoryArtifacts = new string[0];
 
 		// Token: 0x0400032A RID: 810
 		[SerializeField]
-		private string[] m_StartingArtifactsPool = new string[0];
+		public string[] m_StartingArtifactsPool = new string[0];
 
 		// Token: 0x0400032B RID: 811
 		[SerializeField]
-		private int m_NumStartingArtifacts;
+		public int m_NumStartingArtifacts;
 
 		// Token: 0x0400032C RID: 812
 		[SerializeField]
-		private AIArchetypeAttributesAsset[] m_AIArchetypeAssets;
+		public AIArchetypeAttributesAsset[] m_AIArchetypeAssets;
 
 		// Token: 0x0400032D RID: 813
-		private AIArchetypeAttributes[] m_AIArchetypes;
+		public AIArchetypeAttributes[] m_AIArchetypes;
 	}
 }

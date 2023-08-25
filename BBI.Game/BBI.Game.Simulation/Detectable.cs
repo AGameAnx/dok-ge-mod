@@ -7,7 +7,7 @@ using BBI.Game.Data;
 namespace BBI.Game.Simulation
 {
 	// Token: 0x0200033B RID: 827
-	internal sealed class Detectable
+	public sealed class Detectable
 	{
 		// Token: 0x170002EF RID: 751
 		// (get) Token: 0x06000E82 RID: 3714 RVA: 0x000494A1 File Offset: 0x000476A1
@@ -21,7 +21,7 @@ namespace BBI.Game.Simulation
 
 		// Token: 0x170002F0 RID: 752
 		// (get) Token: 0x06000E83 RID: 3715 RVA: 0x000494A9 File Offset: 0x000476A9
-		internal Dictionary<CommanderID, Entity> LastSensedByEntity
+		public Dictionary<CommanderID, Entity> LastSensedByEntity
 		{
 			get
 			{
@@ -31,7 +31,7 @@ namespace BBI.Game.Simulation
 
 		// Token: 0x170002F1 RID: 753
 		// (get) Token: 0x06000E84 RID: 3716 RVA: 0x000494B1 File Offset: 0x000476B1
-		internal int TimeVisibleAfterFiringMS
+		public int TimeVisibleAfterFiringMS
 		{
 			get
 			{
@@ -41,7 +41,7 @@ namespace BBI.Game.Simulation
 
 		// Token: 0x170002F2 RID: 754
 		// (get) Token: 0x06000E85 RID: 3717 RVA: 0x000494B9 File Offset: 0x000476B9
-		internal bool Disabled
+		public bool Disabled
 		{
 			get
 			{
@@ -90,7 +90,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06000E88 RID: 3720 RVA: 0x00049610 File Offset: 0x00047810
-		internal static Detectable Create(DetectableAttributes attrib, Entity entity)
+		public static Detectable Create(DetectableAttributes attrib, Entity entity)
 		{
 			Detectable result = new Detectable(attrib);
 			DetectableProcessor.AddNewDetectable(entity);
@@ -98,7 +98,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06000E89 RID: 3721 RVA: 0x0004962C File Offset: 0x0004782C
-		internal DetectionState GetDefaultState(bool fogOfWarDisabled, Entity self, CommanderID viewerID, bool commandersAreFriendly)
+		public DetectionState GetDefaultState(bool fogOfWarDisabled, Entity self, CommanderID viewerID, bool commandersAreFriendly)
 		{
 			if (this.mDisabled)
 			{
@@ -117,7 +117,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06000E8A RID: 3722 RVA: 0x00049668 File Offset: 0x00047868
-		internal void ForceStateForMilliseconds(CommanderID forPlayer, DetectionState state, int milliseconds)
+		public void ForceStateForMilliseconds(CommanderID forPlayer, DetectionState state, int milliseconds)
 		{
 			ForcedDetectionState forcedDetectionState;
 			if (!this.mForcedDetectionState.TryGetValue(forPlayer, out forcedDetectionState))
@@ -131,7 +131,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06000E8B RID: 3723 RVA: 0x000496B0 File Offset: 0x000478B0
-		internal void ForceState(CommanderID forPlayer, DetectionState state)
+		public void ForceState(CommanderID forPlayer, DetectionState state)
 		{
 			ForcedDetectionState forcedDetectionState;
 			if (!this.mForcedDetectionState.TryGetValue(forPlayer, out forcedDetectionState))
@@ -145,13 +145,13 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06000E8C RID: 3724 RVA: 0x000496F5 File Offset: 0x000478F5
-		internal void RemoveForcedState(CommanderID forPlayer)
+		public void RemoveForcedState(CommanderID forPlayer)
 		{
 			this.mForcedDetectionState.Remove(forPlayer);
 		}
 
 		// Token: 0x06000E8D RID: 3725 RVA: 0x00049704 File Offset: 0x00047904
-		internal void SwapDetectionMaps()
+		public void SwapDetectionMaps()
 		{
 			Dictionary<CommanderID, DetectionState> dictionary = this.mPreviousSessionDetectionState;
 			this.mPreviousSessionDetectionState = this.mSessionDetectionState;
@@ -181,7 +181,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06000E8F RID: 3727 RVA: 0x0004979D File Offset: 0x0004799D
-		internal void SetDetectionState(CommanderID sensingCommander, DetectionState targetState)
+		public void SetDetectionState(CommanderID sensingCommander, DetectionState targetState)
 		{
 			this.mSessionDetectionState[sensingCommander] = targetState;
 			if (targetState == DetectionState.Sensed)
@@ -191,7 +191,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06000E90 RID: 3728 RVA: 0x000497B8 File Offset: 0x000479B8
-		internal DetectionState GetSharedDetectionState(CommanderID viewingCommander, bool useCurrentState)
+		public DetectionState GetSharedDetectionState(CommanderID viewingCommander, bool useCurrentState)
 		{
 			DetectionState detectionState = DetectionState.Hidden;
 			Dictionary<CommanderID, DetectionState> dictionary = useCurrentState ? this.mSessionDetectionState : this.mPreviousSessionDetectionState;
@@ -217,31 +217,31 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06000E91 RID: 3729 RVA: 0x00049850 File Offset: 0x00047A50
-		internal DetectionState GetRawDetectionState(CommanderID viewingCommander)
+		public DetectionState GetRawDetectionState(CommanderID viewingCommander)
 		{
 			return this.mSessionDetectionState[viewingCommander];
 		}
 
 		// Token: 0x06000E92 RID: 3730 RVA: 0x0004985E File Offset: 0x00047A5E
-		internal void SetAlwaysVisible(bool alwaysVisible)
+		public void SetAlwaysVisible(bool alwaysVisible)
 		{
 			this.mAlwaysVisible = alwaysVisible;
 		}
 
 		// Token: 0x06000E93 RID: 3731 RVA: 0x00049867 File Offset: 0x00047A67
-		internal void Disable(bool disabled)
+		public void Disable(bool disabled)
 		{
 			this.mDisabled = disabled;
 		}
 
 		// Token: 0x06000E94 RID: 3732 RVA: 0x00049870 File Offset: 0x00047A70
-		internal void SetHasBeenSeenBefore(CommanderID playerID)
+		public void SetHasBeenSeenBefore(CommanderID playerID)
 		{
 			this.mHasBeenSeenBefore[playerID] = true;
 		}
 
 		// Token: 0x06000E95 RID: 3733 RVA: 0x00049880 File Offset: 0x00047A80
-		internal bool HasBeenSeenBefore(CommanderID playerID)
+		public bool HasBeenSeenBefore(CommanderID playerID)
 		{
 			bool result = false;
 			this.mHasBeenSeenBefore.TryGetValue(playerID, out result);
@@ -249,7 +249,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06000E96 RID: 3734 RVA: 0x0004989F File Offset: 0x00047A9F
-		internal bool HasSharedDetectionStateChangedSinceLastFrame(CommanderID playerID, out DetectionState previousState, out DetectionState currentState)
+		public bool HasSharedDetectionStateChangedSinceLastFrame(CommanderID playerID, out DetectionState previousState, out DetectionState currentState)
 		{
 			previousState = this.GetSharedDetectionState(playerID, false);
 			currentState = this.GetSharedDetectionState(playerID, true);

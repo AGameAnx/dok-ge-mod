@@ -47,6 +47,10 @@ namespace BBI.Unity.Game
 		// Token: 0x0600077D RID: 1917 RVA: 0x000261B8 File Offset: 0x000243B8
 		public DLCPackID GetLocalPlayerSkinPackIDForFaction(DLCManager dlcManager, CustomizationFactionSetting forFaction)
 		{
+			if (forFaction > CustomizationFactionSetting.Gaalsien)
+			{
+				forFaction = CustomizationFactionSetting.Coalition;
+			}
 			if (this.UseCustomizationValues && dlcManager.DoesPackExist(this.UnitSkinPackID[(int)forFaction]))
 			{
 				return this.UnitSkinPackID[(int)forFaction];

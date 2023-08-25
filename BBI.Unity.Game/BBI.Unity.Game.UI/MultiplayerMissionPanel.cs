@@ -910,7 +910,7 @@ namespace BBI.Unity.Game.UI
 
 		// Token: 0x04001430 RID: 5168
 		[SerializeField]
-		private GameLobbyView m_LobbyViewPanel;
+		public GameLobbyView m_LobbyViewPanel;
 
 		// Token: 0x04001431 RID: 5169
 		[SerializeField]

@@ -13,7 +13,7 @@ using BBI.Game.SaveLoad;
 namespace BBI.Game.Simulation
 {
 	// Token: 0x02000270 RID: 624
-	internal sealed class Wreck
+	public sealed class Wreck
 	{
 		// Token: 0x1700018B RID: 395
 		// (get) Token: 0x06000851 RID: 2129 RVA: 0x00026A60 File Offset: 0x00024C60
@@ -251,7 +251,7 @@ namespace BBI.Game.Simulation
 			WreckSectionResourceSpawnable[] spawnables = wreckSection.Spawnables;
 			if (spawnables != null && spawnables.Length > 0)
 			{
-				Position component = this.mEntity.GetComponent(10);
+				Position component = this.mEntity.GetComponent<Position>(10);
 				if (component == null)
 				{
 					Log.Error(Log.Channel.Gameplay, "Unable to spawn resources for wreck section index {0} for wreck entity {1}, due to missing Position!", new object[]
@@ -341,7 +341,7 @@ namespace BBI.Game.Simulation
 					{
 						if (!commanderFromID.HasArtifact(this.mWreckArtifactType))
 						{
-							Position position = this.mEntity.IsValid() ? this.mEntity.GetComponent(10) : null;
+							Position position = this.mEntity.IsValid() ? this.mEntity.GetComponent<Position>(10) : null;
 							if (position != null)
 							{
 								Vector2r vector = new Vector2r(Fixed64.FromInt(this.mWreckArtifactSpawnPositionOffsetX), Fixed64.FromInt(this.mWreckArtifactSpawnPositionOffsetY));
@@ -353,10 +353,10 @@ namespace BBI.Game.Simulation
 									if (entity.IsValid())
 									{
 										CollectibleEntityProcessor.ExtractCollectible(entity, extractingEntity, vector2r2);
-										UnitHangar component = extractingEntity.GetComponent(23);
+										UnitHangar component = extractingEntity.GetComponent<UnitHangar>(23);
 										if (component != null && component.StoresEntityType(UnitHangar.kWreckArtifactTypeName) && CollectibleEntityProcessor.CollectCollectibleEntity(entity, extractingEntity))
 										{
-											Harvester component2 = extractingEntity.GetComponent(16);
+											Harvester component2 = extractingEntity.GetComponent<Harvester>(16);
 											if (component2 != null)
 											{
 												HarvesterProcessor.StopHarvesting(component2);
@@ -437,7 +437,7 @@ namespace BBI.Game.Simulation
 					{
 						if (this.mEntity.IsValid())
 						{
-							Position component = this.mEntity.GetComponent(10);
+							Position component = this.mEntity.GetComponent<Position>(10);
 							ShotSenderState shotSender = new ShotSenderState(this.mEntity, this.mEntity, this.mWeaponAttributes, component.Position2D, Orientation2.LocalForward, true, 0);
 							WeaponsProcessor.PerformAoEImpact(shotSender, component.Position2D);
 							return;
@@ -480,7 +480,7 @@ namespace BBI.Game.Simulation
 
 		// Token: 0x04000A27 RID: 2599
 		[StateData("RemainingHealth")]
-		private int mRemainingHealth;
+		public int mRemainingHealth;
 
 		// Token: 0x04000A28 RID: 2600
 		[StateData("WreckArtifactType", ConverterDirection.Save)]

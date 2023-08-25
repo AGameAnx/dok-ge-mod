@@ -1398,11 +1398,20 @@ namespace BBI.Unity.Game.UI
 			}
 			PlayerFactionSelection value3 = new PlayerFactionSelection(CustomizationFactionSetting.Coalition, DLCPackID.kInvalidID, true);
 			dictionary.Add("ID_UI_FE_MP_RANDOM_253", value3);
+			if (playerType == PlayerType.AI) 
+			{
+				dictionary.Remove("SPECTATOR");
+				dictionary.Remove("FATHERSHIP");
+				dictionary.Remove("NONE");
+			}
 			return dictionary;
 		}
 
 		public static bool RollForRandomFaction(Dictionary<string, PlayerFactionSelection> factionOptions, out PlayerFactionSelection randomSelectedFaction)
 		{
+			factionOptions.Remove("SPECTATOR");
+			factionOptions.Remove("FATHERSHIP");
+			factionOptions.Remove("NONE");
 			if (factionOptions.Count > 0)
 			{
 				List<PlayerFactionSelection> list = new List<PlayerFactionSelection>(factionOptions.Values);

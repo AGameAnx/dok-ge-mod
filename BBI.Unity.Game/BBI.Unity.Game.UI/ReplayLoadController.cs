@@ -16,6 +16,8 @@ using BBI.Unity.Game.HUD;
 using BBI.Unity.Game.Utility;
 using BBI.Unity.Game.World;
 using UnityEngine;
+using Subsystem;
+using System.Text;
 
 namespace BBI.Unity.Game.UI
 {
@@ -269,6 +271,23 @@ namespace BBI.Unity.Game.UI
 			LevelDefinition levelDefinition = this.mLevelManager.FindLevelFromSceneName(this.mSelectedReplay.SceneName, this.mSelectedReplay.GameSessionSettings.GameMode);
 			if (levelDefinition != null)
 			{
+				// Tell the mod what map is being loaded
+				try {
+					byte[] replayX = System.IO.File.ReadAllBytes(this.mSelectedReplay.FilePath + "x");
+					int layoutLength = (replayX[0] << 0) + (replayX[1] << 8) + (replayX[2] << 16) + (replayX[3] << 24);
+					int patchLength = (replayX[4] << 0) + (replayX[5] << 8) + (replayX[6] << 16) + (replayX[7] << 24);
+					int reserved0 = (replayX[8] << 0) + (replayX[9] << 8) + (replayX[10] << 16) + (replayX[11] << 24);
+					int reserved1 = (replayX[12] << 0) + (replayX[13] << 8) + (replayX[14] << 16) + (replayX[15] << 24);
+					MapModManager.MapXml = Encoding.UTF8.GetString(replayX, 16, layoutLength);
+					Subsystem.AttributeLoader.PatchOverrideData = Encoding.UTF8.GetString(replayX, 16 + layoutLength, patchLength);
+				} catch {}
+
+				Dictionary<CommanderID, TeamID> teams = new Dictionary<CommanderID, TeamID>();
+				foreach (var tuple in this.mSelectedReplay.SessionPlayers) {
+					teams[new CommanderID(tuple.CID)] = new TeamID(tuple.TeamID);
+				}
+				MapModManager.SetMap(levelDefinition, this.mSelectedReplay.GameSessionSettings.GameMode, this.mSelectedReplay.GameSessionSettings.TeamSetting, teams);
+
 				Dictionary<CommanderID, PlayerSelection> dictionary = new Dictionary<CommanderID, PlayerSelection>(this.mSelectedReplay.SessionPlayers.Length);
 				List<NetworkPlayerID> list = new List<NetworkPlayerID>(this.mSelectedReplay.SessionPlayers.Length);
 				for (int i = 0; i < this.mSelectedReplay.SessionPlayers.Length; i++)

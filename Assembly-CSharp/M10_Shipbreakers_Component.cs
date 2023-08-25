@@ -76,6 +76,9 @@ public class M10_Shipbreakers_Component : uScriptCode
 	// Token: 0x06010764 RID: 67428 RVA: 0x004ABD8C File Offset: 0x004A9F8C
 	private void Awake()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		base.useGUILayout = false;
 		this.ExposedVariables.Awake();
 		this.ExposedVariables.SetParent(base.gameObject);
@@ -90,30 +93,45 @@ public class M10_Shipbreakers_Component : uScriptCode
 	// Token: 0x06010765 RID: 67429 RVA: 0x004ABDF4 File Offset: 0x004A9FF4
 	private void Start()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		this.ExposedVariables.Start();
 	}
 
 	// Token: 0x06010766 RID: 67430 RVA: 0x004ABE04 File Offset: 0x004AA004
 	private void OnEnable()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		this.ExposedVariables.OnEnable();
 	}
 
 	// Token: 0x06010767 RID: 67431 RVA: 0x004ABE14 File Offset: 0x004AA014
 	private void OnDisable()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		this.ExposedVariables.OnDisable();
 	}
 
 	// Token: 0x06010768 RID: 67432 RVA: 0x004ABE24 File Offset: 0x004AA024
 	private void Update()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		this.ExposedVariables.Update();
 	}
 
 	// Token: 0x06010769 RID: 67433 RVA: 0x004ABE34 File Offset: 0x004AA034
 	private void OnDestroy()
 	{
+		if (MapModManager.CustomLayout)
+			return;
+
 		this.ExposedVariables.OnDestroy();
 	}
 

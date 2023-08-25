@@ -8,6 +8,7 @@ using BBI.Game.Simulation;
 using BBI.Unity.Core.Utility;
 using BBI.Unity.Game.Data;
 using UnityEngine;
+using System.Linq;
 
 namespace BBI.Unity.Game.World
 {
@@ -50,6 +51,10 @@ namespace BBI.Unity.Game.World
 		{
 			get
 			{
+				if (MapModManager.BannedEntities.Contains<string>(this.TypeID) && MapModManager.CustomLayout)
+				{
+					return new Vector2r(Fixed64.FromInt(0xf4240), Fixed64.FromInt(0xf4240));
+				}
 				return VectorHelper.UnityVector3ToSimVector2(base.transform.position, 0.25f);
 			}
 		}

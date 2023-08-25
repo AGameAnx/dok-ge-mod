@@ -25,7 +25,29 @@ namespace BBI.Unity.Game.Data
 		{
 			get
 			{
-				return this.m_CommanderAttributes;
+				BBI.Game.Data.CommanderAttributes[] mCommanderAttributes = this.m_CommanderAttributes;
+				BBI.Game.Data.CommanderAttributes[] commanderAttributesArray = new BBI.Game.Data.CommanderAttributes[(int)mCommanderAttributes.Length + 1];
+				mCommanderAttributes.CopyTo(commanderAttributesArray, 0);
+				CommanderAttributesData startingUnit = ((CommanderAttributesData)mCommanderAttributes[1]).Copy();
+				startingUnit.m_StartingUnits = new StartingUnit[] {
+					new StartingUnit() { Unit = "G_Fathership" },
+					new StartingUnit() { Unit = "G_Harvester" },
+					new StartingUnit() { Unit = "G_Harvester" },
+					new StartingUnit() { Unit = "G_Harvester" },
+					new StartingUnit() { Unit = "G_Harvester" },
+					new StartingUnit() { Unit = "G_SupportCruiser" },
+					new StartingUnit() { Unit = "G_Baserunner" }
+				};
+				startingUnit.m_Name = "FATHERSHIP";
+				startingUnit.m_NameLocID = "FATHERSHIP";
+				startingUnit.m_StartingPopCap = 125;
+				startingUnit.m_FactionAttributes = ScriptableObject.CreateInstance<FactionAttributesAsset>();
+				startingUnit.m_FactionAttributes.m_FactionAttributes = ((CommanderAttributesData)mCommanderAttributes[1]).m_FactionAttributes.m_FactionAttributes.Copy();
+				startingUnit.m_FactionAttributes.m_FactionAttributes.m_FactionName = "FATHERSHIP";
+				startingUnit.m_FactionAttributes.m_FactionAttributes.m_FactionID = FactionID.None;
+				startingUnit.m_FactionAttributes.m_FactionAttributes.m_TechTreeAttributes = new TechTreeAttributesAsset();
+				commanderAttributesArray[(int)mCommanderAttributes.Length] = startingUnit;
+				return commanderAttributesArray;
 			}
 		}
 

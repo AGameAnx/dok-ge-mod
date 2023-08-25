@@ -93,43 +93,6 @@ namespace BBI.Unity.Game.World
 		// Token: 0x06001DCE RID: 7630 RVA: 0x000AFDE8 File Offset: 0x000ADFE8
 		private void CreateArrow(HUDSystem hudSystem, Entity entity, GameObject iconPrefab, SceneExtractionZoneEntity sceneObject, float altitudeOffset, string labelText, Color iconColour)
 		{
-			if (!(sceneObject != null))
-			{
-				Log.Error(Log.Channel.UI, "Null scene GameObject for extraction zone entity {0}!", new object[]
-				{
-					entity.ToFriendlyString()
-				});
-				return;
-			}
-			if (iconPrefab != null)
-			{
-				HUDLayer layerWithName = hudSystem.GetLayerWithName("Feedback");
-				this.mArrowPromise = hudSystem.SpawnIconPrefab(iconPrefab.GetComponent<NGUIIconController>(), sceneObject.gameObject, null, layerWithName);
-				this.mArrowPromise.OnDone(delegate(NGUIIconController arrow)
-				{
-					if (entity.IsValid())
-					{
-						arrow.ObjectToTrack = sceneObject.transform;
-						arrow.IconYOffsetWorldSpace = altitudeOffset;
-						arrow.transform.eulerAngles = Vector3.zero;
-						arrow.SetValueString("ObjectiveLabel", labelText);
-						arrow.SetColour("ObjectiveLabel", iconColour);
-						arrow.SetColour("Sprite", iconColour);
-						arrow.Visible = true;
-						return;
-					}
-					hudSystem.RetireIcon(arrow);
-					this.mArrowPromise = null;
-				}).OnReject(delegate(string reason)
-				{
-					this.mArrowPromise = null;
-				});
-				return;
-			}
-			Log.Error(Log.Channel.UI, "Arrow marker icon prefab is null for extraction zone entity {0}!", new object[]
-			{
-				entity.ToFriendlyString()
-			});
 		}
 
 		// Token: 0x040018A0 RID: 6304

@@ -8,11 +8,11 @@ using BBI.Game.Data;
 namespace BBI.Game.Simulation
 {
 	// Token: 0x02000271 RID: 625
-	internal sealed class Timer
+	public sealed class Timer
 	{
 		// Token: 0x1700018F RID: 399
 		// (get) Token: 0x06000862 RID: 2146 RVA: 0x000275CC File Offset: 0x000257CC
-		internal Entity Entity
+		public Entity Entity
 		{
 			get
 			{
@@ -22,7 +22,7 @@ namespace BBI.Game.Simulation
 
 		// Token: 0x17000190 RID: 400
 		// (get) Token: 0x06000863 RID: 2147 RVA: 0x000275D4 File Offset: 0x000257D4
-		internal Fixed64 DurationSeconds
+		public Fixed64 DurationSeconds
 		{
 			get
 			{
@@ -32,7 +32,7 @@ namespace BBI.Game.Simulation
 
 		// Token: 0x17000191 RID: 401
 		// (get) Token: 0x06000864 RID: 2148 RVA: 0x000275DC File Offset: 0x000257DC
-		internal TimerDirection TimerDirection
+		public TimerDirection TimerDirection
 		{
 			get
 			{
@@ -42,7 +42,7 @@ namespace BBI.Game.Simulation
 
 		// Token: 0x17000192 RID: 402
 		// (get) Token: 0x06000865 RID: 2149 RVA: 0x000275E4 File Offset: 0x000257E4
-		internal OnTimerCompleteAction ActionOnTimerComplete
+		public OnTimerCompleteAction ActionOnTimerComplete
 		{
 			get
 			{
@@ -53,7 +53,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x17000193 RID: 403
 		// (get) Token: 0x06000866 RID: 2150 RVA: 0x000275EC File Offset: 0x000257EC
 		// (set) Token: 0x06000867 RID: 2151 RVA: 0x000275F4 File Offset: 0x000257F4
-		internal Fixed64 CurrentTimeSeconds
+		public Fixed64 CurrentTimeSeconds
 		{
 			get
 			{
@@ -71,7 +71,7 @@ namespace BBI.Game.Simulation
 
 		// Token: 0x17000194 RID: 404
 		// (get) Token: 0x06000868 RID: 2152 RVA: 0x0002761E File Offset: 0x0002581E
-		internal Fixed64 CurrentTimePercentage
+		public Fixed64 CurrentTimePercentage
 		{
 			get
 			{
@@ -85,7 +85,7 @@ namespace BBI.Game.Simulation
 
 		// Token: 0x17000195 RID: 405
 		// (get) Token: 0x06000869 RID: 2153 RVA: 0x00027644 File Offset: 0x00025844
-		internal bool Completed
+		public bool Completed
 		{
 			get
 			{
@@ -117,13 +117,13 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x0600086C RID: 2156 RVA: 0x00027709 File Offset: 0x00025909
-		internal static Timer Create(Entity owner, Fixed64 durationSeconds, TimerDirection timerDirection, OnTimerCompleteAction actionOnTimerComplete)
+		public static Timer Create(Entity owner, Fixed64 durationSeconds, TimerDirection timerDirection, OnTimerCompleteAction actionOnTimerComplete)
 		{
 			return new Timer(owner, durationSeconds, timerDirection, actionOnTimerComplete);
 		}
 
 		// Token: 0x0600086D RID: 2157 RVA: 0x00027714 File Offset: 0x00025914
-		internal int GetChecksum()
+		public int GetChecksum()
 		{
 			return Checksum.Combine((int)this.mTimerDirection, this.mCurrentTimeSeconds.GetChecksum(), this.mDurationSeconds.GetChecksum(), (int)this.mActionOnTimerComplete);
 		}

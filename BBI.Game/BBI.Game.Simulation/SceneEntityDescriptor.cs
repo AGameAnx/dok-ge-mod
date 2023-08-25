@@ -10,7 +10,7 @@ namespace BBI.Game.Simulation
 	public class SceneEntityDescriptor
 	{
 		// Token: 0x0600128A RID: 4746 RVA: 0x00065418 File Offset: 0x00063618
-		private SceneEntityDescriptor(string typeID, Vector2r position, Orientation2 orientation, string[] tags, SceneEntityType type, bool skipWhenPersisting) : this(typeID, position, false, Fixed64.Zero, orientation, tags, type, null, true, skipWhenPersisting)
+		public SceneEntityDescriptor(string typeID, Vector2r position, Orientation2 orientation, string[] tags, SceneEntityType type, bool skipWhenPersisting) : this(typeID, position, false, Fixed64.Zero, orientation, tags, type, null, true, skipWhenPersisting)
 		{
 		}
 

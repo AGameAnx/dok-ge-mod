@@ -18,17 +18,17 @@ namespace BBI.Game.Simulation
 		// Token: 0x170003D3 RID: 979
 		// (get) Token: 0x060013DB RID: 5083 RVA: 0x0006E7BB File Offset: 0x0006C9BB
 		// (set) Token: 0x060013DC RID: 5084 RVA: 0x0006E7C3 File Offset: 0x0006C9C3
-		public Vector2r Min { get; private set; }
+		public Vector2r Min { get; set; }
 
 		// Token: 0x170003D4 RID: 980
 		// (get) Token: 0x060013DD RID: 5085 RVA: 0x0006E7CC File Offset: 0x0006C9CC
 		// (set) Token: 0x060013DE RID: 5086 RVA: 0x0006E7D4 File Offset: 0x0006C9D4
-		public Vector2r Max { get; private set; }
+		public Vector2r Max { get; set; }
 
 		// Token: 0x170003D5 RID: 981
 		// (get) Token: 0x060013DF RID: 5087 RVA: 0x0006E7DD File Offset: 0x0006C9DD
 		// (set) Token: 0x060013E0 RID: 5088 RVA: 0x0006E7E5 File Offset: 0x0006C9E5
-		public int AmbientHeatPoints { get; private set; }
+		public int AmbientHeatPoints { get; set; }
 
 		// Token: 0x170003D6 RID: 982
 		// (get) Token: 0x060013E1 RID: 5089 RVA: 0x0006E7EE File Offset: 0x0006C9EE
@@ -43,7 +43,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x170003D7 RID: 983
 		// (get) Token: 0x060013E2 RID: 5090 RVA: 0x0006E7F6 File Offset: 0x0006C9F6
 		// (set) Token: 0x060013E3 RID: 5091 RVA: 0x0006E7FE File Offset: 0x0006C9FE
-		public EntitySpatialHashTable SpatialHash { get; private set; }
+		public EntitySpatialHashTable SpatialHash { get; set; }
 
 		// Token: 0x170003D8 RID: 984
 		// (get) Token: 0x060013E4 RID: 5092 RVA: 0x0006E807 File Offset: 0x0006CA07
@@ -258,7 +258,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x060013F1 RID: 5105 RVA: 0x0006ED54 File Offset: 0x0006CF54
-		private bool LineOfFireIsHeightBlockedByObstacle(ConvexBase obstacle, Orientation2 direction, Vector2r from, Vector2r to, ref Vector2r blockagePoint, Fixed64 fromWorldHeightOffset, Fixed64 toWorldHeightOffset)
+		public bool LineOfFireIsHeightBlockedByObstacle(ConvexBase obstacle, Orientation2 direction, Vector2r from, Vector2r to, ref Vector2r blockagePoint, Fixed64 fromWorldHeightOffset, Fixed64 toWorldHeightOffset)
 		{
 			if (this.mHeightMap != null)
 			{
@@ -301,7 +301,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x060013F2 RID: 5106 RVA: 0x0006EEFC File Offset: 0x0006D0FC
-		private bool PositionInsideMap(Vector2r position)
+		public bool PositionInsideMap(Vector2r position)
 		{
 			return position.X >= this.Min.X && position.X <= this.Max.X && position.Y >= this.Min.Y && position.Y <= this.Max.Y;
 		}
@@ -506,7 +506,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x060013FC RID: 5116 RVA: 0x0006F33C File Offset: 0x0006D53C
-		private void FindSegmentIntersectingObstacleShapes(Segment2 segment, UnitClass targetLayer, List<ConvexBase> blockingObstaclesList)
+		public void FindSegmentIntersectingObstacleShapes(Segment2 segment, UnitClass targetLayer, List<ConvexBase> blockingObstaclesList)
 		{
 			using (IEnumerator<ConvexBase> enumerator = this.mPathfindingObstaclesHash.BroadSearchForSegment(segment, (uint)targetLayer))
 			{
@@ -576,6 +576,11 @@ namespace BBI.Game.Simulation
 		{
 			this.Min = reader.ReadVector2r();
 			this.Max = reader.ReadVector2r();
+			if (MapModManager.overrideBounds)
+			{
+				this.Max = MapModManager.boundsMax;
+				this.Min = MapModManager.boundsMin;
+			}
 			int numPathFindingObstacles = reader.ReadInt32();
 			this.mPathfindingObstaclesHash = new QuadTree(this.Min, this.Max);
 			this.mStaticLineOfFireHash = new QuadTree(this.Min, this.Max);
@@ -664,40 +669,40 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x04001032 RID: 4146
-		private const int kMaxStepsForRaycast = 100;
+		public const int kMaxStepsForRaycast = 100;
 
 		// Token: 0x04001033 RID: 4147
-		private static readonly SimMap.NavMeshAttributesComparer sStaticNavMeshAttributesComparer = new SimMap.NavMeshAttributesComparer();
+		public static readonly SimMap.NavMeshAttributesComparer sStaticNavMeshAttributesComparer = new SimMap.NavMeshAttributesComparer();
 
 		// Token: 0x04001034 RID: 4148
-		private readonly SimHeightMap mHeightMap;
+		public readonly SimHeightMap mHeightMap;
 
 		// Token: 0x04001035 RID: 4149
-		private Dictionary<NavMeshAttributes, PathNodeNavigationCache> mBakedMeshes = new Dictionary<NavMeshAttributes, PathNodeNavigationCache>(SimMap.sStaticNavMeshAttributesComparer);
+		public Dictionary<NavMeshAttributes, PathNodeNavigationCache> mBakedMeshes = new Dictionary<NavMeshAttributes, PathNodeNavigationCache>(SimMap.sStaticNavMeshAttributesComparer);
 
 		// Token: 0x04001036 RID: 4150
-		private QuadTree mPathfindingObstaclesHash;
+		public QuadTree mPathfindingObstaclesHash;
 
 		// Token: 0x04001037 RID: 4151
-		private HashSet<ConvexBase> mAllHeightBlockers = new HashSet<ConvexBase>();
+		public HashSet<ConvexBase> mAllHeightBlockers = new HashSet<ConvexBase>();
 
 		// Token: 0x04001038 RID: 4152
-		private QuadTree mStaticLineOfFireHash;
+		public QuadTree mStaticLineOfFireHash;
 
 		// Token: 0x04001039 RID: 4153
-		private List<Shape> mDynamicLineOfFireBlockers;
+		public List<Shape> mDynamicLineOfFireBlockers;
 
 		// Token: 0x0400103A RID: 4154
 		public static readonly Fixed64 kSegmentLengthThresholdSquared = Fixed64.FromInt(3600);
 
 		// Token: 0x0400103B RID: 4155
-		private static readonly Fixed64 kRaytraceStepSize = Fixed64.FromInt(10);
+		public static readonly Fixed64 kRaytraceStepSize = Fixed64.FromInt(10);
 
 		// Token: 0x0400103C RID: 4156
-		private static readonly Fixed64 kRaytraceInverseStepSize = Fixed64.Tenth(1);
+		public static readonly Fixed64 kRaytraceInverseStepSize = Fixed64.Tenth(1);
 
 		// Token: 0x020003C7 RID: 967
-		private class NavMeshAttributesComparer : IEqualityComparer<NavMeshAttributes>
+		public class NavMeshAttributesComparer : IEqualityComparer<NavMeshAttributes>
 		{
 			// Token: 0x06001403 RID: 5123 RVA: 0x0006FACF File Offset: 0x0006DCCF
 			public bool Equals(NavMeshAttributes x, NavMeshAttributes y)

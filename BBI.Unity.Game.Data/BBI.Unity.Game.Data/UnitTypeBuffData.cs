@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BBI.Unity.Game.Data
 {
 	[Serializable]
-	internal class UnitTypeBuffData : UnitTypeBuff
+	public class UnitTypeBuffData : UnitTypeBuff
 	{
 		string UnitTypeBuff.UnitType
 		{

@@ -384,6 +384,7 @@ namespace BBI.Unity.Game.UI
 			if (this.m_LobbyView != null)
 			{
 				this.m_LobbyView.UnloadPreviewImageStreamedAssets();
+				MapModManager.SetMap(this.m_LobbyView.SelectedMap, GameMode.AISkirmish, this.m_LobbyView.ActiveTeamSetting, this.m_LobbyView.GetPlayerTeamIDs());
 				this.mLevelManager.StartLoadLevel(GameMode.AISkirmish, ReplayMode.RecordingGame, this.m_LobbyView.SelectedMap, this.GetStartDependencies());
 				return;
 			}

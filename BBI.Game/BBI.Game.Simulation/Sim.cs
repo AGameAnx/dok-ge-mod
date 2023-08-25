@@ -27,12 +27,12 @@ namespace BBI.Game.Simulation
 		// Token: 0x170003AD RID: 941
 		// (get) Token: 0x0600135F RID: 4959 RVA: 0x0006ABF4 File Offset: 0x00068DF4
 		// (set) Token: 0x06001360 RID: 4960 RVA: 0x0006ABFC File Offset: 0x00068DFC
-		internal SimSettings Settings { get; private set; }
+		public SimSettings Settings { get; private set; }
 
 		// Token: 0x170003AE RID: 942
 		// (get) Token: 0x06001361 RID: 4961 RVA: 0x0006AC05 File Offset: 0x00068E05
 		// (set) Token: 0x06001362 RID: 4962 RVA: 0x0006AC0D File Offset: 0x00068E0D
-		internal IEntitySystem EntitySystem { get; private set; }
+		public IEntitySystem EntitySystem { get; private set; }
 
 		// Token: 0x170003AF RID: 943
 		// (get) Token: 0x06001363 RID: 4963 RVA: 0x0006AC16 File Offset: 0x00068E16
@@ -52,7 +52,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x170003B2 RID: 946
 		// (get) Token: 0x06001369 RID: 4969 RVA: 0x0006AC49 File Offset: 0x00068E49
 		// (set) Token: 0x0600136A RID: 4970 RVA: 0x0006AC51 File Offset: 0x00068E51
-		internal UnitManager UnitManager { get; private set; }
+		public UnitManager UnitManager { get; private set; }
 
 		// Token: 0x170003B3 RID: 947
 		// (get) Token: 0x0600136B RID: 4971 RVA: 0x0006AC5A File Offset: 0x00068E5A
@@ -62,7 +62,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x170003B4 RID: 948
 		// (get) Token: 0x0600136D RID: 4973 RVA: 0x0006AC6B File Offset: 0x00068E6B
 		// (set) Token: 0x0600136E RID: 4974 RVA: 0x0006AC73 File Offset: 0x00068E73
-		internal ICommanderInteractionProvider InteractionProvider { get; private set; }
+		public ICommanderInteractionProvider InteractionProvider { get; private set; }
 
 		// Token: 0x170003B5 RID: 949
 		// (get) Token: 0x0600136F RID: 4975 RVA: 0x0006AC7C File Offset: 0x00068E7C
@@ -107,7 +107,7 @@ namespace BBI.Game.Simulation
 			{
 				this.Settings.EntityTypes.MakeAllTypesBuffableForCommander(commanderID.ID);
 			}
-			Maneuver.InitializeManeuverPool();
+			Maneuver.Maneuver.InitializeManeuverPool();
 			this.UnitManager = new UnitManager(this);
 			this.SelectedUnits = new SelectedUnitManager();
 			startupDependencies.Get<IAnalyticsService>(out this.mAnalyticsService);
@@ -121,6 +121,7 @@ namespace BBI.Game.Simulation
 			Checksum checksum = new Checksum();
 			this.UnitManager.Tick(checksum, frameNumber);
 			this.CommanderManager.Tick(checksum);
+			MapModManager.Tick(frameNumber);
 			AllEntityProcessor.Process(this.Settings.EntitySystem, checksum);
 			if (this.Settings.GameMode != null && frameNumber > SimFrameNumber.First)
 			{
@@ -172,7 +173,7 @@ namespace BBI.Game.Simulation
 				this.UnitManager.Shutdown();
 				this.UnitManager = null;
 			}
-			Maneuver.ShutdownManeuverPool();
+			Maneuver.Maneuver.ShutdownManeuverPool();
 			if (this.SimEventSystem != null)
 			{
 				this.SimEventSystem.RemoveAllHandlers();
@@ -319,8 +320,8 @@ namespace BBI.Game.Simulation
 			int num = 0;
 			foreach (Entity entity in enumerable)
 			{
-				Resource component = entity.GetComponent(11);
-				Position component2 = entity.GetComponent(10);
+				Resource component = entity.GetComponent<Resource>(11);
+				Position component2 = entity.GetComponent<Position>(10);
 				Vector2r b = component2.Orientation * component.PositionalVariations.SimLocalSpawnPositionOffset;
 				Vector2r modelSpawnPosition = component2.Position2D - b;
 				SceneEntitiesLoadedEvent.ResourceCreatedEventData resourceCreatedEventData = new SceneEntitiesLoadedEvent.ResourceCreatedEventData
@@ -339,8 +340,8 @@ namespace BBI.Game.Simulation
 			List<SceneEntitiesLoadedEvent.WreckArtifactCreatedEventData> list2 = new List<SceneEntitiesLoadedEvent.WreckArtifactCreatedEventData>(enumerable2.Count());
 			foreach (Entity entity2 in enumerable2)
 			{
-				WreckArtifact component3 = entity2.GetComponent(35);
-				Position component4 = entity2.GetComponent(10);
+				WreckArtifact component3 = entity2.GetComponent<WreckArtifact>(35);
+				Position component4 = entity2.GetComponent<Position>(10);
 				SceneEntitiesLoadedEvent.WreckArtifactCreatedEventData item;
 				if (component4 != null)
 				{
@@ -355,7 +356,7 @@ namespace BBI.Game.Simulation
 				}
 				else
 				{
-					Collectible component5 = entity2.GetComponent(36);
+					Collectible component5 = entity2.GetComponent<Collectible>(36);
 					bool flag = false;
 					foreach (Commander commander2 in this.CommanderManager.Commanders)
 					{
@@ -399,7 +400,7 @@ namespace BBI.Game.Simulation
 			{
 				if (!Sim.IsEntityDead(unit.Entity))
 				{
-					Storage component = unit.Entity.GetComponent(18);
+					Storage component = unit.Entity.GetComponent<Storage>(18);
 					if (component != null)
 					{
 						IEnumerable<ResourceType> carriedResources = component.GetCarriedResources();
@@ -416,14 +417,14 @@ namespace BBI.Game.Simulation
 						{
 							dictionary2.Add(unit.Entity, component);
 						}
-						Experience component2 = unit.Entity.GetComponent(39);
+						Experience component2 = unit.Entity.GetComponent<Experience>(39);
 						if (component2 != null)
 						{
 							dictionary3.Add(unit.Entity, component2);
 						}
 						if ((unit.UnitClass & UnitClass.Carrier) == UnitClass.Carrier)
 						{
-							PowerShunt component3 = unit.Entity.GetComponent(22);
+							PowerShunt component3 = unit.Entity.GetComponent<PowerShunt>(22);
 							if (component3 != null && component3.PowerSystems != null)
 							{
 								PowerSystemLevelSaveState[] array = new PowerSystemLevelSaveState[component3.PowerSystems.Count];
@@ -444,7 +445,7 @@ namespace BBI.Game.Simulation
 								};
 								dictionary4.Add(unit.Entity, value);
 							}
-							Health component4 = unit.Entity.GetComponent(7);
+							Health component4 = unit.Entity.GetComponent<Health>(7);
 							if (component4 != null)
 							{
 								dictionary.Add(unit.Entity, component4);
@@ -452,7 +453,7 @@ namespace BBI.Game.Simulation
 						}
 						if (unit.Entity.HasComponent(15))
 						{
-							Production component5 = unit.Entity.GetComponent(15);
+							Production component5 = unit.Entity.GetComponent<Production>(15);
 							for (int i = 0; i < component5.NumQueues; i++)
 							{
 								IList<Production.ProductionQueueEntry> queue = component5.GetQueue(i);
@@ -462,8 +463,8 @@ namespace BBI.Game.Simulation
 								}
 							}
 						}
-						Position component6 = unit.Entity.GetComponent(10);
-						Health component7 = unit.Entity.GetComponent(7);
+						Position component6 = unit.Entity.GetComponent<Position>(10);
+						Health component7 = unit.Entity.GetComponent<Health>(7);
 						PersistentUnitDescription item = default(PersistentUnitDescription);
 						item.Entity = unit.Entity;
 						item.HpPercent = component7.CurrentHealthPercentage;
@@ -513,10 +514,10 @@ namespace BBI.Game.Simulation
 					}
 					else
 					{
-						Resource component8 = entity.GetComponent(11);
-						Position component9 = entity.GetComponent(10);
-						Detectable component10 = entity.GetComponent(21);
-						Tags component11 = entity.GetComponent(1);
+						Resource component8 = entity.GetComponent<Resource>(11);
+						Position component9 = entity.GetComponent<Position>(10);
+						Detectable component10 = entity.GetComponent<Detectable>(21);
+						Tags component11 = entity.GetComponent<Tags>(1);
 						item2.TypeID = entity.GetTypeName();
 						if (component11 != null)
 						{
@@ -577,12 +578,12 @@ namespace BBI.Game.Simulation
 							}
 							else
 							{
-								Wreck component12 = entity2.GetComponent(37);
-								Resource component13 = entity2.GetComponent(11);
-								Position component14 = entity2.GetComponent(10);
-								Detectable component15 = entity2.GetComponent(21);
-								Shape component16 = entity2.GetComponent(33);
-								Tags component17 = entity2.GetComponent(1);
+								Wreck component12 = entity2.GetComponent<Wreck>(37);
+								Resource component13 = entity2.GetComponent<Resource>(11);
+								Position component14 = entity2.GetComponent<Position>(10);
+								Detectable component15 = entity2.GetComponent<Detectable>(21);
+								Shape component16 = entity2.GetComponent<Shape>(33);
+								Tags component17 = entity2.GetComponent<Tags>(1);
 								item3.TypeID = entity2.GetTypeName();
 								if (component17 != null)
 								{
@@ -616,8 +617,8 @@ namespace BBI.Game.Simulation
 			IEnumerable<Entity> enumerable3 = this.EntitySystem.Query().Has(35).Has(36);
 			foreach (Entity entity3 in enumerable3)
 			{
-				Collectible component18 = entity3.GetComponent(36);
-				WreckArtifact component19 = entity3.GetComponent(35);
+				Collectible component18 = entity3.GetComponent<Collectible>(36);
+				WreckArtifact component19 = entity3.GetComponent<WreckArtifact>(35);
 				if (component18.CurrentHolderEntity != Entity.None)
 				{
 					CommanderID entityCommanderID = Sim.GetEntityCommanderID(component18.CurrentHolderEntity);
@@ -678,6 +679,7 @@ namespace BBI.Game.Simulation
 					}
 				}
 			}
+			MapModManager.LoadMapLayout();
 			this.mSimInitializationState = Sim.InitializationState.Initialized;
 		}
 
@@ -763,6 +765,32 @@ namespace BBI.Game.Simulation
 					this.Map = new SimMap(new Vector2r(Fixed64.MinValue, Fixed64.MinValue), new Vector2r(Fixed64.MaxValue, Fixed64.MaxValue), null, 0);
 				}
 				this.mSimInitializationState = Sim.InitializationState.MapLoaded;
+				if (MapModManager.CustomLayout)
+				{
+					bool disableAllBlockers = false;
+					if (MapModManager.DisableAllBlockers)
+					{
+						this.Map.mPathfindingObstaclesHash.Clear();
+						disableAllBlockers = true;
+					}
+					foreach (MapModManager.MapColliderData collider in MapModManager.colliders)
+					{
+						this.Map.AddObstacle(collider.collider, collider.mask, collider.blockLof, collider.blockAllHeights);
+						if (collider.blockLof)
+						{
+							this.Map.mStaticLineOfFireHash.AddShape(collider.collider);
+						}
+						if (collider.blockAllHeights)
+						{
+							this.Map.mAllHeightBlockers.Add(collider.collider);
+						}
+						disableAllBlockers = true;
+					}
+					if (disableAllBlockers || MapModManager.overrideBounds)
+					{
+						this.Map.BakeSpatialPartition(this.Settings.NavMeshes);
+					}
+				}
 			}
 			yield break;
 		}
@@ -774,7 +802,7 @@ namespace BBI.Game.Simulation
 			{
 				return CommanderID.None;
 			}
-			OwningCommander component = entity.GetComponent(5);
+			OwningCommander component = entity.GetComponent<OwningCommander>(5);
 			if (component != null)
 			{
 				return component.ID;
@@ -804,7 +832,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x06001382 RID: 4994 RVA: 0x0006C8E8 File Offset: 0x0006AAE8
 		internal static bool IsEntityDead(Entity entity)
 		{
-			return !entity.IsValid() || (entity.HasComponent(9) && !entity.GetComponent(9).WaitingForOnDeathActivity);
+			return !entity.IsValid() || (entity.HasComponent(9) && !entity.GetComponent<Death>(9).WaitingForOnDeathActivity);
 		}
 
 		// Token: 0x06001383 RID: 4995 RVA: 0x0006C910 File Offset: 0x0006AB10
@@ -829,7 +857,7 @@ namespace BBI.Game.Simulation
 		internal static Entity CreateEntity(string typeID, CommanderID commanderID)
 		{
 			Entity entity = Sim.Instance.EntitySystem.CreateTypedEntity(typeID, commanderID.ID);
-			entity.AddComponent(5, OwningCommander.Create(commanderID));
+			entity.AddComponent<OwningCommander>(5, OwningCommander.Create(commanderID));
 			return entity;
 		}
 
@@ -971,7 +999,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x0600138C RID: 5004 RVA: 0x0006CCC1 File Offset: 0x0006AEC1
-		internal static void DestroyEntity(Entity entity)
+		public static void DestroyEntity(Entity entity)
 		{
 			if (entity.IsValid())
 			{
@@ -1278,7 +1306,7 @@ namespace BBI.Game.Simulation
 					}
 					if (!hasCarrierHangar)
 					{
-						hangar = entity.GetComponent(23);
+						hangar = entity.GetComponent<UnitHangar>(23);
 						if (hangar != null)
 						{
 							hasCarrierHangar = true;
@@ -1484,7 +1512,7 @@ namespace BBI.Game.Simulation
 		private const bool kSilentEventsOnCommanderInitialization = true;
 
 		// Token: 0x04000FF1 RID: 4081
-		internal static Sim Instance;
+		public static Sim Instance;
 
 		// Token: 0x04000FF2 RID: 4082
 		private IAnalyticsService mAnalyticsService;

@@ -164,6 +164,7 @@ namespace BBI.Unity.Game.UI
 			else
 			{
 				this.mCommanderTechTree = this.mCommanderManager.GetCommanderTechTree(this.mCommanderManager.LocalCommanderID);
+				this.lastCommanderId = this.mCommanderManager.LocalCommanderID;
 			}
 			if (!sessionDependencies.Get<ICommandScheduler>(out this.mCommandScheduler))
 			{
@@ -327,6 +328,15 @@ namespace BBI.Unity.Game.UI
 			int num = 0;
 			if (this.mMostRecentLocalCommanderState != null)
 			{
+				CommanderID commanderID = this.mMostRecentLocalCommanderState.CommanderID;
+				if (this.lastCommanderId != commanderID)
+				{
+					this.lastCommanderId = commanderID;
+					this.DestroyUpgradeGroups();
+					this.mCommanderTechTree = this.mCommanderManager.GetCommanderTechTree(commanderID);
+					this.CreateAndHideAllUpgrades(this.mLocalizationManager);
+					this.RebuildList();
+				}
 				ResearchItemAttributes researchItemAttributes = null;
 				if (this.mListState == UpgradesPanelController.ListState.Minimized && this.mActiveResearchState != null)
 				{
@@ -533,6 +543,8 @@ namespace BBI.Unity.Game.UI
 
 		// Token: 0x04000C51 RID: 3153
 		private UIWidget mHighlightPanelWidget;
+
+		private CommanderID lastCommanderId;
 
 		// Token: 0x02000212 RID: 530
 		[Serializable]

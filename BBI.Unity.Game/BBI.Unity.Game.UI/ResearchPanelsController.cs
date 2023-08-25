@@ -8,6 +8,7 @@ using BBI.Core.Utility.FixedPoint;
 using BBI.Game.Commands;
 using BBI.Game.Data;
 using BBI.Game.Events;
+using BBI.Game.Replay;
 using BBI.Game.Simulation;
 using BBI.Unity.Game.Data;
 using BBI.Unity.Game.Events;
@@ -82,6 +83,7 @@ namespace BBI.Unity.Game.UI
 			ShipbreakersMain.SimToPresentationEventSystem.AddHandler<ResearchEvent>(new BBI.Core.Events.EventHandler<ResearchEvent>(this.OnResearchEvent));
 			this.mEngineeringController.OnShowEngineeringTooltip += this.OnShowResearchTooltip;
 			this.mUpgradesController.OnShowUpgradeTooltip += this.OnShowResearchTooltip;
+			this.selectedCarrierCommanderId = null;
 		}
 
 		// Token: 0x06001B63 RID: 7011 RVA: 0x000A1468 File Offset: 0x0009F668
@@ -158,7 +160,14 @@ namespace BBI.Unity.Game.UI
 		// Token: 0x06001B67 RID: 7015 RVA: 0x000A161C File Offset: 0x0009F81C
 		private void OnNewStateFrame(SimStateFrame stateFrame)
 		{
-			this.mMostRecentLocalCommanderState = stateFrame.FindCommanderState(this.mCommanderManager.LocalCommanderID);
+			if (ShipbreakersMain.ReplayMode != BBI.Game.Replay.ReplayMode.ReplayingGame || !this.selectedCarrierCommanderId.HasValue)
+			{
+				this.mMostRecentLocalCommanderState = stateFrame.FindCommanderState(this.mCommanderManager.LocalCommanderID);
+			}
+			else
+			{
+				this.mMostRecentLocalCommanderState = stateFrame.FindCommanderState(this.selectedCarrierCommanderId.Value);
+			}
 			if (this.mMostRecentLocalCommanderState.LockedResearch != null)
 			{
 				int num = this.mMostRecentLocalCommanderState.LockedResearch.Length;
@@ -182,7 +191,8 @@ namespace BBI.Unity.Game.UI
 		private void OnNewSelection(IList<Entity> newSelection, SimStateFrame stateFrame)
 		{
 			Profiler.BeginSample("ResearchPanelsController.OnSelectionChanged");
-			bool flag = false;
+			bool show = false;
+			bool panelsForeign = false;
 			if (!newSelection.IsNullOrEmpty<Entity>() && stateFrame != null && this.mInterfaceController != null)
 			{
 				UnitState unitState = stateFrame.FindObject<UnitState>(this.mInterfaceController.LeadUnit);
@@ -191,15 +201,29 @@ namespace BBI.Unity.Game.UI
 					UnitAttributes entityTypeAttributes = ShipbreakersMain.GetEntityTypeAttributes<UnitAttributes>(unitState.TypeID);
 					if (entityTypeAttributes != null && (entityTypeAttributes.Class & UnitClass.Carrier) != UnitClass.None && entityTypeAttributes.Controllable)
 					{
-						flag = true;
+						if (ShipbreakersMain.ReplayMode == ReplayMode.ReplayingGame)
+						{
+							show = true;
+							CommanderID ownerCommander = unitState.OwnerCommander;
+							if (!this.selectedCarrierCommanderId.HasValue || this.selectedCarrierCommanderId.Value != ownerCommander)
+							{
+								panelsForeign = true;
+								this.selectedCarrierCommanderId = new CommanderID?(ownerCommander);
+								this.mMostRecentLocalCommanderState = stateFrame.FindCommanderState(ownerCommander);
+							}
+						}
+						else if (this.mInteractionProvider.LocalCommanderCanControl(unitState.OwnerCommander))
+						{
+							show = true;
+						}
 					}
 				}
 			}
 			bool arePanelsShowing = this.ArePanelsShowing;
-			this.ShowHidePanels(flag);
-			if (flag)
+			this.ShowHidePanels(show);
+			if (show)
 			{
-				this.UpdatePanels(this.mMostRecentLocalCommanderState, !arePanelsShowing);
+				this.UpdatePanels(this.mMostRecentLocalCommanderState, (panelsForeign ? true : !arePanelsShowing));
 			}
 			Profiler.EndSample();
 		}
@@ -374,5 +398,7 @@ namespace BBI.Unity.Game.UI
 
 		// Token: 0x040016A5 RID: 5797
 		private ResearchTooltipData mTooltipData = default(ResearchTooltipData);
+
+		private CommanderID? selectedCarrierCommanderId = null;
 	}
 }

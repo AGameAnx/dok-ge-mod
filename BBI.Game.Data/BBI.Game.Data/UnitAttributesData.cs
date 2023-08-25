@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using BBI.Core;
 using BBI.Core.Utility.FixedPoint;
+using BBI.Unity.Game.Data;
+using BBI.Game;
 
 namespace BBI.Game.Data
 {
@@ -15,6 +17,10 @@ namespace BBI.Game.Data
 		{
 			get
 			{
+				if (this.Name == "N_Tornado_UnitAttributesAsset" && MapModManager.CustomLayout)
+				{
+					return UnitClass.Air;
+				}
 				return this.m_Class;
 			}
 		}
@@ -35,6 +41,20 @@ namespace BBI.Game.Data
 		{
 			get
 			{
+				if (MapModManager.CustomLayout)
+				{
+					if (ListExtensions.Contains<string>(new string[] { "G_Carrier_UnitAttributesAsset_MP", "C_Carrier_UnitAttributesAsset_MP", "C_Sob_Carrier_UnitAttributesAsset_MP", "K_Carrier_UnitAttributesAsset_MP", "G_Fathership_UnitAttributesAsset" }, this.Name))
+					{
+						NavMeshData navMeshDatum = new NavMeshData()
+						{
+							m_BlockedBy = (MapModManager.DisableCarrierNavs ? UnitClass.Ground : UnitClass.Ground | UnitClass.Carrier)
+						};
+						Fixed64 distanceErrorPercentageTolerance = this.m_NavMesh.DistanceErrorPercentageTolerance;
+						navMeshDatum.m_DistanceErrorPercentageTolerance = float.Parse(distanceErrorPercentageTolerance.ToString());
+						navMeshDatum.m_DistanceFromObstacles = 135f;
+						return navMeshDatum;
+					}
+				}
 				return this.m_NavMesh;
 			}
 		}

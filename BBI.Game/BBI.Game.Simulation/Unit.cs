@@ -13,32 +13,32 @@ using BBI.Game.Utility;
 namespace BBI.Game.Simulation
 {
 	// Token: 0x020003D4 RID: 980
-	internal sealed class Unit : IWeaponTrigger
+	public sealed class Unit : IWeaponTrigger
 	{
 		// Token: 0x14000006 RID: 6
 		// (add) Token: 0x0600143A RID: 5178 RVA: 0x000705D0 File Offset: 0x0006E7D0
 		// (remove) Token: 0x0600143B RID: 5179 RVA: 0x00070608 File Offset: 0x0006E808
-		public event UnitHandlerDestroyed OnUnitDestroyed;
+		internal event UnitHandlerDestroyed OnUnitDestroyed;
 
 		// Token: 0x14000007 RID: 7
 		// (add) Token: 0x0600143C RID: 5180 RVA: 0x00070640 File Offset: 0x0006E840
 		// (remove) Token: 0x0600143D RID: 5181 RVA: 0x00070678 File Offset: 0x0006E878
-		public event UnitHandlerRemoved OnUnitDespawned;
+		internal event UnitHandlerRemoved OnUnitDespawned;
 
 		// Token: 0x14000008 RID: 8
 		// (add) Token: 0x0600143E RID: 5182 RVA: 0x000706B0 File Offset: 0x0006E8B0
 		// (remove) Token: 0x0600143F RID: 5183 RVA: 0x000706E8 File Offset: 0x0006E8E8
-		public event UnitHandlerRemoved OnUnitDocked;
+		internal event UnitHandlerRemoved OnUnitDocked;
 
 		// Token: 0x14000009 RID: 9
 		// (add) Token: 0x06001440 RID: 5184 RVA: 0x00070720 File Offset: 0x0006E920
 		// (remove) Token: 0x06001441 RID: 5185 RVA: 0x00070758 File Offset: 0x0006E958
-		public event UnitUndockedHandler OnUnitUndocked;
+		internal event UnitUndockedHandler OnUnitUndocked;
 
 		// Token: 0x1400000A RID: 10
 		// (add) Token: 0x06001442 RID: 5186 RVA: 0x00070790 File Offset: 0x0006E990
 		// (remove) Token: 0x06001443 RID: 5187 RVA: 0x000707C8 File Offset: 0x0006E9C8
-		public event UnitHandlerFiredWeapon OnUnitFiredWeapon;
+		internal event UnitHandlerFiredWeapon OnUnitFiredWeapon;
 
 		// Token: 0x170003E5 RID: 997
 		// (get) Token: 0x06001444 RID: 5188 RVA: 0x000707FD File Offset: 0x0006E9FD
@@ -173,7 +173,7 @@ namespace BBI.Game.Simulation
 		public static Unit CreateUnit(Entity entity)
 		{
 			Unit unit = new Unit(entity);
-			entity.AddComponent(2, unit);
+			entity.AddComponent<Unit>(2, unit);
 			Unit.AttachUnitRelatedComponentsToEntity(entity);
 			return unit;
 		}
@@ -182,7 +182,7 @@ namespace BBI.Game.Simulation
 		internal static void AttachUnitRelatedComponentsToEntity(Entity entity)
 		{
 			Unit.CreateUnitRelatedComponents(entity);
-			OwningCommander owningCommander = entity.IsValid() ? entity.GetComponent(5) : null;
+			OwningCommander owningCommander = entity.IsValid() ? entity.GetComponent<OwningCommander>(5) : null;
 			if (owningCommander != null)
 			{
 				AbilityHelper.AttachAbilitiesToUnitOnSpawn(entity, owningCommander.ID);
@@ -245,7 +245,7 @@ namespace BBI.Game.Simulation
 			}
 			if (flag2)
 			{
-				Health component = this.mEntity.GetComponent(7);
+				Health component = this.mEntity.GetComponent<Health>(7);
 				if (component != null)
 				{
 					Fixed64 @fixed = Fixed64.FromInt(component.MaxHealth);
@@ -257,7 +257,7 @@ namespace BBI.Game.Simulation
 			}
 			if (flag3 || flag4)
 			{
-				Sensor component2 = this.mEntity.GetComponent(20);
+				Sensor component2 = this.mEntity.GetComponent<Sensor>(20);
 				if (component2 != null)
 				{
 					if (flag3)
@@ -272,7 +272,7 @@ namespace BBI.Game.Simulation
 			}
 			if (flag5)
 			{
-				Production component3 = this.mEntity.GetComponent(15);
+				Production component3 = this.mEntity.GetComponent<Production>(15);
 				if (component3 != null)
 				{
 					if (component3.NumQueues > this.Attributes.NumProductionQueues)
@@ -293,7 +293,7 @@ namespace BBI.Game.Simulation
 					}
 				}
 			}
-			List<Ability> listComponent = this.mEntity.GetListComponent(17);
+			List<Ability> listComponent = this.mEntity.GetListComponent<Ability>(17);
 			if (!listComponent.IsNullOrEmpty<Ability>())
 			{
 				foreach (Ability ability in listComponent)
@@ -310,7 +310,7 @@ namespace BBI.Game.Simulation
 					}
 				}
 			}
-			Maneuvering component4 = this.mEntity.GetComponent(12);
+			Maneuvering component4 = this.mEntity.GetComponent<Maneuvering>(12);
 			if (component4 != null)
 			{
 				bool flag7 = flag;
@@ -329,7 +329,7 @@ namespace BBI.Game.Simulation
 					component4.BuffAppliedThisFrame = true;
 				}
 			}
-			Storage component5 = this.mEntity.GetComponent(18);
+			Storage component5 = this.mEntity.GetComponent<Storage>(18);
 			if (component5 != null)
 			{
 				bool flag8 = flag;
@@ -343,7 +343,7 @@ namespace BBI.Game.Simulation
 					component5.OnBuffApplied();
 				}
 			}
-			UnitHangar component6 = this.mEntity.GetComponent(23);
+			UnitHangar component6 = this.mEntity.GetComponent<UnitHangar>(23);
 			if (component6 != null)
 			{
 				bool flag9 = flag;
@@ -358,7 +358,7 @@ namespace BBI.Game.Simulation
 				}
 			}
 			this.mEntity.CheckRebindWeapons(ev.PreviousFlags);
-			List<WeaponFireOperation> listComponent2 = this.mEntity.GetListComponent(6);
+			List<WeaponFireOperation> listComponent2 = this.mEntity.GetListComponent<WeaponFireOperation>(6);
 			if (!listComponent2.IsNullOrEmpty<WeaponFireOperation>())
 			{
 				bool flag10 = flag;
@@ -399,14 +399,14 @@ namespace BBI.Game.Simulation
 		// Token: 0x06001452 RID: 5202 RVA: 0x00070EE4 File Offset: 0x0006F0E4
 		private static void CreateUnitRelatedComponents(Entity unitEntity)
 		{
-			unitEntity.AddComponent(28, StatusEffects.Create(unitEntity));
+			unitEntity.AddComponent<StatusEffects>(28, StatusEffects.Create(unitEntity));
 			UnitMovementAttributes typeAttributes = unitEntity.GetTypeAttributes<UnitMovementAttributes>();
 			if (typeAttributes != null)
 			{
 				if (typeAttributes.ReversePolarity.Enabled)
 				{
 					Fixed64 repelRadius = Fixed64.Half * typeAttributes.ReversePolarity.PushRadiusMultiplier * typeAttributes.Dynamics.Length;
-					unitEntity.AddComponent(34, ReversePolarity.Create(repelRadius, typeAttributes.ReversePolarity.RelativeWeight, typeAttributes.ReversePolarity.SquishinessFactor));
+					unitEntity.AddComponent<ReversePolarity>(34, ReversePolarity.Create(repelRadius, typeAttributes.ReversePolarity.RelativeWeight, typeAttributes.ReversePolarity.SquishinessFactor));
 				}
 				if (typeAttributes.Dynamics != null && typeAttributes.Dynamics.PermanentlyImmobile)
 				{
@@ -416,10 +416,10 @@ namespace BBI.Game.Simulation
 			UnitAttributes typeAttributes2 = unitEntity.GetTypeAttributes<UnitAttributes>();
 			if (typeAttributes2 != null)
 			{
-				unitEntity.AddComponent(7, Health.Create(typeAttributes2.MaxHealth, typeAttributes2.MaxHealth));
+				unitEntity.AddComponent<Health>(7, Health.Create(typeAttributes2.MaxHealth, typeAttributes2.MaxHealth));
 				if (typeAttributes2.NumProductionQueues > 0)
 				{
-					unitEntity.AddComponent(15, Production.Create(unitEntity, typeAttributes2));
+					unitEntity.AddComponent<Production>(15, Production.Create(unitEntity, typeAttributes2));
 				}
 				if (!typeAttributes2.WeaponLoadout.IsNullOrEmpty<WeaponBinding>())
 				{
@@ -442,32 +442,32 @@ namespace BBI.Game.Simulation
 					}
 				}
 			}
-			unitEntity.AddComponent(4, Targets.Create());
-			unitEntity.AddComponent(19, EntityGoalsCollection.Create(unitEntity));
+			unitEntity.AddComponent<Targets>(4, Targets.Create());
+			unitEntity.AddComponent<EntityGoalsCollection>(19, EntityGoalsCollection.Create(unitEntity));
 			DetectableAttributes typeAttributes3 = unitEntity.GetTypeAttributes<DetectableAttributes>();
 			if (typeAttributes3 != null)
 			{
-				unitEntity.AddComponent(21, Detectable.Create(typeAttributes3, unitEntity));
+				unitEntity.AddComponent<Detectable>(21, Detectable.Create(typeAttributes3, unitEntity));
 			}
 			UnitQuadrantDamageAttributes typeAttributes4 = unitEntity.GetTypeAttributes<UnitQuadrantDamageAttributes>();
 			if (typeAttributes4 != null)
 			{
-				unitEntity.AddComponent(30, QuadrantDamage.Create(typeAttributes4));
+				unitEntity.AddComponent<QuadrantDamage>(30, QuadrantDamage.Create(typeAttributes4));
 			}
 			UnitHangarAttributes typeAttributes5 = unitEntity.GetTypeAttributes<UnitHangarAttributes>();
 			if (typeAttributes5 != null)
 			{
-				unitEntity.AddComponent(23, UnitHangar.Create(unitEntity, typeAttributes5));
+				unitEntity.AddComponent<UnitHangar>(23, UnitHangar.Create(unitEntity, typeAttributes5));
 			}
 			HarvesterAttributes typeAttributes6 = unitEntity.GetTypeAttributes<HarvesterAttributes>();
 			if (typeAttributes6 != null && !unitEntity.HasComponent(16))
 			{
-				unitEntity.AddComponent(16, Harvester.Create(unitEntity));
+				unitEntity.AddComponent<Harvester>(16, Harvester.Create(unitEntity));
 			}
 			ExperienceAttributes typeAttributes7 = unitEntity.GetTypeAttributes<ExperienceAttributes>();
 			if (typeAttributes7 != null)
 			{
-				unitEntity.AddComponent(39, Experience.Create(unitEntity, typeAttributes7));
+				unitEntity.AddComponent<Experience>(39, Experience.Create(unitEntity, typeAttributes7));
 			}
 			StorageAttributes typeAttributes8 = unitEntity.GetTypeAttributes<StorageAttributes>();
 			if (typeAttributes8 != null && typeAttributes8.InventoryLoadout != null)
@@ -490,13 +490,13 @@ namespace BBI.Game.Simulation
 				}
 				if (typeAttributes8.LinkToPlayerBank || !list.IsNullOrEmpty<Inventory>())
 				{
-					unitEntity.AddComponent(18, Storage.Create(unitEntity, list, typeAttributes8.LinkToPlayerBank, typeAttributes8.IsResourceController));
+					unitEntity.AddComponent<Storage>(18, Storage.Create(unitEntity, list, typeAttributes8.LinkToPlayerBank, typeAttributes8.IsResourceController));
 				}
 			}
 			PowerShuntAttributes typeAttributes9 = unitEntity.GetTypeAttributes<PowerShuntAttributes>();
 			if (typeAttributes9 != null && !typeAttributes9.PowerSystems.IsNullOrEmpty<PowerSystemAttributes>())
 			{
-				unitEntity.AddComponent(22, PowerShunt.Create(unitEntity, typeAttributes9));
+				unitEntity.AddComponent<PowerShunt>(22, PowerShunt.Create(unitEntity, typeAttributes9));
 			}
 		}
 
@@ -525,7 +525,7 @@ namespace BBI.Game.Simulation
 					}
 					else
 					{
-						EntityGoalsCollection component = entity.GetComponent(19);
+						EntityGoalsCollection component = entity.GetComponent<EntityGoalsCollection>(19);
 						if (component != null)
 						{
 							if (component.CurrentGoal == null)
@@ -556,7 +556,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x06001455 RID: 5205 RVA: 0x000712F8 File Offset: 0x0006F4F8
-		internal void DespawnUnit()
+		public void DespawnUnit()
 		{
 			if (this.OnUnitDespawned != null)
 			{
@@ -567,7 +567,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x06001456 RID: 5206 RVA: 0x00071310 File Offset: 0x0006F510
 		private bool DestroyUnit(UnitRemoveReason reason, bool skipDeathSequence, CommanderID killingCommander, Entity killingEntity)
 		{
-			UnitHangar component = this.Entity.GetComponent(23);
+			UnitHangar component = this.Entity.GetComponent<UnitHangar>(23);
 			if (component != null)
 			{
 				CollectibleEntityProcessor.DropAllCollectibleEntities(component);
@@ -636,13 +636,13 @@ namespace BBI.Game.Simulation
 		internal void AddChecksum(Checksum check)
 		{
 			check.Add(this.Entity.ToReference());
-			Position component = this.Entity.GetComponent(10);
+			Position component = this.Entity.GetComponent<Position>(10);
 			if (component != null)
 			{
 				check.Add(component.Position2D.GetHashCode());
 				check.Add(component.Orientation.GetHashCode());
 			}
-			Maneuvering component2 = this.Entity.GetComponent(12);
+			Maneuvering component2 = this.Entity.GetComponent<Maneuvering>(12);
 			if (component2 != null)
 			{
 				check.Add(component2.CurrentDestination.GetHashCode());
@@ -653,12 +653,12 @@ namespace BBI.Game.Simulation
 			check.Add(flag.GetHashCode());
 			if (flag)
 			{
-				Health component3 = this.Entity.GetComponent(7);
+				Health component3 = this.Entity.GetComponent<Health>(7);
 				check.Add(component3.CurrentHealth);
 				check.Add(component3.MaxHealth);
 				check.Add((int)component3.GodMode);
 			}
-			EntityGoalsCollection component4 = this.Entity.GetComponent(19);
+			EntityGoalsCollection component4 = this.Entity.GetComponent<EntityGoalsCollection>(19);
 			if (component4 != null && component4.CurrentGoal != null)
 			{
 				check.Add((int)component4.CurrentGoal.GoalType);
@@ -710,11 +710,11 @@ namespace BBI.Game.Simulation
 			{
 				if (value && !this.mEntity.HasComponent(3))
 				{
-					this.mEntity.AddComponent(3, null);
+					this.mEntity.AddComponent<object>(3, null);
 				}
 				else if (!value && this.mEntity.HasComponent(3))
 				{
-					this.mEntity.RemoveComponent(3);
+					this.mEntity.RemoveComponent<object>(3);
 				}
 			}
 			this.mPresentationOnly = value;
@@ -773,7 +773,7 @@ namespace BBI.Game.Simulation
 		private readonly Entity mEntity;
 
 		// Token: 0x0400108F RID: 4239
-		public EntityGuardGroup EntityGuardGroup;
+		internal EntityGuardGroup EntityGuardGroup;
 
 		// Token: 0x04001090 RID: 4240
 		[StateData("DeathScheduled")]

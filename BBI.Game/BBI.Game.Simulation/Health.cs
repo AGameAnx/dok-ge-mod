@@ -8,12 +8,12 @@ using BBI.Game.Data;
 namespace BBI.Game.Simulation
 {
 	// Token: 0x0200033F RID: 831
-	internal sealed class Health
+	public sealed class Health
 	{
 		// Token: 0x17000303 RID: 771
 		// (get) Token: 0x06000EE0 RID: 3808 RVA: 0x0004B40E File Offset: 0x0004960E
 		// (set) Token: 0x06000EE1 RID: 3809 RVA: 0x0004B416 File Offset: 0x00049616
-		internal int CurrentHealth
+		public int CurrentHealth
 		{
 			get
 			{

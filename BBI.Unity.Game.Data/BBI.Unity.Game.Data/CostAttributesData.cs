@@ -35,10 +35,10 @@ namespace BBI.Unity.Game.Data
 
 		// Token: 0x04000252 RID: 594
 		[SerializeField]
-		private int m_Resource1Cost;
+		public int m_Resource1Cost;
 
 		// Token: 0x04000253 RID: 595
 		[SerializeField]
-		private int m_Resource2Cost;
+		public int m_Resource2Cost;
 	}
 }

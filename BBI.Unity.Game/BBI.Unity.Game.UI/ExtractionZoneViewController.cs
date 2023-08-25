@@ -205,7 +205,7 @@ namespace BBI.Unity.Game.UI
 		}
 
 		// Token: 0x06000BBF RID: 3007 RVA: 0x00038114 File Offset: 0x00036314
-		private void ShowExtractionZone(Entity entity, bool show)
+		public void ShowExtractionZone(Entity entity, bool show)
 		{
 			ExtractionZoneView extractionZoneView;
 			if (this.mExtractionZoneViews != null && this.mExtractionZoneViews.TryGetValue(entity, out extractionZoneView))

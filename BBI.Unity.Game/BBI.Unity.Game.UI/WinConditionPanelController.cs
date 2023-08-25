@@ -22,7 +22,7 @@ namespace BBI.Unity.Game.UI
 {
 	public sealed class WinConditionPanelController : IDisposable
 	{
-		private bool IsPanelShowing
+		public bool IsPanelShowing
 		{
 			get
 			{
@@ -30,7 +30,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private bool IsMatchTimerShowing
+		public bool IsMatchTimerShowing
 		{
 			get
 			{
@@ -293,7 +293,7 @@ namespace BBI.Unity.Game.UI
 			this.mPreviousMatchTimeRemainingSeconds = 0f;
 		}
 
-		private void OnNewStateFrame(SimStateFrame stateFrame)
+		public void OnNewStateFrame(SimStateFrame stateFrame)
 		{
 			if (stateFrame != null && this.IsPanelShowing)
 			{
@@ -303,10 +303,31 @@ namespace BBI.Unity.Game.UI
 				}
 				this.UpdateFreeArtifacts(stateFrame);
 				this.UpdateHeldArtifacts(stateFrame);
+				lock (MapModManager.artUiLock)
+				{
+					try
+					{
+						if (MapModManager.CustomLayout)
+						{
+							if (stateFrame.FrameNumber.FrameNumber == 8)
+							{
+								this.DestroyFreeArtifactIcons();
+							}
+							for (int i = 0; i < MapModManager.artifacts.Count && i < 4; i++)
+							{
+								MapModManager.MapArtifactData item = MapModManager.artifacts[i];
+								if (item.entity != Entity.None && !this.mFreeArtifactIcons.ContainsKey(item.entity) && !item.NeedsRespawning)
+								{
+									this.AddFreeArtifactPlayerIcon(item.entity);
+								}
+							}
+						}
+					} catch(Exception) {}
+				}
 			}
 		}
 
-		private void OnTeamIconTooltip(NGUIEventHandler handler, bool isHovered)
+		public void OnTeamIconTooltip(NGUIEventHandler handler, bool isHovered)
 		{
 			if (isHovered)
 			{
@@ -335,7 +356,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void OnRelicEvent(RelicEvent ev)
+		public void OnRelicEvent(RelicEvent ev)
 		{
 			switch (ev.Reason)
 			{
@@ -365,7 +386,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void OnSceneEntityCreatedEvent(SceneEntityCreatedEvent ev)
+		public void OnSceneEntityCreatedEvent(SceneEntityCreatedEvent ev)
 		{
 			SceneEntityDescriptor sceneEntityDescriptor = ev.SceneEntityDescriptor;
 			if (sceneEntityDescriptor.EntityType == SceneEntityType.Relic)
@@ -374,7 +395,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void ShowWinConditionPanel(bool show)
+		public void ShowWinConditionPanel(bool show)
 		{
 			if (this.mSettings != null && this.mSettings.WinConditionPanelContainer != null)
 			{
@@ -388,7 +409,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void RepositionGrids()
+		public void RepositionGrids()
 		{
 			this.RepositionTeamsGrid();
 			this.RepositionFreeArtifactsGrid();
@@ -405,7 +426,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void RepositionFreeArtifactsGrid()
+		public void RepositionFreeArtifactsGrid()
 		{
 			if (this.mSettings != null && this.mSettings.FreeArtifactsGrid != null)
 			{
@@ -414,7 +435,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void RepositionLeftTeamGrid()
+		public void RepositionLeftTeamGrid()
 		{
 			if (this.mSettings != null && this.mSettings.LeftTeamPlayersGrid != null)
 			{
@@ -423,7 +444,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void RepositionRightTeamGrid()
+		public void RepositionRightTeamGrid()
 		{
 			if (this.mSettings != null && this.mSettings.RightTeamPlayersGrid != null)
 			{
@@ -432,7 +453,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void AssignTeamsToSides()
+		public void AssignTeamsToSides()
 		{
 			if (this.mTeamToSideMapping != null && this.mMPGameStartSettings != null && this.mMPGameStartSettings.PlayerSelections != null)
 			{
@@ -469,7 +490,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void RebuildTeamIcons()
+		public void RebuildTeamIcons()
 		{
 			if (this.mSettings != null && this.mTeamToSideMapping != null)
 			{
@@ -527,7 +548,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void ShowGameClock(bool showGameClock)
+		public void ShowGameClock(bool showGameClock)
 		{
 			if (this.mSettings != null && this.mSettings.GameClockContainer != null)
 			{
@@ -535,7 +556,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void ShowMatchTimerContainer(bool showMatchTimer)
+		public void ShowMatchTimerContainer(bool showMatchTimer)
 		{
 			if (this.mSettings != null && this.mSettings.MatchTimerContainer != null)
 			{
@@ -543,7 +564,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void ShowMatchTimerLabel(bool show)
+		public void ShowMatchTimerLabel(bool show)
 		{
 			if (this.mSettings != null && this.mSettings.MatchTimerLabel != null)
 			{
@@ -551,7 +572,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void ShowSuddenDeathLabel(bool show)
+		public void ShowSuddenDeathLabel(bool show)
 		{
 			if (this.mSettings != null && this.mSettings.SuddenDeathLabel != null)
 			{
@@ -559,7 +580,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void AddFreeArtifactPlayerIcon(Entity relicEntity)
+		public void AddFreeArtifactPlayerIcon(Entity relicEntity)
 		{
 			SimStateFrame currentSimFrame = ShipbreakersMain.CurrentSimFrame;
 			if (this.mSettings.FreeArtifactsGrid != null && this.mSettings.FreeArtifactPrefab != null)
@@ -585,7 +606,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void RemoveFreeArtifactPlayerIcon(Entity relicEntity)
+		public void RemoveFreeArtifactPlayerIcon(Entity relicEntity)
 		{
 			NGUIIconController icon;
 			if (this.mFreeArtifactIcons != null && this.mFreeArtifactIcons.TryGetValue(relicEntity, out icon) && this.mHUDSystem != null)
@@ -596,7 +617,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void AddHeldArtifactPlayerIcon(Entity relicEntity, Entity holderEntity)
+		public void AddHeldArtifactPlayerIcon(Entity relicEntity, Entity holderEntity)
 		{
 			SimStateFrame currentSimFrame = ShipbreakersMain.CurrentSimFrame;
 			CommanderID commanderID = currentSimFrame.FindEntityCommanderID(holderEntity);
@@ -642,7 +663,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void RemoveHeldArtifactPlayerIcon(Entity relicEntity)
+		public void RemoveHeldArtifactPlayerIcon(Entity relicEntity)
 		{
 			NGUIIconController icon;
 			if (this.mHeldArtifactPlayerIcons != null && this.mHeldArtifactPlayerIcons.TryGetValue(relicEntity, out icon) && this.mHUDSystem != null)
@@ -654,7 +675,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void DestroyTeamIcons()
+		public void DestroyTeamIcons()
 		{
 			if (this.mTeamIcons != null)
 			{
@@ -673,7 +694,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void DestroyFreeArtifactIcons()
+		public void DestroyFreeArtifactIcons()
 		{
 			if (this.mFreeArtifactIcons != null)
 			{
@@ -692,7 +713,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void DestroyHeldArtifactPlayerIcons()
+		public void DestroyHeldArtifactPlayerIcons()
 		{
 			if (this.mHeldArtifactPlayerIcons != null)
 			{
@@ -711,7 +732,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void SetTeamPointCount(NGUIIconController icon, int newValue)
+		public void SetTeamPointCount(NGUIIconController icon, int newValue)
 		{
 			if (icon != null)
 			{
@@ -726,7 +747,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void IncrementTeamPointCount(Entity extractingEntity)
+		public void IncrementTeamPointCount(Entity extractingEntity)
 		{
 			if (this.mTeamIcons != null)
 			{
@@ -746,7 +767,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void UpdateMatchTimer()
+		public void UpdateMatchTimer()
 		{
 			if (this.mSettings != null && this.mSettings.MatchTimerLabel != null && this.mPreviousMatchTimeRemainingSeconds > 0f)
 			{
@@ -777,7 +798,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private bool TryGetMatchTimerColour(float matchTimeRemainingSeconds, out Color colour)
+		public bool TryGetMatchTimerColour(float matchTimeRemainingSeconds, out Color colour)
 		{
 			colour = Color.white;
 			if (ShipbreakersMain.GlobalSettingsAttributes.GameSettings != null)
@@ -799,7 +820,7 @@ namespace BBI.Unity.Game.UI
 			return false;
 		}
 
-		private void UpdateFreeArtifacts(SimStateFrame stateFrame)
+		public void UpdateFreeArtifacts(SimStateFrame stateFrame)
 		{
 			if (this.mFreeArtifactIcons != null)
 			{
@@ -810,7 +831,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void UpdateFreeArtifactSpriteForEntity(Entity entity)
+		public void UpdateFreeArtifactSpriteForEntity(Entity entity)
 		{
 			if (this.mFreeArtifactIcons != null)
 			{
@@ -823,7 +844,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void UpdateFreeArtifactSprite(SimStateFrame stateFrame, NGUIIconController icon)
+		public void UpdateFreeArtifactSprite(SimStateFrame stateFrame, NGUIIconController icon)
 		{
 			if (stateFrame != null && icon != null)
 			{
@@ -852,7 +873,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void UpdateFreeArtifactProgress(SimStateFrame stateFrame, NGUIIconController icon)
+		public void UpdateFreeArtifactProgress(SimStateFrame stateFrame, NGUIIconController icon)
 		{
 			if (stateFrame != null && icon != null)
 			{
@@ -870,7 +891,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void UpdateHeldArtifacts(SimStateFrame stateFrame)
+		public void UpdateHeldArtifacts(SimStateFrame stateFrame)
 		{
 			if (this.mHeldArtifactPlayerIcons != null)
 			{
@@ -881,7 +902,7 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		private void UpdateHeldArtifact(SimStateFrame stateFrame, NGUIIconController icon)
+		public void UpdateHeldArtifact(SimStateFrame stateFrame, NGUIIconController icon)
 		{
 			if (stateFrame != null && icon != null)
 			{
@@ -1155,66 +1176,66 @@ namespace BBI.Unity.Game.UI
 
 			[Header("Scene instances")]
 			[SerializeField]
-			private GameObject m_WinConditionPanelContainer;
+			public GameObject m_WinConditionPanelContainer;
 
 			[SerializeField]
-			private UIGrid m_WinConditionTeamsGrid;
+			public UIGrid m_WinConditionTeamsGrid;
 
 			[SerializeField]
-			private UIGrid m_LeftTeamPlayersGrid;
+			public UIGrid m_LeftTeamPlayersGrid;
 
 			[SerializeField]
-			private UIGrid m_RightTeamPlayersGrid;
+			public UIGrid m_RightTeamPlayersGrid;
 
 			[SerializeField]
-			private UIGrid m_FreeArtifactsGrid;
+			public UIGrid m_FreeArtifactsGrid;
 
 			[SerializeField]
-			private GameObject m_MatchTimerContainer;
+			public GameObject m_MatchTimerContainer;
 
 			[SerializeField]
-			private UILabel m_MatchTimerLabel;
+			public UILabel m_MatchTimerLabel;
 
 			[SerializeField]
-			private UILabel m_SuddenDeathLabel;
+			public UILabel m_SuddenDeathLabel;
 
 			[SerializeField]
 			[Tooltip("Add a link to the game clock so it can be hidden when the match timer is active.")]
-			private GameObject m_GameClockContainer;
+			public GameObject m_GameClockContainer;
 
 			[SerializeField]
 			[Header("Prefabs")]
-			private NGUIIconController m_WinConditionTeamIconPrefab;
+			public NGUIIconController m_WinConditionTeamIconPrefab;
 
 			[SerializeField]
-			private NGUIIconController m_FreeArtifactPrefab;
+			public NGUIIconController m_FreeArtifactPrefab;
 
 			[SerializeField]
-			private NGUIIconController m_LeftPlayerPrefab;
+			public NGUIIconController m_LeftPlayerPrefab;
 
 			[SerializeField]
-			private NGUIIconController m_RightPlayerPrefab;
+			public NGUIIconController m_RightPlayerPrefab;
 
 			[SerializeField]
-			private TooltipObjectAsset m_TeamIconTooltip;
+			public TooltipObjectAsset m_TeamIconTooltip;
 
 			[SerializeField]
-			private string m_MatchTimerFormatString = "{0:00}:{1:00}";
+			public string m_MatchTimerFormatString = "{0:00}:{1:00}";
 
 			[SerializeField]
-			private string m_TeamNameFormatStringLocID = "ID_WINCONDITIONPANEL_TEAMNAME";
+			public string m_TeamNameFormatStringLocID = "ID_WINCONDITIONPANEL_TEAMNAME";
 
 			[SerializeField]
-			private string m_TeamPointCountFormatString = "{0}/{1}";
+			public string m_TeamPointCountFormatString = "{0}/{1}";
 
 			[SerializeField]
-			private string m_ShortDescriptionStringLocID = "ID_WINCONDITIONPANEL_SHORTDESCRIPTION";
+			public string m_ShortDescriptionStringLocID = "ID_WINCONDITIONPANEL_SHORTDESCRIPTION";
 
 			[SerializeField]
-			private string m_LongDescriptionStringLocID = "ID_WINCONDITIONPANEL_LONGDESCRIPTION";
+			public string m_LongDescriptionStringLocID = "ID_WINCONDITIONPANEL_LONGDESCRIPTION";
 
 			[SerializeField]
-			private Color m_EnemyLabelColor = Color.red;
+			public Color m_EnemyLabelColor = Color.red;
 		}
 	}
 }

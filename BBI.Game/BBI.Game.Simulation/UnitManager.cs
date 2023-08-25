@@ -13,7 +13,7 @@ using BBI.Game.SaveLoad;
 namespace BBI.Game.Simulation
 {
 	// Token: 0x020003DF RID: 991
-	internal sealed class UnitManager
+	public sealed class UnitManager
 	{
 		// Token: 0x17000402 RID: 1026
 		// (get) Token: 0x060014F5 RID: 5365 RVA: 0x00074BBB File Offset: 0x00072DBB
@@ -61,7 +61,7 @@ namespace BBI.Game.Simulation
 				Log.Warn(Log.Channel.Core, "Trying to transfer an invalid unit/entity to another commander. Ignoring.", new object[0]);
 				return;
 			}
-			OwningCommander component = unitToTransfer.Entity.GetComponent(5);
+			OwningCommander component = unitToTransfer.Entity.GetComponent<OwningCommander>(5);
 			if (component != null)
 			{
 				if (component.ID != newCommanderID)
@@ -78,22 +78,22 @@ namespace BBI.Game.Simulation
 						array = typeAttributes.GetAllEntityTypeBuffs();
 					}
 					EntityTypeAttributes commanderSpecificEntityType = Sim.Instance.Settings.EntityTypes.GetCommanderSpecificEntityType(typeName, newCommanderID.ID);
-					unitToTransfer.Entity.RemoveComponent(0);
-					unitToTransfer.Entity.AddComponent(0, commanderSpecificEntityType);
+					unitToTransfer.Entity.RemoveComponent<EntityTypeAttributes>(0);
+					unitToTransfer.Entity.AddComponent<EntityTypeAttributes>(0, commanderSpecificEntityType);
 					int flags2 = commanderSpecificEntityType.Flags;
 					Sim.PostEvent(new BuffChangedEvent(null, unitToTransfer.Entity, BuffChangedEvent.BuffChangeType.CommanderChanged, flags, flags2));
 					if (array != null)
 					{
 						unitToTransfer.Entity.AddBuffsFromBuffStates(array);
 					}
-					Storage component2 = unitToTransfer.Entity.GetComponent(18);
+					Storage component2 = unitToTransfer.Entity.GetComponent<Storage>(18);
 					if (component2 != null && component2.IsLinkedToCommanderBank)
 					{
 						component2.CreateCommanderInventoryLinks(newCommanderID);
 					}
 					AbilityHelper.UpdateAbilityAvailabilityOnCommanderTransfer(unitToTransfer.Entity, newCommanderID);
 					UnitManager.ActivatePassiveAbilities(unitToTransfer);
-					Experience component3 = unitToTransfer.Entity.GetComponent(39);
+					Experience component3 = unitToTransfer.Entity.GetComponent<Experience>(39);
 					if (component3 != null)
 					{
 						bool flag = Experience.ShouldHideName(typeName, newCommanderID);
@@ -117,7 +117,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x060014FB RID: 5371 RVA: 0x00074F00 File Offset: 0x00073100
 		private static void PostUnitRemovedEvent(Entity removedUnitEntityID, SimFrameNumber frameNumber)
 		{
-			Unit component = removedUnitEntityID.GetComponent(2);
+			Unit component = removedUnitEntityID.GetComponent<Unit>(2);
 			if (component != null)
 			{
 				UnitRemoveReason reason = UnitRemoveReason.Despawn;
@@ -128,7 +128,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x060014FC RID: 5372 RVA: 0x00074F34 File Offset: 0x00073134
 		private static void PostUnitDiedEvent(Entity dyingUnitEntityID, bool skipDeathSequence, SimFrameNumber frameNumber)
 		{
-			Unit component = dyingUnitEntityID.GetComponent(2);
+			Unit component = dyingUnitEntityID.GetComponent<Unit>(2);
 			if (component != null)
 			{
 				UnitRemoveReason reason = UnitRemoveReason.Destroy;
@@ -139,7 +139,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x060014FD RID: 5373 RVA: 0x00074F68 File Offset: 0x00073168
 		private static void PostUnitDockedEvent(Entity dockingUnitEntityID, SimFrameNumber frameNumber)
 		{
-			Unit component = dockingUnitEntityID.GetComponent(2);
+			Unit component = dockingUnitEntityID.GetComponent<Unit>(2);
 			if (component != null)
 			{
 				UnitRemoveReason reason = UnitRemoveReason.UnitDock;
@@ -152,7 +152,7 @@ namespace BBI.Game.Simulation
 		{
 			if (ev.KillingEntity.IsValid() && ev.KillingEntity.HasComponent(39))
 			{
-				Experience component = ev.KillingEntity.GetComponent(39);
+				Experience component = ev.KillingEntity.GetComponent<Experience>(39);
 				component.OnUnitDestroyed(ev);
 			}
 		}
@@ -165,7 +165,7 @@ namespace BBI.Game.Simulation
 				Log.Error(Log.Channel.Core, "jbax [hangar] OnHangarDespawnUnitMessage failed to find valid entity", new object[0]);
 				return;
 			}
-			Unit component = ce.DespawnUnit.GetComponent(2);
+			Unit component = ce.DespawnUnit.GetComponent<Unit>(2);
 			if (component != null)
 			{
 				this.mUnitsReadyDelayedDocking.Add(component);
@@ -183,7 +183,7 @@ namespace BBI.Game.Simulation
 			Entity dockingEntity = ce.DockingEntity;
 			if (dockingEntity.IsValid())
 			{
-				Unit component = dockingEntity.GetComponent(2);
+				Unit component = dockingEntity.GetComponent<Unit>(2);
 				if (component != null)
 				{
 					switch (ce.Action)
@@ -311,7 +311,7 @@ namespace BBI.Game.Simulation
 
 		// Token: 0x17000404 RID: 1028
 		// (get) Token: 0x06001504 RID: 5380 RVA: 0x0007548C File Offset: 0x0007368C
-		internal IEnumerable<Unit> Units
+		public IEnumerable<Unit> Units
 		{
 			get
 			{
@@ -361,7 +361,7 @@ namespace BBI.Game.Simulation
 		{
 			foreach (Entity entity in loadedEntities)
 			{
-				Unit component = entity.GetComponent(2);
+				Unit component = entity.GetComponent<Unit>(2);
 				if (component != null)
 				{
 					if (component.Diagonal > UnitManager.sMaxUnitDiagonal)
@@ -487,15 +487,15 @@ namespace BBI.Game.Simulation
 			if (unit != null && unit.Entity.IsValid())
 			{
 				Maneuvering component = Maneuvering.Create(unit.Entity, position, orientation, unit.Attributes.NavMeshAttributes);
-				unit.Entity.AddComponent(12, component);
+				unit.Entity.AddComponent<Maneuvering>(12, component);
 				if (unit.MovementAttributes != null && unit.MovementAttributes.Dynamics != null)
 				{
 					Fixed64 @fixed = unit.MovementAttributes.Dynamics.Width >> 1;
 					Fixed64 capsuleAxisLength = unit.MovementAttributes.Dynamics.Length - (@fixed << 1);
 					Shape component2 = Shape.Create(position, orientation, @fixed, capsuleAxisLength, unit.Attributes.BlocksLOF, false, unit.Attributes.WorldHeightOffset);
-					unit.Entity.AddComponent(33, component2);
+					unit.Entity.AddComponent<Shape>(33, component2);
 				}
-				Detectable component3 = unit.Entity.GetComponent(21);
+				Detectable component3 = unit.Entity.GetComponent<Detectable>(21);
 				if (component3 != null)
 				{
 					foreach (CommanderID sensingCommander in Sim.Instance.CommanderManager.CommanderIDs)
@@ -503,7 +503,7 @@ namespace BBI.Game.Simulation
 						component3.SetDetectionState(sensingCommander, DetectionState.Hidden);
 					}
 				}
-				unit.Entity.AddComponent(20, Sensor.Create(unit.Attributes, unit.Entity));
+				unit.Entity.AddComponent<Sensor>(20, Sensor.Create(unit.Attributes, unit.Entity));
 				SimMap map = Sim.Instance.Map;
 			}
 		}
@@ -525,20 +525,20 @@ namespace BBI.Game.Simulation
 			{
 				if (!dockDespawn)
 				{
-					unit.Entity.AddComponent(42, default(InstantDespawn));
+					unit.Entity.AddComponent<InstantDespawn>(42, default(InstantDespawn));
 				}
 				UnitManager.DeactivatePassiveAbilities(unit);
 				Maneuvering.RemoveComponent(unit.Entity);
-				unit.Entity.RemoveComponent(10);
-				unit.Entity.RemoveComponent(33);
-				unit.Entity.RemoveComponent(20);
+				unit.Entity.RemoveComponent<Position>(10);
+				unit.Entity.RemoveComponent<Shape>(33);
+				unit.Entity.RemoveComponent<Sensor>(20);
 			}
 		}
 
 		// Token: 0x06001510 RID: 5392 RVA: 0x00075C74 File Offset: 0x00073E74
 		private static void ActivateAutocastAbilities(Unit unit)
 		{
-			List<Ability> listComponent = unit.Entity.GetListComponent(17);
+			List<Ability> listComponent = unit.Entity.GetListComponent<Ability>(17);
 			if (listComponent != null)
 			{
 				foreach (Ability ability in listComponent)
@@ -554,7 +554,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x06001511 RID: 5393 RVA: 0x00075D08 File Offset: 0x00073F08
 		private static void ActivatePassiveAbilities(Unit unit)
 		{
-			List<Ability> listComponent = unit.Entity.GetListComponent(17);
+			List<Ability> listComponent = unit.Entity.GetListComponent<Ability>(17);
 			if (listComponent != null)
 			{
 				CommanderID entityCommanderID = Sim.GetEntityCommanderID(unit.Entity);
@@ -571,7 +571,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x06001512 RID: 5394 RVA: 0x00075D94 File Offset: 0x00073F94
 		internal static void DeactivatePassiveAbilities(Unit unit)
 		{
-			List<Ability> listComponent = unit.Entity.GetListComponent(17);
+			List<Ability> listComponent = unit.Entity.GetListComponent<Ability>(17);
 			if (listComponent != null)
 			{
 				CommanderID entityCommanderID = Sim.GetEntityCommanderID(unit.Entity);

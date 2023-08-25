@@ -593,6 +593,11 @@ namespace BBI.Unity.Game.UI
 		private void UpdateRelicViewHUDState(CollectibleEntityView view)
 		{
 			SimStateFrame currentSimFrame = ShipbreakersMain.CurrentSimFrame;
+			if (MapModManager.CustomLayout && view.Entity != Entity.None && view.Entity.HasComponent(10) && view.Entity.GetComponent<Position>(10).Position2D.X > Fixed64.FromInt(0x186a0))
+			{
+				this.DespawnAndRemoveRelicView(view.Entity, view);
+				return;
+			}
 			if (currentSimFrame == null)
 			{
 				return;

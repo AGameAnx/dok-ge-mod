@@ -24,6 +24,6 @@ namespace BBI.Unity.Game.Data
 
 		// Token: 0x04000133 RID: 307
 		[SerializeField]
-		private FactionAttributesData m_FactionAttributes;
+		public FactionAttributesData m_FactionAttributes;
 	}
 }

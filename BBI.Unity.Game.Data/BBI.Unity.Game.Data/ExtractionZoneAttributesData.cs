@@ -38,10 +38,10 @@ namespace BBI.Unity.Game.Data
 
 		// Token: 0x04000309 RID: 777
 		[SerializeField]
-		private float m_RadiusMeters = 1f;
+		public float m_RadiusMeters = 1f;
 
 		// Token: 0x0400030A RID: 778
 		[SerializeField]
-		private QueryContainerBase m_Query;
+		public QueryContainerBase m_Query;
 	}
 }

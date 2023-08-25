@@ -271,22 +271,19 @@ namespace BBI.Unity.Game.UI
 					this.mSettings.SpeedValueLabel.color = this.mUnitInteractionAttributes.BuffInfo.BuffColor(buffComparison2);
 				}
 				int buffComparison3 = 0;
-				int num2 = 0;
+				int baseDamagePerRound = 0;
+				int damagePacketsPerShot = 1;
 				if (!typeAttributes.WeaponLoadout.IsNullOrEmpty<WeaponBinding>())
 				{
 					WeaponBinding weaponBinding = typeAttributes.WeaponLoadout[0];
 					if (weaponBinding != null)
 					{
-						int damagePacketsPerShot = weaponBinding.Weapon.DamagePacketsPerShot;
-						num2 = Fixed64.IntValue(weaponBinding.Weapon.BaseDamagePerRound);
-						num2 = ((damagePacketsPerShot > 1) ? (num2 / damagePacketsPerShot) : num2);
+						damagePacketsPerShot = weaponBinding.Weapon.DamagePacketsPerShot;
+						baseDamagePerRound = Fixed64.IntValue(weaponBinding.Weapon.BaseDamagePerRound);
 						WeaponAttributes entityTypeAttributes4 = ShipbreakersMain.GetEntityTypeAttributes<WeaponAttributes>(typeID, weaponBinding.Weapon.Name);
 						if (entityTypeAttributes4 != null)
 						{
-							int damagePacketsPerShot2 = entityTypeAttributes4.DamagePacketsPerShot;
-							int num3 = Fixed64.IntValue(entityTypeAttributes4.BaseDamagePerRound);
-							num3 = ((damagePacketsPerShot2 > 1) ? (num3 / damagePacketsPerShot2) : num3);
-							buffComparison3 = num2.CompareTo(num3);
+							buffComparison3 = baseDamagePerRound.CompareTo(Fixed64.IntValue(entityTypeAttributes4.BaseDamagePerRound));
 						}
 						else
 						{
@@ -305,12 +302,11 @@ namespace BBI.Unity.Game.UI
 						});
 					}
 				}
-				if (flag || this.mLastWeaponDamageValue != num2)
+				if (flag || this.mLastWeaponDamageValue != baseDamagePerRound || this.mLastWeaponPacketsValue != damagePacketsPerShot)
 				{
-					this.mTempLocalizationFormatObjects[0] = num2;
-					this.mTempLocalizationFormatObjects[1] = null;
-					this.mSettings.UnitDamageValueLabel.text = this.mSettings.UnitDamageFormat.TokenFormat(this.mTempLocalizationFormatObjects, this.mLocMan);
-					this.mLastWeaponDamageValue = num2;
+					this.mSettings.UnitDamageValueLabel.text = damagePacketsPerShot != 1 ? string.Format("{0} | {1}", baseDamagePerRound, damagePacketsPerShot) : string.Format("{0}", baseDamagePerRound);
+					this.mLastWeaponDamageValue = baseDamagePerRound;
+					this.mLastWeaponPacketsValue = damagePacketsPerShot;
 					this.mSettings.UnitDamageValueLabel.color = this.mUnitInteractionAttributes.BuffInfo.BuffColor(buffComparison3);
 				}
 				if (flag || this.mLastUnitArmourValue != typeAttributes.Armour)
@@ -388,6 +384,7 @@ namespace BBI.Unity.Game.UI
 		private ExperienceState mLastExperienceState;
 
 		private int mLastWeaponDamageValue = -1;
+		private int mLastWeaponPacketsValue = -1;
 
 		private int mLastUnitArmourValue = -1;
 

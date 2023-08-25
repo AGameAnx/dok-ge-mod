@@ -5,7 +5,7 @@ using BBI.Core.Data;
 namespace BBI.Game.SaveLoad
 {
 	// Token: 0x02000176 RID: 374
-	internal struct WreckSaveState : IComponentState
+	public struct WreckSaveState : IComponentState
 	{
 		// Token: 0x170000FA RID: 250
 		// (get) Token: 0x0600064F RID: 1615 RVA: 0x00021076 File Offset: 0x0001F276

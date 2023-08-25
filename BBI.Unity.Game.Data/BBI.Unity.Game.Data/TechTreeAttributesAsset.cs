@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BBI.Unity.Game.Data
 {
-	internal sealed class TechTreeAttributesAsset : AssetBase, IEntityTypeRegistrationRequired
+	public sealed class TechTreeAttributesAsset : AssetBase, IEntityTypeRegistrationRequired
 	{
 		public override object Data
 		{

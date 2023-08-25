@@ -77,7 +77,28 @@ namespace BBI.Unity.Game.World
 		{
 			get
 			{
-				return this.m_LevelEntriesMP;
+				LevelDefinition[] levelDefinitionArray = new LevelDefinition[(int)this.m_LevelEntriesMP.Length + MapModManager.maps.Count];
+				LevelDefinition[] mLevelEntriesMP = this.m_LevelEntriesMP;
+				for (int i = 0; i < (int)mLevelEntriesMP.Length; i++)
+				{
+					LevelDefinition item = mLevelEntriesMP[i];
+					item.m_NameLocId = MapModManager.mapNameOverrides[string.Concat(item.SceneName, (item.IsFFAOnly ? "" : "-"))];
+					item.m_LoadArtStreamingPath = null;
+				}
+				this.m_LevelEntriesMP.CopyTo(levelDefinitionArray, 0);
+				int length = (int)this.m_LevelEntriesMP.Length;
+				foreach (KeyValuePair<string, MapModManager.MapMetaData> map in MapModManager.maps)
+				{
+					LevelDefinition key = this.FindLevelFromSceneName(map.Value.name, GameMode.SinglePlayer).Copy();
+					key.m_SceneName = map.Key;
+					key.m_IsFFAOnly = map.Value.gameMode == TeamSetting.FFA;
+					key.m_NameLocId = map.Value.locName;
+					key.m_LoadArtStreamingPath = null;
+					int num = length;
+					length = num + 1;
+					levelDefinitionArray[num] = key;
+				}
+				return levelDefinitionArray;
 			}
 		}
 

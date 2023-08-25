@@ -10,7 +10,7 @@ using BBI.Game.Events;
 namespace BBI.Game.Simulation
 {
 	// Token: 0x020003CC RID: 972
-	internal sealed class Resource
+	public sealed class Resource
 	{
 		// Token: 0x170003DC RID: 988
 		// (get) Token: 0x06001410 RID: 5136 RVA: 0x0006FD36 File Offset: 0x0006DF36
@@ -75,7 +75,7 @@ namespace BBI.Game.Simulation
 		// Token: 0x170003E2 RID: 994
 		// (get) Token: 0x06001416 RID: 5142 RVA: 0x0006FD75 File Offset: 0x0006DF75
 		// (set) Token: 0x06001417 RID: 5143 RVA: 0x0006FD7D File Offset: 0x0006DF7D
-		internal bool Disabled
+		public bool Disabled
 		{
 			get
 			{
@@ -121,7 +121,7 @@ namespace BBI.Game.Simulation
 					break;
 				case ResourceType.Resource3:
 				{
-					Wreck component = this.mResourceEntity.GetComponent(37);
+					Wreck component = this.mResourceEntity.GetComponent<Wreck>(37);
 					num = component.SalvageWreck(harvester, amount);
 					this.mRemainingAmount -= num;
 					break;
@@ -152,7 +152,7 @@ namespace BBI.Game.Simulation
 		}
 
 		// Token: 0x0600141C RID: 5148 RVA: 0x0006FE95 File Offset: 0x0006E095
-		internal void SetRemainingResources(int remainingResources)
+		public void SetRemainingResources(int remainingResources)
 		{
 			this.mRemainingAmount = remainingResources;
 		}
@@ -191,7 +191,7 @@ namespace BBI.Game.Simulation
 			int num = Checksum.Combine(this.mRemainingAmount, this.mMaxAmount, (int)this.mResourceType, this.mMaxHarvesters, this.mDisabled.GetHashCode());
 			if (this.mResourceEntity.HasComponent(10))
 			{
-				Position component = this.mResourceEntity.GetComponent(10);
+				Position component = this.mResourceEntity.GetComponent<Position>(10);
 				num = Checksum.Combine(num, component.Position2D.GetHashCode());
 			}
 			return num;

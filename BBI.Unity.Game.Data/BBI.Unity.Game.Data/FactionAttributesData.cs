@@ -149,25 +149,30 @@ namespace BBI.Unity.Game.Data
 		{
 		}
 
+		public FactionAttributesData Copy()
+		{
+			return (FactionAttributesData)base.MemberwiseClone();
+		}
+
 		// Token: 0x04000480 RID: 1152
 		[SerializeField]
 		[Tooltip("Faction name LocID for display purposes. Also used for CommanderAttributes matching for saves/replays.")]
-		private string m_FactionName;
+		public string m_FactionName;
 
 		// Token: 0x04000481 RID: 1153
 		[Tooltip("FactionID for gameplay ID purposes, such as achievements")]
 		[SerializeField]
-		private FactionID m_FactionID;
+		public FactionID m_FactionID;
 
 		// Token: 0x04000482 RID: 1154
 		[SerializeField]
 		[Tooltip("Faction name for VO purposes")]
-		private string m_VOName;
+		public string m_VOName;
 
 		// Token: 0x04000483 RID: 1155
 		[SerializeField]
 		[AssetBundlePath]
-		private string m_VOAssetBundle;
+		public string m_VOAssetBundle;
 
 		// Token: 0x04000484 RID: 1156
 		[StreamableAssetTypeProperty(typeof(GameObject))]
@@ -177,19 +182,19 @@ namespace BBI.Unity.Game.Data
 		// Token: 0x04000485 RID: 1157
 		[FabricClipSelector]
 		[SerializeField]
-		private string m_MusicTrigger;
+		public string m_MusicTrigger;
 
 		// Token: 0x04000486 RID: 1158
 		[SerializeField]
-		private NotificationAudioAttributesAsset m_NotificationAudio;
+		public NotificationAudioAttributesAsset m_NotificationAudio;
 
 		// Token: 0x04000487 RID: 1159
 		[SerializeField]
-		private TechTreeAttributesAsset m_TechTreeAttributes;
+		public TechTreeAttributesAsset m_TechTreeAttributes;
 
 		// Token: 0x04000488 RID: 1160
 		[SerializeField]
-		private bool m_ScaleWithDynamicDifficulty;
+		public bool m_ScaleWithDynamicDifficulty;
 
 		// Token: 0x04000489 RID: 1161
 		[SerializeField]

@@ -13,6 +13,7 @@ using BBI.Unity.Game.Events;
 using BBI.Unity.Game.HUD;
 using HutongGames.PlayMaker;
 using UnityEngine;
+using BBI.Core.Utility.FixedPoint;
 
 namespace BBI.Unity.Game.World
 {
@@ -29,9 +30,12 @@ namespace BBI.Unity.Game.World
 				{
 					return new Bounds(Vector3.zero, Vector3.one * float.PositiveInfinity);
 				}
-				Bounds bounds = this.ViewConstraintsCollider.bounds;
-				bounds.size -= new Vector3(200f, 0f, 200f);
-				return bounds;
+				Vector2r vector2r = (MapModManager.boundsMin + MapModManager.boundsMax) / Fixed64.FromConstFloat(2f);
+				Vector2r vector2r1 = MapModManager.boundsMax - MapModManager.boundsMin;
+				Bounds bound = new Bounds(new Vector3(float.Parse(vector2r.X.ToString()), 0f, float.Parse(vector2r.Y.ToString())), new Vector3(float.Parse(vector2r1.X.ToString()), 0f, float.Parse(vector2r1.Y.ToString())));
+				Bounds bound1 = (MapModManager.overrideBounds ? bound : this.ViewConstraintsCollider.bounds);
+				bound1.size = bound1.size - new Vector3(200f, 0f, 200f);
+				return bound1;
 			}
 		}
 
@@ -139,11 +143,11 @@ namespace BBI.Unity.Game.World
 		{
 			get
 			{
-				if (!UserCamera.mSensorsManagerActive)
+				if (UserCamera.mSensorsManagerActive)
 				{
-					return this.Thresholds.FurthestCameraDistanceGameplay;
+					return this.Thresholds.FurthestCameraDistanceSensors;
 				}
-				return this.Thresholds.FurthestCameraDistanceSensors;
+				return MapModManager.GetMaxCameraDistance(this.Thresholds.FurthestCameraDistanceGameplay);
 			}
 		}
 
@@ -236,7 +240,7 @@ namespace BBI.Unity.Game.World
 		{
 			get
 			{
-				return Input.GetMouseButton(1);
+				return UnityEngine.Input.GetMouseButton(1);
 			}
 		}
 
@@ -246,7 +250,7 @@ namespace BBI.Unity.Game.World
 		{
 			get
 			{
-				return Input.GetMouseButton(2);
+				return UnityEngine.Input.GetMouseButton(2);
 			}
 		}
 
@@ -1290,7 +1294,7 @@ namespace BBI.Unity.Game.World
 			}
 			this.mGameViewSettings = new UserCamera.CamFramingSettings(this.MotionValues.DefaultView);
 			this.mSensorsViewSettings = new UserCamera.CamFramingSettings(this.MotionValues.DefaultSensorsView);
-			this.ChangeCameraStateWithMutationApply(UserCamera.CameraMotionState.Homing, Input.mousePosition, this.CamTargetInternal);
+			this.ChangeCameraStateWithMutationApply(UserCamera.CameraMotionState.Homing, UnityEngine.Input.mousePosition, this.CamTargetInternal);
 		}
 
 		// Token: 0x06001D12 RID: 7442 RVA: 0x000AA794 File Offset: 0x000A8994
@@ -1671,7 +1675,7 @@ namespace BBI.Unity.Game.World
 		{
 			Vector3 originalPosition = newPosition;
 			Quaternion originalOrientation = newOrientation;
-			Vector2 vector = Input.mousePosition;
+			Vector2 vector = UnityEngine.Input.mousePosition;
 			RaycastHit raycastHit;
 			switch (this.mMotionState)
 			{
@@ -1858,7 +1862,7 @@ namespace BBI.Unity.Game.World
 					}
 					else if (this.mMotionState == UserCamera.CameraMotionState.PointTo || this.mMotionState == UserCamera.CameraMotionState.PointToAndFollow || this.mMotionState == UserCamera.CameraMotionState.Homing)
 					{
-						this.ChangeCameraState(UserCamera.CameraMotionState.None, Input.mousePosition, null, ref newPosition, ref newOrientation);
+						this.ChangeCameraState(UserCamera.CameraMotionState.None, UnityEngine.Input.mousePosition, null, ref newPosition, ref newOrientation);
 					}
 					else if (this.mMotionState == UserCamera.CameraMotionState.Following)
 					{
@@ -1963,7 +1967,7 @@ namespace BBI.Unity.Game.World
 			bool flag = !this.IsCinematicMode || (this.IsCinematicMode && this.mActiveCinematicController.IsCameraMotionAllowed(UserCamera.CameraMotionTypes.Orbit));
 			float num = (!this.IsCinematicMode || (this.IsCinematicMode && this.mActiveCinematicController.IsCameraMotionAllowed(UserCamera.CameraMotionTypes.Pitch))) ? this.MouseXOrbitSensitivity : 0f;
 			float num2 = flag ? this.MouseYOrbitSensitivity : 0f;
-			Vector2 vector = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+			Vector2 vector = new Vector2(UnityEngine.Input.GetAxis("Mouse X"), UnityEngine.Input.GetAxis("Mouse Y"));
 			float num3 = vector.y * this.MotionValues.AngularVelocityAccelerationDegPerSec;
 			float num4 = vector.x * this.MotionValues.AngularVelocityAccelerationDegPerSec;
 			this.mOrbitAngularVelocityDegPerSec += new Vector2(-num3 * num, num4 * num2);
@@ -2136,22 +2140,22 @@ namespace BBI.Unity.Game.World
 			{
 				float num3 = this.mScreenWidthInMeters * this.MaxPanVelocityPercentScreenWidthPerSecond * deltaTime;
 				ControlSettings controls = ShipbreakersMain.UserSettings.Controls;
-				if (Input.GetKey(controls.HotKeyDefinitions[HotKeyOperation.PanCameraLeft].Combo.Primary))
+				if (UnityEngine.Input.GetKey(controls.HotKeyDefinitions[HotKeyOperation.PanCameraLeft].Combo.Primary))
 				{
 					num -= num3;
 					flag = true;
 				}
-				if (Input.GetKey(controls.HotKeyDefinitions[HotKeyOperation.PanCameraRight].Combo.Primary))
+				if (UnityEngine.Input.GetKey(controls.HotKeyDefinitions[HotKeyOperation.PanCameraRight].Combo.Primary))
 				{
 					num += num3;
 					flag = true;
 				}
-				if (Input.GetKey(controls.HotKeyDefinitions[HotKeyOperation.PanCameraUp].Combo.Primary))
+				if (UnityEngine.Input.GetKey(controls.HotKeyDefinitions[HotKeyOperation.PanCameraUp].Combo.Primary))
 				{
 					num2 += num3;
 					flag = true;
 				}
-				if (Input.GetKey(controls.HotKeyDefinitions[HotKeyOperation.PanCameraDown].Combo.Primary))
+				if (UnityEngine.Input.GetKey(controls.HotKeyDefinitions[HotKeyOperation.PanCameraDown].Combo.Primary))
 				{
 					num2 -= num3;
 					flag = true;

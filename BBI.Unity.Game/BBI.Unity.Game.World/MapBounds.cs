@@ -33,6 +33,10 @@ namespace BBI.Unity.Game.World
 		{
 			get
 			{
+				if (MapModManager.overrideBounds)
+				{
+					return MapModManager.boundsMin;
+				}
 				return this.mMin;
 			}
 		}
@@ -43,6 +47,10 @@ namespace BBI.Unity.Game.World
 		{
 			get
 			{
+				if (MapModManager.overrideBounds)
+				{
+					return MapModManager.boundsMax;
+				}
 				return this.mMax;
 			}
 		}

@@ -6,6 +6,7 @@ using BBI.Core.Utility.FixedPoint;
 using BBI.Game.Data;
 using BBI.Unity.Game.Data;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace BBI.Unity.Game.World
 {
@@ -18,6 +19,31 @@ namespace BBI.Unity.Game.World
 		{
 			get
 			{
+				if (MapModManager.CustomLayout)
+				{
+					SceneSpawnInfo.TeamSpawnInfo[] teamSpawnInfoArray = new SceneSpawnInfo.TeamSpawnInfo[2];
+					SceneSpawnInfo.TeamSpawnInfo teamSpawnInfo = new SceneSpawnInfo.TeamSpawnInfo()
+					{
+						m_PlayerSpawnInfos = new SceneSpawnInfo.PlayerSpawnInfo[] { new SceneSpawnInfo.PlayerSpawnInfo(), new SceneSpawnInfo.PlayerSpawnInfo(), new SceneSpawnInfo.PlayerSpawnInfo() }
+					};
+					teamSpawnInfoArray[0] = teamSpawnInfo;
+					teamSpawnInfo = new SceneSpawnInfo.TeamSpawnInfo()
+					{
+						m_PlayerSpawnInfos = new SceneSpawnInfo.PlayerSpawnInfo[] { new SceneSpawnInfo.PlayerSpawnInfo(), new SceneSpawnInfo.PlayerSpawnInfo(), new SceneSpawnInfo.PlayerSpawnInfo() }
+					};
+					teamSpawnInfoArray[1] = teamSpawnInfo;
+					this.m_TeamSpawnInfos = teamSpawnInfoArray;
+					for (int i = 0; i < 6; i++)
+					{
+						this.m_TeamSpawnInfos[i / 3].m_PlayerSpawnInfos[i % 3].m_SpawnPoint = (new GameObject()).transform;
+					}
+					foreach (MapModManager.MapSpawnData spawn in MapModManager.spawns)
+					{
+						this.m_TeamSpawnInfos[(spawn.team == 0 ? 1 : 0)].m_PlayerSpawnInfos[spawn.index].m_SpawnPoint.Translate(spawn.position);
+						this.m_TeamSpawnInfos[(spawn.team == 0 ? 1 : 0)].m_PlayerSpawnInfos[spawn.index].m_SpawnPoint.Rotate(0f, spawn.angle, 0f);
+						this.m_TeamSpawnInfos[(spawn.team == 0 ? 1 : 0)].m_PlayerSpawnInfos[spawn.index].m_DefaultCameraHeading = spawn.cameraAngle;
+					}
+				}
 				return this.m_TeamSpawnInfos;
 			}
 		}
@@ -28,6 +54,20 @@ namespace BBI.Unity.Game.World
 		{
 			get
 			{
+				if (MapModManager.CustomLayout)
+				{
+					this.m_FFASpawnInfos = new SceneSpawnInfo.PlayerSpawnInfo[] { new SceneSpawnInfo.PlayerSpawnInfo(), new SceneSpawnInfo.PlayerSpawnInfo(), new SceneSpawnInfo.PlayerSpawnInfo(), new SceneSpawnInfo.PlayerSpawnInfo(), new SceneSpawnInfo.PlayerSpawnInfo(), new SceneSpawnInfo.PlayerSpawnInfo() };
+					for (int i = 0; i < 6; i++)
+					{
+						this.m_FFASpawnInfos[i].m_SpawnPoint = (new GameObject()).transform;
+					}
+					foreach (MapModManager.MapSpawnData spawn in MapModManager.spawns)
+					{
+						this.m_FFASpawnInfos[spawn.team].m_SpawnPoint.Translate(spawn.position);
+						this.m_FFASpawnInfos[spawn.team].m_SpawnPoint.Rotate(0f, spawn.angle, 0f);
+						this.m_FFASpawnInfos[spawn.team].m_DefaultCameraHeading = spawn.cameraAngle;
+					}
+				}
 				return this.m_FFASpawnInfos;
 			}
 		}
@@ -102,7 +142,7 @@ namespace BBI.Unity.Game.World
 
 		// Token: 0x040018D8 RID: 6360
 		[SerializeField]
-		private SceneSpawnInfo.TeamSpawnInfo[] m_TeamSpawnInfos;
+		public SceneSpawnInfo.TeamSpawnInfo[] m_TeamSpawnInfos;
 
 		// Token: 0x040018D9 RID: 6361
 		[SerializeField]
@@ -181,7 +221,7 @@ namespace BBI.Unity.Game.World
 
 			// Token: 0x040018DA RID: 6362
 			[SerializeField]
-			private Transform m_SpawnPoint;
+			public Transform m_SpawnPoint;
 
 			// Token: 0x040018DB RID: 6363
 			[SerializeField]
@@ -219,7 +259,7 @@ namespace BBI.Unity.Game.World
 
 			// Token: 0x040018DC RID: 6364
 			[SerializeField]
-			private SceneSpawnInfo.PlayerSpawnInfo[] m_PlayerSpawnInfos;
+			public SceneSpawnInfo.PlayerSpawnInfo[] m_PlayerSpawnInfos;
 
 			// Token: 0x040018DD RID: 6365
 			[SerializeField]

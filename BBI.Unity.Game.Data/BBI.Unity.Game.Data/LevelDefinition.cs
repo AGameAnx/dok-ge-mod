@@ -6,6 +6,7 @@ using BBI.Unity.Core.PropertyAttributes;
 using BBI.Unity.Core.Utility;
 using BBI.Unity.Game.Data.Network;
 using UnityEngine;
+using BBI.Unity.Game.World;
 
 namespace BBI.Unity.Game.Data
 {
@@ -69,6 +70,10 @@ namespace BBI.Unity.Game.Data
 		{
 			get
 			{
+				if (MapModManager.CustomLayout)
+				{
+					return BBI.Game.Data.GameMode.Multiplayer;
+				}
 				return this.m_GameMode;
 			}
 		}
@@ -99,7 +104,7 @@ namespace BBI.Unity.Game.Data
 		{
 			get
 			{
-				return this.m_MaxPlayers;
+				return 6;
 			}
 		}
 
@@ -209,6 +214,10 @@ namespace BBI.Unity.Game.Data
 		{
 			get
 			{
+				if (MapModManager.maps.ContainsKey(this.SceneName))
+				{
+					return MapModManager.heatPoints;
+				}
 				return this.m_AmbientHeatPoints;
 			}
 		}
@@ -229,7 +238,20 @@ namespace BBI.Unity.Game.Data
 		{
 			get
 			{
-				return this.m_SceneSpawnInfo;
+				if (!MapModManager.CustomLayout)
+				{
+					return this.m_SceneSpawnInfo;
+				}
+				GameObject gameObject = new GameObject();
+				BBI.Unity.Game.World.SceneSpawnInfo teamSpawnInfo = gameObject.AddComponent<BBI.Unity.Game.World.SceneSpawnInfo>();
+				teamSpawnInfo.m_TeamSpawnInfos = new BBI.Unity.Game.World.SceneSpawnInfo.TeamSpawnInfo[] { new BBI.Unity.Game.World.SceneSpawnInfo.TeamSpawnInfo(), new BBI.Unity.Game.World.SceneSpawnInfo.TeamSpawnInfo() };
+				teamSpawnInfo.m_TeamSpawnInfos[0].m_PlayerSpawnInfos = new BBI.Unity.Game.World.SceneSpawnInfo.PlayerSpawnInfo[] { new BBI.Unity.Game.World.SceneSpawnInfo.PlayerSpawnInfo(), new BBI.Unity.Game.World.SceneSpawnInfo.PlayerSpawnInfo(), new BBI.Unity.Game.World.SceneSpawnInfo.PlayerSpawnInfo() };
+				teamSpawnInfo.m_TeamSpawnInfos[1].m_PlayerSpawnInfos = new BBI.Unity.Game.World.SceneSpawnInfo.PlayerSpawnInfo[] { new BBI.Unity.Game.World.SceneSpawnInfo.PlayerSpawnInfo(), new BBI.Unity.Game.World.SceneSpawnInfo.PlayerSpawnInfo(), new BBI.Unity.Game.World.SceneSpawnInfo.PlayerSpawnInfo() };
+				for (int i = 0; i < 6; i++)
+				{
+					teamSpawnInfo.m_TeamSpawnInfos[i / 3].m_PlayerSpawnInfos[i % 3].m_SpawnPoint = (new GameObject()).transform;
+				}
+				return gameObject;
 			}
 		}
 
@@ -269,7 +291,7 @@ namespace BBI.Unity.Game.Data
 		{
 			get
 			{
-				return this.m_ShowMapBoundariesSensors;
+				return true;
 			}
 		}
 
@@ -320,10 +342,6 @@ namespace BBI.Unity.Game.Data
 		{
 			get
 			{
-				if (this.IsDevelopmentLevel)
-				{
-					return false;
-				}
 				foreach (string levelName in this.GetAllSubscenes())
 				{
 					if (!Application.CanStreamedLevelBeLoaded(levelName))
@@ -357,125 +375,130 @@ namespace BBI.Unity.Game.Data
 		{
 		}
 
+		public LevelDefinition Copy()
+		{
+			return (LevelDefinition)this.MemberwiseClone();
+		}
+
 		// Token: 0x04000339 RID: 825
 		[SerializeField]
-		private string m_SceneName = string.Empty;
+		public string m_SceneName = string.Empty;
 
 		// Token: 0x0400033A RID: 826
 		[SerializeField]
-		private int m_SaveLoadVersion;
+		public int m_SaveLoadVersion;
 
 		// Token: 0x0400033B RID: 827
 		[SerializeField]
-		private string m_NameLocId = string.Empty;
+		public string m_NameLocId = string.Empty;
 
 		// Token: 0x0400033C RID: 828
 		[SerializeField]
-		private string m_MapDescriptionLocId = string.Empty;
+		public string m_MapDescriptionLocId = string.Empty;
 
 		// Token: 0x0400033D RID: 829
 		[SerializeField]
-		private MultiSceneAsset m_MultiScene;
+		public MultiSceneAsset m_MultiScene;
 
 		// Token: 0x0400033E RID: 830
 		[SerializeField]
-		private GameMode m_GameMode = GameMode.Multiplayer;
+		public GameMode m_GameMode = GameMode.Multiplayer;
 
 		// Token: 0x0400033F RID: 831
 		[SerializeField]
-		private LevelDefinition.MissionIsLoadingScreenAuthoredData m_MissionIsLoadingScreenAuthoredData;
+		public LevelDefinition.MissionIsLoadingScreenAuthoredData m_MissionIsLoadingScreenAuthoredData;
 
 		// Token: 0x04000340 RID: 832
 		[SerializeField]
-		private LevelDefinition.PostMissionScreenAuthoredData m_PostMissionAuthoredData;
+		public LevelDefinition.PostMissionScreenAuthoredData m_PostMissionAuthoredData;
 
 		// Token: 0x04000341 RID: 833
 		[SerializeField]
-		private int m_MaxPlayers = 1;
+		public int m_MaxPlayers = 1;
 
 		// Token: 0x04000342 RID: 834
 		[StreamableAssetTypeProperty(typeof(Texture2D))]
 		[SerializeField]
-		private StreamableAssetContainer m_SplashArtStreamingPath = new StreamableAssetContainer();
+		public StreamableAssetContainer m_SplashArtStreamingPath = new StreamableAssetContainer();
 
 		// Token: 0x04000343 RID: 835
 		[SerializeField]
 		[StreamableAssetTypeProperty(typeof(Texture2D))]
-		private StreamableAssetContainer m_LoadArtStreamingPath = new StreamableAssetContainer();
+		public StreamableAssetContainer m_LoadArtStreamingPath = new StreamableAssetContainer();
 
 		// Token: 0x04000344 RID: 836
 		[SerializeField]
-		private string m_NextMissionSceneName = string.Empty;
+		public string m_NextMissionSceneName = string.Empty;
 
 		// Token: 0x04000345 RID: 837
 		[SerializeField]
-		private bool m_EnableCampaignPersistence;
+		public bool m_EnableCampaignPersistence;
 
 		// Token: 0x04000346 RID: 838
 		[SerializeField]
-		private bool m_ShowDifficultyInMenus = true;
+		public bool m_ShowDifficultyInMenus = true;
 
 		// Token: 0x04000347 RID: 839
 		[SerializeField]
-		private int m_MaximumSpawnedWreckArtifacts;
+		public int m_MaximumSpawnedWreckArtifacts;
 
 		// Token: 0x04000348 RID: 840
 		[SerializeField]
-		private string[] m_RandomArtifacts;
+		public string[] m_RandomArtifacts;
 
 		// Token: 0x04000349 RID: 841
 		[SerializeField]
-		private bool m_UsesSameMapAsPreviousMission;
+		public bool m_UsesSameMapAsPreviousMission;
 
 		// Token: 0x0400034A RID: 842
 		[SerializeField]
-		private bool m_PreserveUnitPositionsFromPreviousMap;
+		public bool m_PreserveUnitPositionsFromPreviousMap;
 
 		// Token: 0x0400034B RID: 843
 		[SerializeField]
-		private int m_DynamicDifficultyResourceTotal;
+		public int m_DynamicDifficultyResourceTotal;
 
 		// Token: 0x0400034C RID: 844
 		[SerializeField]
-		private int m_AmbientHeatPoints;
+		public int m_AmbientHeatPoints;
 
 		// Token: 0x0400034D RID: 845
 		[SerializeField]
-		private bool m_IsDevelopmentLevel;
+		public bool m_IsDevelopmentLevel;
 
 		// Token: 0x0400034E RID: 846
 		[SerializeField]
-		private GameObject m_SceneSpawnInfo;
+		public GameObject m_SceneSpawnInfo;
 
 		// Token: 0x0400034F RID: 847
 		[SerializeField]
-		private StatID m_SteamStatId;
+		public StatID m_SteamStatId;
 
 		// Token: 0x04000350 RID: 848
 		[SerializeField]
-		private bool m_CompleteToProgress = true;
+		public bool m_CompleteToProgress = true;
 
 		// Token: 0x04000351 RID: 849
 		[SerializeField]
-		private bool m_ShowMapBoundaries = true;
+		public bool m_ShowMapBoundaries = true;
 
 		// Token: 0x04000352 RID: 850
 		[SerializeField]
-		private bool m_ShowMapBoundariesSensors;
+		public bool m_ShowMapBoundariesSensors;
 
 		// Token: 0x04000353 RID: 851
 		[SerializeField]
-		private bool m_IsFFAOnly;
+		public bool m_IsFFAOnly;
 
 		// Token: 0x04000354 RID: 852
 		[SerializeField]
 		[AssetBundlePath]
-		private string m_AudioAssetBundle = string.Empty;
+		public string m_AudioAssetBundle = string.Empty;
 
 		// Token: 0x04000355 RID: 853
 		[Tooltip("Supported values: 1 (1v1), 2(2v2), 3(3v3). Otherwise, it's not a valid map for automatch.")]
 		[SerializeField]
-		private int[] m_SupportedAutomatchTeamSizes;
+		public int[] m_SupportedAutomatchTeamSizes;
 
 		// Token: 0x04000356 RID: 854
 		[NonSerialized]
