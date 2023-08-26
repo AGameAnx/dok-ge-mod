@@ -622,6 +622,9 @@ namespace BBI.Unity.Game.UI
 			this.mResourceViewController = new ResourceViewController(this.mUnitInterfaceController, this.m_ResourceViewControllerSettings, base.GlobalDependencyContainer, base.SessionDependencies);
 			this.mExtractionZoneViewController = new ExtractionZoneViewController(this.mUnitInterfaceController, this.m_ExtractionZoneViewControllerSettings, base.GlobalDependencyContainer, base.SessionDependencies);
 			this.mRelicViewController = new RelicViewController(this.mUnitInterfaceController, this.m_RelicViewControllerSettings, base.GlobalDependencyContainer, base.SessionDependencies);
+
+			// Hack to make the instance of this class accessible so that the entity event handler can be called
+			MapModManager.SExtractionZoneViewController = this.mExtractionZoneViewController;
 		}
 
 		protected override void OnSessionEnded()

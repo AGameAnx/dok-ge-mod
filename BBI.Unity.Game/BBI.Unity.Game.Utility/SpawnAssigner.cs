@@ -132,31 +132,54 @@ namespace BBI.Unity.Game.Utility
 		private static bool TryToAssignSpawnInfo(SceneSpawnInfo sceneSpawnInfo, TeamSetting teamSetting, Dictionary<CommanderID, TeamID> commanderTeamIDs, out List<CommanderSpawnInfo> assignedSpawnInfo)
 		{
 			assignedSpawnInfo = new List<CommanderSpawnInfo>();
-			SpawnAttributes[] array = SpawnAssigner.FlattenSceneSpawnInfo(sceneSpawnInfo, teamSetting);
-			SpawnAttributes[] flattenedSpawnPoints = array;
+			SpawnAttributes[] flattenedSpawnPoints = SpawnAssigner.FlattenSceneSpawnInfo(sceneSpawnInfo, teamSetting);
 			Dictionary<TeamID, int[]> dictionary = SpawnAssigner.GenerateTeamSpawnIndices(sceneSpawnInfo, flattenedSpawnPoints);
 			if (dictionary == null)
 			{
 				Log.Error(Log.Channel.Data | Log.Channel.Gameplay, "Failed to generate team spawn indices. Unable to assign spawn points!", new object[0]);
 				return false;
 			}
-			if (teamSetting != TeamSetting.Team)
+			switch (teamSetting)
 			{
-				if (teamSetting != TeamSetting.FFA)
+			case TeamSetting.Team:
+				Dictionary<TeamID, int[]> modifiedSpawns = new Dictionary<TeamID, int[]>();
+				foreach(KeyValuePair<TeamID, int[]> entry in dictionary)
 				{
-					Log.Error(Log.Channel.Gameplay, "Unsupported TeamSetting {0}! Unable to generate spawn points!", new object[]
-					{
-						teamSetting.ToString()
-					});
+					int[] spawns = entry.Value;
+					if (entry.Key != TeamID.None) {
+						spawns = new int[] { entry.Value[0], entry.Value[0], entry.Value[0] };
+						entry.Value.CopyTo(spawns, 0);
+					}
+					modifiedSpawns[entry.Key] = spawns;
+				}
+				// Changed AssignType from Random to NotRandom
+				if (!SpawnAssigner.AssignTeamSpawnPoints(modifiedSpawns, commanderTeamIDs, SpawnAssigner.AssignType.Random, SpawnAssigner.AssignType.NotRandom, out assignedSpawnInfo))
+				{
 					return false;
 				}
-				if (!SpawnAssigner.AssignFFASpawnPoints(dictionary, commanderTeamIDs, SpawnAssigner.AssignType.Random, out assignedSpawnInfo))
+				break;
+			case TeamSetting.FFA:
+				Dictionary<TeamID, int[]> modifiedSpawnsFFA = new Dictionary<TeamID, int[]>();
+				foreach(KeyValuePair<TeamID, int[]> entry in dictionary)
+				{
+					int[] spawns = entry.Value;
+					if (entry.Key == TeamID.None) {
+						spawns = new int[] { entry.Value[0], entry.Value[0], entry.Value[0], entry.Value[0], entry.Value[0], entry.Value[0] };
+						entry.Value.CopyTo(spawns, 0);
+					}
+					modifiedSpawnsFFA[entry.Key] = spawns;
+				}
+				// Changed AssignType from Random to NotRandom
+				if (!SpawnAssigner.AssignFFASpawnPoints(modifiedSpawnsFFA, commanderTeamIDs, SpawnAssigner.AssignType.NotRandom, out assignedSpawnInfo))
 				{
 					return false;
 				}
-			}
-			else if (!SpawnAssigner.AssignTeamSpawnPoints(dictionary, commanderTeamIDs, SpawnAssigner.AssignType.Random, SpawnAssigner.AssignType.Random, out assignedSpawnInfo))
-			{
+				break;
+			default:
+				Log.Error(Log.Channel.Gameplay, "Unsupported TeamSetting {0}! Unable to generate spawn points!", new object[]
+				{
+					teamSetting.ToString()
+				});
 				return false;
 			}
 			return true;
