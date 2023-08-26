@@ -255,12 +255,15 @@ public static class MapModManager {
 		GameMode = gameMode;
 		FrameNumber = 0;
 
+		Console.WriteLine($"[GE mod] Scene name: {LevelDef.SceneName}");
+
 		SExtractionZoneViewController = null;
 		SWinConditionPanelController = null;
 
 		if (MapXml == "") {
 			try {
 				MapXml = File.ReadAllText(Path.Combine(Application.dataPath, "layout.xml"));
+				Console.WriteLine("[GE mod] Using layout.xml");
 			}
 			catch (Exception) {}
 		}
@@ -283,13 +286,16 @@ public static class MapModManager {
 		}
 
 		if (CustomLayout)  {
+			Console.WriteLine("[GE mod] Trying to load custom layout");
 			// Don't load a layout for the wrong map or gamemode
 			if (!LoadLayout(GetLayoutData(), LevelDef.SceneName, GameMode, count)) {
+				Console.WriteLine("[GE mod] Loading custom layout cancelled");
 				ResetLayout();
 				MapXml = "";
 				LayoutName = "";
 				CustomLayout = GameType != BBI.Game.Data.GameMode.SinglePlayer && maps.ContainsKey(LevelDef.SceneName);
 				if (CustomLayout) { // Only load default layout if its not a vanilla map
+					Console.WriteLine("[GE mod] Trying to load default layout for SP map");
 					LoadLayout(GetLayoutData(), LevelDef.SceneName, GameMode, count);
 				}
 			}
@@ -313,7 +319,8 @@ public static class MapModManager {
 	}
 
 	public static bool LoadLayout(string mapXml, string sceneName, TeamSetting gameMode, int players) {
-		System.IO.File.WriteAllText(logName, "");
+		Console.WriteLine("[GE mod] Loading layout...");
+		System.IO.File.WriteAllText(logName, "Loading layout...");
 		// Loading map layout from XML
 		try {
 			XmlTextReader xmlDokmapReader = new XmlTextReader(new System.IO.StringReader(mapXml));
