@@ -145,6 +145,11 @@ namespace BBI.Unity.Game.UI
 				TeamID teamID;
 				if (!this.DetermineColorAndTeamIDForExtractionZone(entity, out colour, out teamID))
 				{
+					if (this.mCommanderManager.GetCommanderFromID(this.mCommanderManager.LocalCommanderID).TeamID.ID - 1 == descriptor.TeamSpawnIndex) {
+						colour = this.mUnitHUDInterfaceAttributes.ExtractionZone.FriendlyColour;
+					} else {
+						colour = this.mUnitHUDInterfaceAttributes.ExtractionZone.EnemyColour;
+					}
 					Log.Error(Log.Channel.Gameplay, "Failed to determine colour and TeamID for extraction zone entity {0}! Using defaults.", new object[]
 					{
 						entity.ToFriendlyString()
