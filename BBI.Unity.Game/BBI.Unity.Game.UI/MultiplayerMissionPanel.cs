@@ -6,7 +6,6 @@ using BBI.Core.Utility;
 using BBI.Game.Data;
 using BBI.Game.Network;
 using BBI.Game.Simulation;
-using BBI.Steam;
 using BBI.Unity.Game.Data;
 using BBI.Unity.Game.Network;
 using BBI.Unity.Game.UI.Frontend.Helpers;
@@ -17,11 +16,8 @@ using UnityEngine;
 
 namespace BBI.Unity.Game.UI
 {
-	// Token: 0x020002FF RID: 767
 	public class MultiplayerMissionPanel : LobbySetupPanelBase
 	{
-		// Token: 0x170003FF RID: 1023
-		// (set) Token: 0x060017DF RID: 6111 RVA: 0x00085181 File Offset: 0x00083381
 		private UIWidgetState ConvertToPublicButtonState
 		{
 			set
@@ -30,8 +26,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x17000400 RID: 1024
-		// (get) Token: 0x060017E0 RID: 6112 RVA: 0x00085196 File Offset: 0x00083396
 		protected override LobbyRole SetupLobbyRole
 		{
 			get
@@ -40,8 +34,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x17000401 RID: 1025
-		// (get) Token: 0x060017E1 RID: 6113 RVA: 0x00085199 File Offset: 0x00083399
 		protected override int InitialLobbySize
 		{
 			get
@@ -50,8 +42,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x17000402 RID: 1026
-		// (get) Token: 0x060017E2 RID: 6114 RVA: 0x0008519C File Offset: 0x0008339C
 		protected override int DebugWindowID
 		{
 			get
@@ -60,8 +50,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x17000403 RID: 1027
-		// (get) Token: 0x060017E3 RID: 6115 RVA: 0x000851A4 File Offset: 0x000833A4
 		protected bool AreTeamsBalanced
 		{
 			get
@@ -106,7 +94,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017E4 RID: 6116 RVA: 0x000852C4 File Offset: 0x000834C4
 		protected override UIWidgetState GetDesiredStartButtonState()
 		{
 			UIWidgetState desiredStartButtonState = base.GetDesiredStartButtonState();
@@ -133,7 +120,6 @@ namespace BBI.Unity.Game.UI
 			return UIWidgetState.Enabled;
 		}
 
-		// Token: 0x060017E5 RID: 6117 RVA: 0x0008531A File Offset: 0x0008351A
 		protected override UIWidgetState GetDesiredLeaveButtonState()
 		{
 			if (this.mUIEventHandler.TargetState == MultiplayerUIEventsHandler.SubState.StartingGame)
@@ -143,8 +129,6 @@ namespace BBI.Unity.Game.UI
 			return UIWidgetState.Enabled;
 		}
 
-		// Token: 0x17000404 RID: 1028
-		// (get) Token: 0x060017E6 RID: 6118 RVA: 0x0008532D File Offset: 0x0008352D
 		private bool CanMapHoldAllPlayers
 		{
 			get
@@ -153,8 +137,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x17000405 RID: 1029
-		// (get) Token: 0x060017E7 RID: 6119 RVA: 0x00085361 File Offset: 0x00083561
 		private bool HasEnoughPlayersWithAI
 		{
 			get
@@ -163,8 +145,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x17000406 RID: 1030
-		// (get) Token: 0x060017E8 RID: 6120 RVA: 0x0008538C File Offset: 0x0008358C
 		private bool HasEnoughPlayers
 		{
 			get
@@ -173,8 +153,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x17000407 RID: 1031
-		// (get) Token: 0x060017E9 RID: 6121 RVA: 0x000853A4 File Offset: 0x000835A4
 		private bool IsMapValid
 		{
 			get
@@ -188,7 +166,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017EA RID: 6122 RVA: 0x000853F0 File Offset: 0x000835F0
 		protected override void OnInitialized()
 		{
 			base.OnInitialized();
@@ -206,13 +183,11 @@ namespace BBI.Unity.Game.UI
 			this.mHostLobbyFiltersCoroutine = new NetworkTimedCoroutine(0f, 5f, null, new NetworkTimedCoroutine.EvaluateHandler(this.OnHostLobbyFiltersEvaluate), new NetworkTimedCoroutine.SuccessHandler(this.OnHostLobbyFiltersSuccess), null);
 		}
 
-		// Token: 0x060017EB RID: 6123 RVA: 0x00085539 File Offset: 0x00083739
 		private void OnEnable()
 		{
 			this.ProcessSetupEvents();
 		}
 
-		// Token: 0x060017EC RID: 6124 RVA: 0x00085544 File Offset: 0x00083744
 		private void DebugDrawPlayerHeaders()
 		{
 			GUILayout.BeginVertical(new GUILayoutOption[0]);
@@ -227,7 +202,6 @@ namespace BBI.Unity.Game.UI
 			GUILayout.EndVertical();
 		}
 
-		// Token: 0x060017ED RID: 6125 RVA: 0x000855E4 File Offset: 0x000837E4
 		private void DebugDrawPlayerInfo(CommanderDescription commanderDesc)
 		{
 			GUILayout.BeginVertical(new GUILayoutOption[0]);
@@ -242,7 +216,6 @@ namespace BBI.Unity.Game.UI
 			GUILayout.EndVertical();
 		}
 
-		// Token: 0x060017EE RID: 6126 RVA: 0x000856D8 File Offset: 0x000838D8
 		protected override void DebugDrawLobbyData(int windowID)
 		{
 			GUILayout.Label(string.Format("Player Count: {0}", this.mSharedLobbyData.CommanderCollection.TotalCommanderCount), new GUILayoutOption[0]);
@@ -272,7 +245,6 @@ namespace BBI.Unity.Game.UI
 			base.DebugDrawLobbyData(windowID);
 		}
 
-		// Token: 0x060017EF RID: 6127 RVA: 0x000858CC File Offset: 0x00083ACC
 		private void OnMapChanged(int mapIndex)
 		{
 			if (base.IsLobbyHost)
@@ -281,19 +253,15 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017F0 RID: 6128 RVA: 0x000858EC File Offset: 0x00083AEC
 		public void OnTransitIn()
 		{
 		}
 
-		// Token: 0x060017F1 RID: 6129 RVA: 0x000858EE File Offset: 0x00083AEE
 		private void OnConvertToPublicButtonClicked()
 		{
 			this.mLobby.LobbyType = LobbyType.Public;
-			this.mDummySteamLobby.LobbyType = this.mLobby.LobbyType;
 		}
 
-		// Token: 0x060017F2 RID: 6130 RVA: 0x00085914 File Offset: 0x00083B14
 		private void OnAIAdded()
 		{
 			int totalCommanderCount = this.mSharedLobbyData.CommanderCollection.TotalCommanderCount;
@@ -304,7 +272,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017F3 RID: 6131 RVA: 0x00085958 File Offset: 0x00083B58
 		private void AddAIHelper(int factionIndex, DLCPackID factionPackID, bool randomFaction, TeamID teamID, UnitColors unitColors, Difficulty difficulty)
 		{
 			int totalCommanderCount = this.mSharedLobbyData.CommanderCollection.TotalCommanderCount;
@@ -320,16 +287,20 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017F4 RID: 6132 RVA: 0x000859B7 File Offset: 0x00083BB7
 		private void OnPlayerInvited()
 		{
+			// EGS:
+			if (EpicAPIIntegration.IsConnectedToEpicServers && EpicAPIIntegration.IsEpicOverlayEnabled)
+			{
+				EpicFriendsIntegration.ShowFriendsOverlay(null);
+			}
+			// Steam:
 			if (EpicAPIIntegration.IsConnectedToEpicServers && SteamAPIIntegration.IsSteamOverlayEnabled)
 			{
 				SteamFriendsIntegration.ActivateGameOverlayInviteDialog(this.mLobby.GroupID);
 			}
 		}
 
-		// Token: 0x060017F5 RID: 6133 RVA: 0x000859D8 File Offset: 0x00083BD8
 		private void OnPlayerRemoved(CommanderID commanderID)
 		{
 			if (base.IsLobbyHost)
@@ -347,7 +318,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017F6 RID: 6134 RVA: 0x00085A44 File Offset: 0x00083C44
 		private void OnFactionChanged(CommanderID commanderID, PlayerFactionSelection factionSelection)
 		{
 			if (this.mSharedLobbyData.CommanderCollection.IsLocalCommander(commanderID))
@@ -361,7 +331,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017F7 RID: 6135 RVA: 0x00085A90 File Offset: 0x00083C90
 		private void OnTeamChanged(CommanderID commanderID, TeamID newTeam)
 		{
 			if (this.mSharedLobbyData.CommanderCollection.IsLocalCommander(commanderID))
@@ -380,7 +349,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017F8 RID: 6136 RVA: 0x00085B00 File Offset: 0x00083D00
 		private void OnAIDifficultyChanged(CommanderID commanderID, Difficulty aiDifficulty)
 		{
 			if (base.IsLobbyHost && this.mSharedLobbyData.CommanderCollection.IsAICommander(commanderID))
@@ -389,7 +357,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017F9 RID: 6137 RVA: 0x00085B2A File Offset: 0x00083D2A
 		private void OnVictorySettingsChanged(VictorySettings newVictorySettings)
 		{
 			if (base.IsLobbyHost)
@@ -399,7 +366,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017FA RID: 6138 RVA: 0x00085B4C File Offset: 0x00083D4C
 		private void OnGameModeSettingsChanged(GameModeSettings newGameModeSettings)
 		{
 			if (base.IsLobbyHost)
@@ -409,7 +375,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017FB RID: 6139 RVA: 0x00085B6E File Offset: 0x00083D6E
 		private void OnEmptySlotControlClicked(EmptySlotController emptySlot)
 		{
 			if (emptySlot.CurrentSlotState == EmptySlotController.SlotState.Open)
@@ -423,7 +388,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017FC RID: 6140 RVA: 0x00085B90 File Offset: 0x00083D90
 		protected override void OnLobbyEnter(PlayerGroupSetupStatus status)
 		{
 			if (status == PlayerGroupSetupStatus.Successful)
@@ -469,7 +433,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017FD RID: 6141 RVA: 0x00085D3C File Offset: 0x00083F3C
 		protected override void OnEverythingInitialized()
 		{
 			base.OnEverythingInitialized();
@@ -480,7 +443,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017FE RID: 6142 RVA: 0x00085D60 File Offset: 0x00083F60
 		protected override void OnLobbyHostMigrate(NetworkPlayerID previousHostID, NetworkPlayerID newHostID)
 		{
 			if (this.mLobby == null)
@@ -500,7 +462,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060017FF RID: 6143 RVA: 0x00085DD0 File Offset: 0x00083FD0
 		protected override void OnLobbyGlobalMetaDataUpdate(bool initialUpdate)
 		{
 			base.OnLobbyGlobalMetaDataUpdate(initialUpdate);
@@ -531,7 +492,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001800 RID: 6144 RVA: 0x00085F50 File Offset: 0x00084150
 		protected override void OnLobbyPlayerJoin(NetworkPlayerID playerID)
 		{
 			base.OnLobbyPlayerJoin(playerID);
@@ -553,14 +513,12 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001801 RID: 6145 RVA: 0x00085FE7 File Offset: 0x000841E7
 		protected override void OnLobbyPlayerLeave(NetworkPlayerID playerID, PlayerGroupLeaveReason reason)
 		{
 			this.UpdateLobbyJoinableStatus();
 			base.OnLobbyPlayerLeave(playerID, reason);
 		}
 
-		// Token: 0x06001802 RID: 6146 RVA: 0x00085FF7 File Offset: 0x000841F7
 		protected override void OnLobbyCountdownStart()
 		{
 			base.OnLobbyCountdownStart();
@@ -569,14 +527,12 @@ namespace BBI.Unity.Game.UI
 			this.UpdateLobbyJoinableStatus();
 		}
 
-		// Token: 0x06001803 RID: 6147 RVA: 0x0008601D File Offset: 0x0008421D
 		protected override void OnLobbyCountdownFinish()
 		{
 			this.mUIEventHandler.TargetState = MultiplayerUIEventsHandler.SubState.StartingGame;
 			base.OnLobbyCountdownFinish();
 		}
 
-		// Token: 0x06001804 RID: 6148 RVA: 0x00086034 File Offset: 0x00084234
 		protected override void OnLobbyCountdownCancel()
 		{
 			this.mUIEventHandler.TargetState = MultiplayerUIEventsHandler.SubState.InLobbySetup;
@@ -587,7 +543,6 @@ namespace BBI.Unity.Game.UI
 			this.UpdateLobbyJoinableStatus();
 		}
 
-		// Token: 0x06001805 RID: 6149 RVA: 0x00086080 File Offset: 0x00084280
 		protected override void OnLobbyKicked(ulong groupID, NetworkPlayerID targePlayerID)
 		{
 			if (targePlayerID.IsLocalPlayer())
@@ -602,17 +557,14 @@ namespace BBI.Unity.Game.UI
 			});
 		}
 
-		// Token: 0x06001806 RID: 6150 RVA: 0x000860C0 File Offset: 0x000842C0
 		protected override void OnLobbyMigrate(ulong newLobbyID)
 		{
 		}
 
-		// Token: 0x06001807 RID: 6151 RVA: 0x000860C2 File Offset: 0x000842C2
 		protected override void OnPartyJoinLobby(ulong lobbyID, string epicLobbyID)
 		{
 		}
 
-		// Token: 0x06001808 RID: 6152 RVA: 0x000860C4 File Offset: 0x000842C4
 		protected override bool ProcessSetupEvents()
 		{
 			if (this.mLobbyJoinRequestEvent != null)
@@ -635,13 +587,11 @@ namespace BBI.Unity.Game.UI
 			return false;
 		}
 
-		// Token: 0x06001809 RID: 6153 RVA: 0x00086178 File Offset: 0x00084378
 		protected override void OnCustomizationSettingsApplied(UnitColors newColors, DLCPackID skinPackID, CustomizationFactionSetting newFactionIndex, bool randomFaction)
 		{
 			this.m_LobbyViewPanel.UpdateLocalCommander(this.mLobby.LocalPlayerID, this.mSharedLobbyData.LocalPlayerFactionIndex, this.mSharedLobbyData.LocalPlayerUnitSkinPackID, this.mSharedLobbyData.LocalPlayerRandomFaction, this.mSharedLobbyData.LocalPlayerTeamID, this.mSharedLobbyData.LocalPlayerUnitColors);
 		}
 
-		// Token: 0x0600180A RID: 6154 RVA: 0x000861D4 File Offset: 0x000843D4
 		protected override DependencyContainerBase GetStartDependencies()
 		{
 			Dictionary<CommanderID, PlayerSelection> selectedLoadouts = SpawnAssigner.GeneratePlayerSelections(this.mLevelManager.CommanderAttributes, this.mSharedLobbyData.CommanderCollection.Descriptions, this.mSharedLobbyData.CommanderSpawnDetails, this.mDLCManager);
@@ -649,7 +599,6 @@ namespace BBI.Unity.Game.UI
 			return new DependencyContainer<GameStartSettings, ILobby, SessionBase>(t, this.mLobby, this.mSession);
 		}
 
-		// Token: 0x0600180B RID: 6155 RVA: 0x00086274 File Offset: 0x00084474
 		private void UpdateLobbyViewCommanders()
 		{
 			this.m_LobbyViewPanel.UpdateEmptySlotState(this.mSharedLobbyData.ClosedSlotsCount);
@@ -681,7 +630,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x0600180C RID: 6156 RVA: 0x00086458 File Offset: 0x00084658
 		protected override void LeaveLobbyPanel(PlayerGroupLeaveReason reason)
 		{
 			this.m_LobbyViewPanel.Shutdown();
@@ -693,7 +641,6 @@ namespace BBI.Unity.Game.UI
 			base.LeaveLobbyPanel(reason);
 		}
 
-		// Token: 0x0600180D RID: 6157 RVA: 0x00086486 File Offset: 0x00084686
 		protected override bool TryGetTeams(out Dictionary<CommanderID, TeamID> commanderTeamIDs, out TeamSetting teamSetting)
 		{
 			commanderTeamIDs = this.m_LobbyViewPanel.GetPlayerTeamIDs();
@@ -701,7 +648,6 @@ namespace BBI.Unity.Game.UI
 			return true;
 		}
 
-		// Token: 0x0600180E RID: 6158 RVA: 0x000864A3 File Offset: 0x000846A3
 		protected override void InitiateStartGame()
 		{
 			base.InitiateStartGame();
@@ -713,7 +659,6 @@ namespace BBI.Unity.Game.UI
 			this.StartLoadingGame();
 		}
 
-		// Token: 0x0600180F RID: 6159 RVA: 0x000864D4 File Offset: 0x000846D4
 		protected override bool StartLoadingGame()
 		{
 			if (this.mLobby.HostPlayerID != this.mParty.HostPlayerID)
@@ -738,7 +683,6 @@ namespace BBI.Unity.Game.UI
 			return base.StartLoadingGame();
 		}
 
-		// Token: 0x06001810 RID: 6160 RVA: 0x00086558 File Offset: 0x00084758
 		private bool PopulateHostStartLobbyData()
 		{
 			if (!base.PopulateHostSpawnPointsAssignment(this.m_LobbyViewPanel.SelectedMap))
@@ -749,21 +693,18 @@ namespace BBI.Unity.Game.UI
 			return true;
 		}
 
-		// Token: 0x06001811 RID: 6161 RVA: 0x00086585 File Offset: 0x00084785
 		protected override void UpdateAllLobbyCoroutines()
 		{
 			this.mHostLobbyFiltersCoroutine.Update();
 			base.UpdateAllLobbyCoroutines();
 		}
 
-		// Token: 0x06001812 RID: 6162 RVA: 0x00086598 File Offset: 0x00084798
 		protected override void StopAllLobbyCoroutines()
 		{
 			this.mHostLobbyFiltersCoroutine.Stop();
 			base.StopAllLobbyCoroutines();
 		}
 
-		// Token: 0x06001813 RID: 6163 RVA: 0x000865AC File Offset: 0x000847AC
 		protected override void UpdateUIState()
 		{
 			if (base.IsEverythingInitialized)
@@ -807,7 +748,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001814 RID: 6164 RVA: 0x000866E0 File Offset: 0x000848E0
 		private void ChangeClosedSlotsCountByOffset(int offset)
 		{
 			int closedSlotsCount = this.mSharedLobbyData.ClosedSlotsCount + offset;
@@ -816,14 +756,12 @@ namespace BBI.Unity.Game.UI
 			this.UpdateLobbyJoinableStatus();
 		}
 
-		// Token: 0x06001815 RID: 6165 RVA: 0x00086714 File Offset: 0x00084914
 		private void UpdateLobbyMemberLimit()
 		{
 			int num = this.mSharedLobbyData.CommanderCollection.AICommanderCount + this.mSharedLobbyData.ClosedSlotsCount;
 			this.mLobby.MemberLimit = 6 - num;
 		}
 
-		// Token: 0x06001816 RID: 6166 RVA: 0x0008674C File Offset: 0x0008494C
 		private void UpdateHostLobbyFilters()
 		{
 			if (base.IsLobbyHost && this.mLobby.IsActive)
@@ -840,7 +778,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001817 RID: 6167 RVA: 0x000867F8 File Offset: 0x000849F8
 		private void UpdateLobbyJoinableStatus()
 		{
 			if (base.IsLobbyHost && this.mLobby.IsActive)
@@ -854,7 +791,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001818 RID: 6168 RVA: 0x00086864 File Offset: 0x00084A64
 		private void SetFactionSelectionForAIPlayer(CommanderID commanderID, PlayerFactionSelection factionSelection)
 		{
 			int num = (int)factionSelection.Faction;
@@ -890,7 +826,6 @@ namespace BBI.Unity.Game.UI
 			this.mSharedLobbyData.UpdateAICommanderFactionIndex(commanderID, (CustomizationFactionSetting)num, dlcpackID, randomFaction);
 		}
 
-		// Token: 0x06001819 RID: 6169 RVA: 0x00086940 File Offset: 0x00084B40
 		private NetworkTimedCoroutine.EvaluateStatus OnHostLobbyFiltersEvaluate(float totalElapsedTimeSec)
 		{
 			this.UpdateHostLobbyFilters();
@@ -898,31 +833,24 @@ namespace BBI.Unity.Game.UI
 			return NetworkTimedCoroutine.EvaluateStatus.ContinueWaiting;
 		}
 
-		// Token: 0x0600181A RID: 6170 RVA: 0x0008694F File Offset: 0x00084B4F
 		private void OnHostLobbyFiltersSuccess()
 		{
 		}
 
-		// Token: 0x0600181B RID: 6171 RVA: 0x00086951 File Offset: 0x00084B51
 		public MultiplayerMissionPanel()
 		{
 		}
 
-		// Token: 0x04001430 RID: 5168
 		[SerializeField]
 		public GameLobbyView m_LobbyViewPanel;
 
-		// Token: 0x04001431 RID: 5169
 		[SerializeField]
 		private UIButton m_ConvertToPublicButton;
 
-		// Token: 0x04001432 RID: 5170
 		private UIWidgetState mConvertToPublicButtonState;
 
-		// Token: 0x04001433 RID: 5171
 		private MultiplayerLobbyData mMultiplayerLobbyData;
 
-		// Token: 0x04001434 RID: 5172
 		private NetworkTimedCoroutine mHostLobbyFiltersCoroutine;
 	}
 }
