@@ -346,7 +346,7 @@ namespace BBI.Unity.Game.UI
 				{
 					if (upgradeGroupController != null)
 					{
-						upgradeGroupController.UpdateVisibility(this.mMostRecentLocalCommanderState, researchItemAttributes);
+						upgradeGroupController.UpdateVisibility(this.mMostRecentLocalCommanderState, researchItemAttributes, this.mCommanderTechTree);
 						num += upgradeGroupController.NumAvailableUpgrades;
 						if (this.mListState == UpgradesPanelController.ListState.Minimized && researchItemAttributes == null)
 						{
