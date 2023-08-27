@@ -1364,6 +1364,9 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 						string reason = (e.Status == WebExceptionStatus.Timeout) ? "TIMEOUT" : "NOT FOUND";
 						Print(String.Format("[FF0000][b][i]{0}: '{1}' FAILED ({2})", SteamAPIIntegration.SteamUserName, command, reason));
 					}
+				} else if (command == "/rr" || command == "/revealrandom") {
+					MapModManager.RevealRandomFactions = !MapModManager.RevealRandomFactions;
+					Print(String.Format("{0}: Reveal random factions: {1}", SteamAPIIntegration.SteamUserName, MapModManager.RevealRandomFactions.ToString()));
 				} else if (command == "/praise") { // Praise the almighty Sajuuk
 					Print("[FF00FF][b][i]" + SteamAPIIntegration.SteamUserName + " PRAISES SAJUUK");
 				} else if (command == "/clear") { // Clear both layout and patch
@@ -1381,8 +1384,8 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 						BBI.Steam.SteamFriendsIntegration.ActivateGameOverlayToWebPage("https://www.youtube.com/watch?v=xfr64zoBTAQ");
 					} catch {}
 				} else if (command == "/check" || command == "/c") { // Advanced state check
-					Print(String.Format("{0}: {1} [ {2} ] [ {3} ]", SteamAPIIntegration.SteamUserName, MapModManager.ModVersion,
-						MapModUtil.GetHash(MapModManager.MapXml), MapModUtil.GetHash(Subsystem.AttributeLoader.PatchOverrideData)));
+					Print(String.Format("{0}: {1} [ {2} ] [ {3} ] Reveal Random: {4}", SteamAPIIntegration.SteamUserName, MapModManager.ModVersion,
+						MapModUtil.GetHash(MapModManager.MapXml), MapModUtil.GetHash(Subsystem.AttributeLoader.PatchOverrideData), MapModManager.RevealRandomFactions.ToString()));
 				} else if (command == "/pm" || command == "/patchmeta") {
 					if (this.IsLobbyHost) {
 						if (AttributeLoader.PatchOverrideData == "") {

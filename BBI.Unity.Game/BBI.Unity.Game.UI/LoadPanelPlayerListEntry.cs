@@ -74,8 +74,22 @@ namespace BBI.Unity.Game.UI
 			}
 			if (this.m_FactionName != null)
 			{
-				string key = (!revealRandomFactions && player.Desc.RandomFaction) ? "ID_UI_FE_MP_RANDOM_253" : player.Attributes.Faction.FactionName;
-				this.m_FactionName.text = Localization.Get(key);
+				if (player.Desc.RandomFaction)
+				{
+					if (revealRandomFactions)
+					{
+						this.m_FactionName.text = string.Format("{0} ({1})", Localization.Get(player.Attributes.Faction.FactionName), Localization.Get("ID_UI_FE_MP_RANDOM_253"));
+					}
+					else
+					{
+						this.m_FactionName.text = Localization.Get("ID_UI_FE_MP_RANDOM_253");
+					}
+				}
+				else
+				{
+					this.m_FactionName.text = Localization.Get(player.Attributes.Faction.FactionName);
+				}
+				this.m_FactionName.width = 200;
 			}
 			if (this.m_PlayerBanner != null)
 			{

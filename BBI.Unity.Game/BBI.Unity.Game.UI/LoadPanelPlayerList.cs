@@ -100,7 +100,7 @@ namespace BBI.Unity.Game.UI
 						LoadPanelPlayerListEntry component = gameObject.GetComponent<LoadPanelPlayerListEntry>();
 						if (component != null)
 						{
-							component.Setup(locMan, player, relationship, this.m_RevealRandomFactions);
+							component.Setup(locMan, player, relationship, this.m_RevealRandomFactions || MapModManager.RevealRandomFactions);
 							this.mEntries.Add(component);
 						}
 						else

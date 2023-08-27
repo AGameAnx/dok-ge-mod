@@ -71,6 +71,7 @@ public static class MapModManager {
 
 		Subsystem.AttributeLoader.PatchOverrideData = "";
 		PatchName = "";
+		RevealRandomFactions = false;
 
 		if (CustomLayout) {
 			// Move DoK engine objects
@@ -617,6 +618,7 @@ public static class MapModManager {
 	// Lobby command memorization
 	public static string LayoutName { get; set; } = "";
 	public static string PatchName { get; set; } = "";
+	public static bool RevealRandomFactions { get; set; } = false;
 
 	// Mod state data
 
