@@ -1331,8 +1331,11 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 						Print(String.Format("[FF0000][b][i]{0}: '{1}' FAILED ({2})", userName, command, reason));
 					}
 				} else if (command == "/rr" || command == "/revealrandom") {
-					MapModManager.RevealRandomFactions = !MapModManager.RevealRandomFactions;
-					Print(String.Format("{0}: Reveal random factions: {1}", userName, MapModManager.RevealRandomFactions.ToString()));
+					MapModManager.RevealRandomFactions = true;
+					Print(String.Format("{0}: Revealing random factions on loading screen", userName));
+				} else if (command == "/urr" || command == "/unrevealrandom") {
+					MapModManager.RevealRandomFactions = false;
+					Print(String.Format("{0}: Random factions will be hidden during loading screen", userName));
 				} else if (command == "/praise") { // Praise the almighty Sajuuk
 					Print("[FF00FF][b][i]" + userName + " PRAISES SAJUUK");
 				} else if (command == "/clear") { // Clear both layout and patch
