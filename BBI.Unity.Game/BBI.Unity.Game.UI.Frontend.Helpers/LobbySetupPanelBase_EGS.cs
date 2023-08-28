@@ -1415,7 +1415,9 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 					}
 
 					if (address != "") {
-						System.Diagnostics.Process.Start(address);
+						try {
+							System.Diagnostics.Process.Start(address);
+						} catch {}
 					}
 				}
 			}
