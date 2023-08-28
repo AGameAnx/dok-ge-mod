@@ -11,16 +11,20 @@ Formerly known as **More-Maps mod**
 - Unit information card now shows weapon damage packet count.
 - New Fathership faction (beta).
 - Basic spectator mode.
+- Reveal random factions on loading screen.
 
 ## Installation
 
+Download relevant release archive for your version: Steam version works for Windows, Mac and Linux. Epic Games Store is separate and is for EGS on Windows.
+
 Extract the release archive to:
 
-- **Windows**: `Steam/steamapps/common/Deserts of Kharak/Data/Managed` 
-- **Mac**: `Steam/steamapps/common/Deserts of Kharak/DesertsofKharak.app/Contents/Resources/Data/Managed`
+- **Steam Windows**: `Steam/steamapps/common/Deserts of Kharak/Data/Managed`
+- **Steam Mac**: `Steam/steamapps/common/Deserts of Kharak/DesertsofKharak.app/Contents/Resources/Data/Managed`
 You may need to right click the apps and choose `Show package contents` to get to this directory.
-- **Linux**: `home/$username/.local/share/Steam/steamapps/common`
-Use the files from Mac folder. Easiest way to get to the directory is to browse to local files using Steam.
+- **Steam Linux**: `home/$username/.local/share/Steam/steamapps/common`
+- **Epic Games Store Windows**: `HomeworldDesertsofKharak/DesertsOfKharak64_Data/Managed`
+Easiest way to get to the directory is to browse to local files using Steam.
 
 Extracting the archive should prompt to replace all files within.
 
