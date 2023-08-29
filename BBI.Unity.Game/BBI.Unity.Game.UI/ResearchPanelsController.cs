@@ -16,11 +16,8 @@ using UnityEngine;
 
 namespace BBI.Unity.Game.UI
 {
-	// Token: 0x02000330 RID: 816
 	public sealed class ResearchPanelsController : BlackbirdPanelBase
 	{
-		// Token: 0x170004A5 RID: 1189
-		// (get) Token: 0x06001B61 RID: 7009 RVA: 0x000A1267 File Offset: 0x0009F467
 		private bool ArePanelsShowing
 		{
 			get
@@ -29,7 +26,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001B62 RID: 7010 RVA: 0x000A1298 File Offset: 0x0009F498
 		protected override void OnSessionStarted()
 		{
 			if (ShipbreakersMain.GameMode == GameMode.SinglePlayer)
@@ -86,7 +82,6 @@ namespace BBI.Unity.Game.UI
 			this.selectedCarrierCommanderId = null;
 		}
 
-		// Token: 0x06001B63 RID: 7011 RVA: 0x000A1468 File Offset: 0x0009F668
 		protected override void OnSessionEnded()
 		{
 			this.ToggleUpgradesPanel(true);
@@ -116,7 +111,6 @@ namespace BBI.Unity.Game.UI
 			this.mCommanderManager = null;
 		}
 
-		// Token: 0x06001B64 RID: 7012 RVA: 0x000A156C File Offset: 0x0009F76C
 		public void ToggleUpgradesPanel(bool value)
 		{
 			if (this.mUpgradesController != null)
@@ -130,7 +124,6 @@ namespace BBI.Unity.Game.UI
 			});
 		}
 
-		// Token: 0x06001B65 RID: 7013 RVA: 0x000A15B0 File Offset: 0x0009F7B0
 		public bool PanelIsActive()
 		{
 			if (this.mUpgradesController != null)
@@ -144,7 +137,6 @@ namespace BBI.Unity.Game.UI
 			return true;
 		}
 
-		// Token: 0x06001B66 RID: 7014 RVA: 0x000A15F2 File Offset: 0x0009F7F2
 		private void ShowHidePanels(bool show)
 		{
 			if (this.mEngineeringController != null)
@@ -157,7 +149,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001B67 RID: 7015 RVA: 0x000A161C File Offset: 0x0009F81C
 		private void OnNewStateFrame(SimStateFrame stateFrame)
 		{
 			if (ShipbreakersMain.ReplayMode != BBI.Game.Replay.ReplayMode.ReplayingGame || !this.selectedCarrierCommanderId.HasValue)
@@ -187,7 +178,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001B68 RID: 7016 RVA: 0x000A169C File Offset: 0x0009F89C
 		private void OnNewSelection(IList<Entity> newSelection, SimStateFrame stateFrame)
 		{
 			Profiler.BeginSample("ResearchPanelsController.OnSelectionChanged");
@@ -228,7 +218,6 @@ namespace BBI.Unity.Game.UI
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06001B69 RID: 7017 RVA: 0x000A1740 File Offset: 0x0009F940
 		private void OnNewLeadUnitSelected(Entity selection)
 		{
 			this.OnNewSelection(new Entity[]
@@ -237,7 +226,6 @@ namespace BBI.Unity.Game.UI
 			}, ShipbreakersMain.CurrentSimFrame);
 		}
 
-		// Token: 0x06001B6A RID: 7018 RVA: 0x000A1770 File Offset: 0x0009F970
 		private void OnResearchEvent(ResearchEvent ev)
 		{
 			if (this.mMostRecentLocalCommanderState == null || ev.Commander != this.mMostRecentLocalCommanderState.CommanderID)
@@ -263,7 +251,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001B6B RID: 7019 RVA: 0x000A1800 File Offset: 0x0009FA00
 		private void OnShowResearchTooltip(ResearchButtonController controller, TooltipObjectAsset tooltipObject, Transform anchor, bool onHover)
 		{
 			if (!onHover)
@@ -330,7 +317,6 @@ namespace BBI.Unity.Game.UI
 			});
 		}
 
-		// Token: 0x06001B6C RID: 7020 RVA: 0x000A19B0 File Offset: 0x0009FBB0
 		public static void ScheduleStartResearchCommand(ICommandScheduler commandScheduler, CommanderID commanderID, ResearchItemAttributes researchItem)
 		{
 			SimCommandBase simCommandBase = SimCommandFactory.CreateStartResearchCommand(commanderID, researchItem);
@@ -342,7 +328,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001B6D RID: 7021 RVA: 0x000A19F3 File Offset: 0x0009FBF3
 		private void UpdatePanels(CommanderState commanderState, bool rebuild)
 		{
 			if (this.mEngineeringController != null)
@@ -355,48 +340,35 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001B6E RID: 7022 RVA: 0x000A1A1F File Offset: 0x0009FC1F
 		public ResearchPanelsController()
 		{
 		}
 
-		// Token: 0x0400169A RID: 5786
 		[SerializeField]
 		private UpgradesPanelController.UpgradesPanelSettings m_UpgradesPanelSettings = new UpgradesPanelController.UpgradesPanelSettings();
 
-		// Token: 0x0400169B RID: 5787
 		[SerializeField]
 		private UpgradesPanelController.UpgradesPanelSettings m_UpgradesPanelSettingsSP = new UpgradesPanelController.UpgradesPanelSettings();
 
-		// Token: 0x0400169C RID: 5788
 		[SerializeField]
 		private EngineeringPanelController.EngineeringPanelSettings m_EngineeringPanelSettings = new EngineeringPanelController.EngineeringPanelSettings();
 
-		// Token: 0x0400169D RID: 5789
 		private UnitInterfaceController mInterfaceController;
 
-		// Token: 0x0400169E RID: 5790
 		private CommanderState mMostRecentLocalCommanderState;
 
-		// Token: 0x0400169F RID: 5791
 		private ICommanderInteractionProvider mInteractionProvider;
 
-		// Token: 0x040016A0 RID: 5792
 		private ICommanderManager mCommanderManager;
 
-		// Token: 0x040016A1 RID: 5793
 		private EngineeringPanelController mEngineeringController;
 
-		// Token: 0x040016A2 RID: 5794
 		private UpgradesPanelController mUpgradesController;
 
-		// Token: 0x040016A3 RID: 5795
 		private bool mResearchTreeDirty;
 
-		// Token: 0x040016A4 RID: 5796
 		private int mNumberOfLockedResearchItems = -1;
 
-		// Token: 0x040016A5 RID: 5797
 		private ResearchTooltipData mTooltipData = default(ResearchTooltipData);
 
 		private CommanderID? selectedCarrierCommanderId = null;

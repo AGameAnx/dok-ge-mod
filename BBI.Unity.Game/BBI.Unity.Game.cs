@@ -1,8 +1,3 @@
-// C:\Games\Steam\steamapps\common\Deserts of Kharak\Data\Managed\BBI.Unity.Game.dll
-// BBI.Unity.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-
-// Timestamp: 64E583A0 (2023-08-23 6:57:20)
-
 using System;
 using System.Diagnostics;
 using System.Reflection;

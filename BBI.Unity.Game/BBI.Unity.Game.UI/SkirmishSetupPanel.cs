@@ -17,11 +17,8 @@ using UnityEngine;
 
 namespace BBI.Unity.Game.UI
 {
-	// Token: 0x02000287 RID: 647
 	public sealed class SkirmishSetupPanel : BlackbirdPanelBase
 	{
-		// Token: 0x17000338 RID: 824
-		// (get) Token: 0x060012F7 RID: 4855 RVA: 0x00064E60 File Offset: 0x00063060
 		private bool AreTeamsBalanced
 		{
 			get
@@ -66,7 +63,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060012F8 RID: 4856 RVA: 0x00064F78 File Offset: 0x00063178
 		private void OnEnable()
 		{
 			this.mCurrentCommanderIndex = CommanderID.None.ID + 1;
@@ -106,7 +102,6 @@ namespace BBI.Unity.Game.UI
 			Log.Error(Log.Channel.UI, "Player Customization Panel is not set", new object[0]);
 		}
 
-		// Token: 0x060012F9 RID: 4857 RVA: 0x0006513D File Offset: 0x0006333D
 		private void OnDisable()
 		{
 			this.m_LobbyView.Shutdown();
@@ -116,7 +111,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060012FA RID: 4858 RVA: 0x00065170 File Offset: 0x00063370
 		protected override void OnInitialized()
 		{
 			base.OnInitialized();
@@ -160,7 +154,6 @@ namespace BBI.Unity.Game.UI
 			Log.Error(Log.Channel.UI, "Lobby view is not specified. Will not be able to start the game!", new object[0]);
 		}
 
-		// Token: 0x060012FB RID: 4859 RVA: 0x0006531F File Offset: 0x0006351F
 		protected override void Update()
 		{
 			base.Update();
@@ -170,7 +163,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060012FC RID: 4860 RVA: 0x0006533C File Offset: 0x0006353C
 		private DependencyContainerBase GetStartDependencies()
 		{
 			List<CommanderSpawnInfo> commanderSpawnInfo;
@@ -184,7 +176,6 @@ namespace BBI.Unity.Game.UI
 			return new DependencyContainer<GameStartSettings, SessionBase>(t, this.mSession);
 		}
 
-		// Token: 0x060012FD RID: 4861 RVA: 0x000653F8 File Offset: 0x000635F8
 		private void UpdateStartButtonState()
 		{
 			if (this.m_LobbyView != null && this.m_GameStartButton != null)
@@ -206,7 +197,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x060012FE RID: 4862 RVA: 0x000654E8 File Offset: 0x000636E8
 		private void UpdateFactionSelectionForCommanderDescription(ref CommanderDescription commanderDescription, PlayerFactionSelection factionSelection)
 		{
 			int num = (int)factionSelection.Faction;
@@ -244,7 +234,6 @@ namespace BBI.Unity.Game.UI
 			commanderDescription.RandomFaction = randomFaction;
 		}
 
-		// Token: 0x060012FF RID: 4863 RVA: 0x000655D0 File Offset: 0x000637D0
 		private void OnCustomiziationSettingsApplied(UnitColors newColors, DLCPackID skinPackID, CustomizationFactionSetting newFactionSetting, bool randomFaction)
 		{
 			if (this.mCommanderDescriptions.IsNullOrEmpty<CommanderDescription>())
@@ -267,13 +256,11 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001300 RID: 4864 RVA: 0x00065667 File Offset: 0x00063867
 		private void OnMapChanged(int mapIndex)
 		{
 			this.UpdateStartButtonState();
 		}
 
-		// Token: 0x06001301 RID: 4865 RVA: 0x00065670 File Offset: 0x00063870
 		private void OnAIAdded()
 		{
 			if (this.mCommanderDescriptions.Count >= 6)
@@ -290,7 +277,6 @@ namespace BBI.Unity.Game.UI
 			this.UpdateStartButtonState();
 		}
 
-		// Token: 0x06001302 RID: 4866 RVA: 0x00065720 File Offset: 0x00063920
 		private void RefreshAICommanderNames()
 		{
 			int num = 1;
@@ -307,7 +293,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001303 RID: 4867 RVA: 0x000657A4 File Offset: 0x000639A4
 		private void OnPlayerRemoved(CommanderID commanderID)
 		{
 			int num = this.mCommanderDescriptions.FindIndex((CommanderDescription c) => c.CommanderID == commanderID);
@@ -324,7 +309,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001304 RID: 4868 RVA: 0x0006583C File Offset: 0x00063A3C
 		private void OnFactionChanged(CommanderID commanderID, PlayerFactionSelection factionSelection)
 		{
 			int num = this.mCommanderDescriptions.FindIndex((CommanderDescription c) => c.CommanderID == commanderID);
@@ -345,7 +329,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001305 RID: 4869 RVA: 0x00065920 File Offset: 0x00063B20
 		private void OnTeamChanged(CommanderID commanderID, TeamID newTeam)
 		{
 			int num = this.mCommanderDescriptions.FindIndex((CommanderDescription c) => c.CommanderID == commanderID);
@@ -358,7 +341,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001306 RID: 4870 RVA: 0x0006599C File Offset: 0x00063B9C
 		private void OnAIDifficultyChanged(CommanderID commanderID, Difficulty aiDifficulty)
 		{
 			int num = this.mCommanderDescriptions.FindIndex((CommanderDescription c) => c.CommanderID == commanderID);
@@ -372,13 +354,11 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06001307 RID: 4871 RVA: 0x00065A00 File Offset: 0x00063C00
 		private void OnVictorySettingsChanged(VictorySettings newConditions)
 		{
 			this.UpdateStartButtonState();
 		}
 
-		// Token: 0x06001308 RID: 4872 RVA: 0x00065A08 File Offset: 0x00063C08
 		private void OnStartButtonPress()
 		{
 			if (this.m_LobbyView != null)
@@ -391,42 +371,31 @@ namespace BBI.Unity.Game.UI
 			Log.Error(Log.Channel.UI, "Cannot start game. No lobby view specified!", new object[0]);
 		}
 
-		// Token: 0x06001309 RID: 4873 RVA: 0x00065A62 File Offset: 0x00063C62
 		public SkirmishSetupPanel()
 		{
 		}
 
-		// Token: 0x04001014 RID: 4116
 		private const int kMinPlayers = 1;
 
-		// Token: 0x04001015 RID: 4117
 		[SerializeField]
 		private GameLobbyView m_LobbyView;
 
-		// Token: 0x04001016 RID: 4118
 		[SerializeField]
 		private UIButton m_GameStartButton;
 
-		// Token: 0x04001017 RID: 4119
 		[SerializeField]
 		private PlayerCustomizationPanel m_PlayerCustomizationPanel;
 
-		// Token: 0x04001018 RID: 4120
 		private DLCManager mDLCManager;
 
-		// Token: 0x04001019 RID: 4121
 		private List<CommanderDescription> mCommanderDescriptions;
 
-		// Token: 0x0400101A RID: 4122
 		private LevelManager mLevelManager;
 
-		// Token: 0x0400101B RID: 4123
 		private UnitHUDInteractionAttributes mUnitHUDInteractionAttributes;
 
-		// Token: 0x0400101C RID: 4124
 		private SessionBase mSession;
 
-		// Token: 0x0400101D RID: 4125
 		private int mCurrentCommanderIndex;
 	}
 }

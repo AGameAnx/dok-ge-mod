@@ -21,10 +21,8 @@ using System.Text;
 
 namespace BBI.Unity.Game.UI
 {
-	// Token: 0x020001EC RID: 492
 	public sealed class ReplayLoadController : BlackbirdModalPanelBase
 	{
-		// Token: 0x06000C1E RID: 3102 RVA: 0x00039CEC File Offset: 0x00037EEC
 		protected override void OnInitialized()
 		{
 			base.OnInitialized();
@@ -54,7 +52,6 @@ namespace BBI.Unity.Game.UI
 			this.mSelectedReplay.FilePath = string.Empty;
 		}
 
-		// Token: 0x06000C1F RID: 3103 RVA: 0x00039E40 File Offset: 0x00038040
 		public override void Show()
 		{
 			base.Show();
@@ -65,7 +62,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000C20 RID: 3104 RVA: 0x00039E5C File Offset: 0x0003805C
 		private void OnEnable()
 		{
 			this.Show();
@@ -76,7 +72,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000C21 RID: 3105 RVA: 0x00039E98 File Offset: 0x00038098
 		private void OnDisable()
 		{
 			if (this.mDataInitialized)
@@ -86,7 +81,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000C22 RID: 3106 RVA: 0x00039EC4 File Offset: 0x000380C4
 		private void UpdateSelectionState()
 		{
 			BlackbirdPanelBase.SetButtonState(this.m_Load.gameObject, this.mHasSelectedReplay);
@@ -100,7 +94,6 @@ namespace BBI.Unity.Game.UI
 			this.m_ReplayInfoPanel.HideInfo();
 		}
 
-		// Token: 0x06000C23 RID: 3107 RVA: 0x00039F30 File Offset: 0x00038130
 		private void PopulateLoadGrid()
 		{
 			if (this.m_SavedReplaysGrid != null && this.m_SaveEntryPrefab != null)
@@ -211,19 +204,16 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000C24 RID: 3108 RVA: 0x0003A278 File Offset: 0x00038478
 		private static int SortBySaveTimeDecending(ReplayHelpers.ReplayableGameSessionHeader a, ReplayHelpers.ReplayableGameSessionHeader b)
 		{
 			return b.SaveTime.CompareTo(a.SaveTime);
 		}
 
-		// Token: 0x06000C25 RID: 3109 RVA: 0x0003A28D File Offset: 0x0003848D
 		private void OnReplayItemClicked(NGUIEventHandler handler)
 		{
 			this.SetSelectedReplay((ReplayHelpers.ReplayableGameSessionHeader)handler.Data);
 		}
 
-		// Token: 0x06000C26 RID: 3110 RVA: 0x0003A2A0 File Offset: 0x000384A0
 		private void SetSelectedReplay(ReplayHelpers.ReplayableGameSessionHeader header)
 		{
 			if (this.mSelectedReplay.FilePath != header.FilePath)
@@ -234,7 +224,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000C27 RID: 3111 RVA: 0x0003A2D0 File Offset: 0x000384D0
 		private void OnLoadClicked()
 		{
 			if (!string.IsNullOrEmpty(this.mSelectedReplay.FilePath) && BBI.Core.IO.File.Exists(this.mSelectedReplay.FilePath))
@@ -248,7 +237,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000C28 RID: 3112 RVA: 0x0003A32E File Offset: 0x0003852E
 		private void OnVersionMismatchConfirmationResult(MessageBoxResult result)
 		{
 			if (result == MessageBoxResult.Yes)
@@ -259,13 +247,11 @@ namespace BBI.Unity.Game.UI
 			this.VersionMismatchDeclined();
 		}
 
-		// Token: 0x06000C29 RID: 3113 RVA: 0x0003A340 File Offset: 0x00038540
 		private void VersionMismatchDeclined()
 		{
 			NGUITools.SetActive(base.gameObject.transform.parent.gameObject, true);
 		}
 
-		// Token: 0x06000C2A RID: 3114 RVA: 0x0003A360 File Offset: 0x00038560
 		private void LoadReplay()
 		{
 			LevelDefinition levelDefinition = this.mLevelManager.FindLevelFromSceneName(this.mSelectedReplay.SceneName, this.mSelectedReplay.GameSessionSettings.GameMode);
@@ -344,7 +330,6 @@ namespace BBI.Unity.Game.UI
 			});
 		}
 
-		// Token: 0x06000C2B RID: 3115 RVA: 0x0003A620 File Offset: 0x00038820
 		private void OnDeleteConfirmationResult(MessageBoxResult result)
 		{
 			if (result == MessageBoxResult.Yes)
@@ -356,81 +341,60 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000C2C RID: 3116 RVA: 0x0003A648 File Offset: 0x00038848
 		private void OnDeleteClicked()
 		{
 			UIHelper.ShowMessageBox(MessageBoxLayout.YesOrNo, this.m_DeleteConfirmationLocID, new MessageBoxResultHandler(this.OnDeleteConfirmationResult));
 		}
 
-		// Token: 0x06000C2D RID: 3117 RVA: 0x0003A662 File Offset: 0x00038862
 		public ReplayLoadController()
 		{
 		}
 
-		// Token: 0x04000AE8 RID: 2792
 		[SerializeField]
 		private UIGrid m_SavedReplaysGrid;
 
-		// Token: 0x04000AE9 RID: 2793
 		[SerializeField]
 		private UIButton m_Load;
 
-		// Token: 0x04000AEA RID: 2794
 		[SerializeField]
 		private UIButton m_Cancel;
 
-		// Token: 0x04000AEB RID: 2795
 		[SerializeField]
 		private UIButton m_Delete;
 
-		// Token: 0x04000AEC RID: 2796
 		[SerializeField]
 		private NGUIEventHandler m_SaveEntryPrefab;
 
-		// Token: 0x04000AED RID: 2797
 		[SerializeField]
 		private SaveInfoPanel m_ReplayInfoPanel;
 
-		// Token: 0x04000AEE RID: 2798
 		[SerializeField]
 		private string m_DeleteConfirmationLocID = "(Unlocalized) Are you sure you want to delete the selected replay file?";
 
-		// Token: 0x04000AEF RID: 2799
 		[SerializeField]
 		private string m_GameLoadErrorLocID = "ID_UI_FE_GEN_SAVE_LOAD_POP_UP_ERROR_839";
 
-		// Token: 0x04000AF0 RID: 2800
 		[SerializeField]
 		private string m_VersionMismatchLocID = "ID_UI_FE_LOAD_REPLAYS_OUTDATED_WARNING_884";
 
-		// Token: 0x04000AF1 RID: 2801
 		private LevelManager mLevelManager;
 
-		// Token: 0x04000AF2 RID: 2802
 		private DLCManager mDLCManager;
 
-		// Token: 0x04000AF3 RID: 2803
 		private bool mDataInitialized;
 
-		// Token: 0x04000AF4 RID: 2804
 		private bool mHasSelectedReplay;
 
-		// Token: 0x04000AF5 RID: 2805
 		private EventDelegate mLoadEvent;
 
-		// Token: 0x04000AF6 RID: 2806
 		private EventDelegate mDeleteEvent;
 
-		// Token: 0x04000AF7 RID: 2807
 		private bool mLoadErrorShown;
 
-		// Token: 0x04000AF8 RID: 2808
 		private List<ReplayHelpers.ReplayableGameSessionHeader> mReplayHeaders = new List<ReplayHelpers.ReplayableGameSessionHeader>();
 
-		// Token: 0x04000AF9 RID: 2809
 		private List<string> mEmptyReplays = new List<string>(4);
 
-		// Token: 0x04000AFA RID: 2810
 		private ReplayHelpers.ReplayableGameSessionHeader mSelectedReplay;
 	}
 }

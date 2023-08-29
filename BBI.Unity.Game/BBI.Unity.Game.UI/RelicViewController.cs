@@ -21,10 +21,8 @@ using UnityEngine;
 
 namespace BBI.Unity.Game.UI
 {
-	// Token: 0x020001F8 RID: 504
 	public class RelicViewController : IDisposable
 	{
-		// Token: 0x06000C9F RID: 3231 RVA: 0x0003CE20 File Offset: 0x0003B020
 		public RelicViewController(UnitInterfaceController unitInterfaceController, RelicViewController.RelicViewControllerSettings settings, BlackbirdPanelBase.BlackbirdPanelGlobalLifetimeDependencyContainer globalDependencies, BlackbirdPanelBase.BlackbirdPanelSessionDependencyContainer sessionDependencies)
 		{
 			ShipbreakersMain.SimToPresentationEventSystem.AddHandler<CollectibleEntityCreatedEvent>(new BBI.Core.Events.EventHandler<CollectibleEntityCreatedEvent>(this.OnCollectibleEntityCreatedEvent));
@@ -84,7 +82,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CA0 RID: 3232 RVA: 0x0003D024 File Offset: 0x0003B224
 		public void Dispose()
 		{
 			ShipbreakersMain.SimToPresentationEventSystem.RemoveHandler<VisibilityChangedEvent>(new BBI.Core.Events.EventHandler<VisibilityChangedEvent>(this.OnVisibilityChangedEvent));
@@ -119,7 +116,6 @@ namespace BBI.Unity.Game.UI
 			this.mSettings = null;
 		}
 
-		// Token: 0x06000CA1 RID: 3233 RVA: 0x0003D19C File Offset: 0x0003B39C
 		private void OnNewFrameFromSim(SimStateFrame newFrame)
 		{
 			foreach (KeyValuePair<Entity, CollectibleEntityView> keyValuePair in this.mRelicViews)
@@ -130,7 +126,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CA2 RID: 3234 RVA: 0x0003D210 File Offset: 0x0003B410
 		private void OnSceneEntitiesLoadedEvent(SceneEntitiesLoadedEvent ev)
 		{
 			foreach (KeyValuePair<Entity, CollectibleEntityView> keyValuePair in this.mRelicViews)
@@ -144,7 +139,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CA3 RID: 3235 RVA: 0x0003D2A4 File Offset: 0x0003B4A4
 		private void OnCollectibleEntityCreatedEvent(CollectibleEntityCreatedEvent ev)
 		{
 			if (ev.CollectibleType == CollectibleType.Artifact)
@@ -153,14 +147,12 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CA4 RID: 3236 RVA: 0x0003D2BA File Offset: 0x0003B4BA
 		public void OnSceneEntityCreated(SceneEntityCreatedEvent ev)
 		{
 			SceneEntityDescriptor sceneEntityDescriptor = ev.SceneEntityDescriptor;
 			this.CreateRelicEntityView(ev.Entity);
 		}
 
-		// Token: 0x06000CA5 RID: 3237 RVA: 0x0003D2D0 File Offset: 0x0003B4D0
 		public void OnMapObjectInteractionEvent(MapObjectInteractionEvent ev)
 		{
 			CollectibleEntityView collectibleEntityView = ev.MapObject as CollectibleEntityView;
@@ -180,7 +172,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CA6 RID: 3238 RVA: 0x0003D328 File Offset: 0x0003B528
 		private void OnVisibilityChangedEvent(VisibilityChangedEvent ev)
 		{
 			if (ev.FromState == ev.ToState)
@@ -218,7 +209,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CA7 RID: 3239 RVA: 0x0003D3F4 File Offset: 0x0003B5F4
 		private void OnRelicEvent(RelicEvent ev)
 		{
 			SimStateFrame currentSimFrame = ShipbreakersMain.CurrentSimFrame;
@@ -265,19 +255,16 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CA8 RID: 3240 RVA: 0x0003D4DA File Offset: 0x0003B6DA
 		private void OnTacticalOverlayToggleEvent(TacticalOverlayToggleEvent ev)
 		{
 			this.SetAllRelicIconVisibility();
 		}
 
-		// Token: 0x06000CA9 RID: 3241 RVA: 0x0003D4E2 File Offset: 0x0003B6E2
 		private void OnSensorsManagerEvent(SensorsManagerEvent ev)
 		{
 			this.SetAllRelicIconVisibility();
 		}
 
-		// Token: 0x06000CAA RID: 3242 RVA: 0x0003D4EC File Offset: 0x0003B6EC
 		private void OnArtifactHighlightToggle(bool active)
 		{
 			foreach (KeyValuePair<Entity, CollectibleEntityView> keyValuePair in this.mRelicViews)
@@ -289,7 +276,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CAB RID: 3243 RVA: 0x0003D554 File Offset: 0x0003B754
 		private void OnRelicTooltip(NGUIEventHandler handler, bool show)
 		{
 			if (!show)
@@ -311,7 +297,6 @@ namespace BBI.Unity.Game.UI
 			});
 		}
 
-		// Token: 0x06000CAC RID: 3244 RVA: 0x0003D5BC File Offset: 0x0003B7BC
 		private void OnDefaultIconSpawned(CollectibleEntityView view)
 		{
 			if (view != null)
@@ -325,7 +310,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CAD RID: 3245 RVA: 0x0003D620 File Offset: 0x0003B820
 		private void OnAttachedIconSpawned(CollectibleEntityView view)
 		{
 			if (view != null)
@@ -339,7 +323,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CAE RID: 3246 RVA: 0x0003D684 File Offset: 0x0003B884
 		private void CreateRelicEntityView(Entity entity)
 		{
 			Assert.Release(!this.mRelicViews.ContainsKey(entity), "[RH]: Trying to creating a CollectibleEntityView for relic entity but one already exists!");
@@ -403,14 +386,12 @@ namespace BBI.Unity.Game.UI
 			this.UpdateRelicView(collectibleEntityView, relicState, collectibleState);
 		}
 
-		// Token: 0x06000CAF RID: 3247 RVA: 0x0003D88A File Offset: 0x0003BA8A
 		private void DespawnAndRemoveRelicView(Entity relicEntity, CollectibleEntityView view)
 		{
 			this.mRelicViews.Remove(relicEntity);
 			this.DespawnRelicView(view);
 		}
 
-		// Token: 0x06000CB0 RID: 3248 RVA: 0x0003D8A0 File Offset: 0x0003BAA0
 		private void DespawnRelicView(CollectibleEntityView view)
 		{
 			if (view != null)
@@ -429,7 +410,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CB1 RID: 3249 RVA: 0x0003D924 File Offset: 0x0003BB24
 		private void UpdateRelicProgressBar(SimStateFrame stateFrame, Entity relicEntity, CollectibleEntityView view)
 		{
 			RelicState relicState = stateFrame.FindObject<RelicState>(relicEntity);
@@ -446,7 +426,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CB2 RID: 3250 RVA: 0x0003D980 File Offset: 0x0003BB80
 		private void UpdateRelicViewPosition(SimStateFrame stateFrame, Entity relicEntity, CollectibleEntityView view)
 		{
 			CollectibleState collectibleState = stateFrame.FindObject<CollectibleState>(relicEntity);
@@ -463,7 +442,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CB3 RID: 3251 RVA: 0x0003D9E4 File Offset: 0x0003BBE4
 		private bool GetRelicIconHUDSettings(Entity relicEntity, DetectionState visibility, bool useUnidentifiedIcon, out string iconName, out Color iconColorToUse)
 		{
 			iconColorToUse = Color.white;
@@ -492,7 +470,6 @@ namespace BBI.Unity.Game.UI
 			return false;
 		}
 
-		// Token: 0x06000CB4 RID: 3252 RVA: 0x0003DA70 File Offset: 0x0003BC70
 		private void UpdateRelicDefaultIconSprite(CollectibleEntityView view, DetectionState visibility, bool useUnidentifiedIcon)
 		{
 			string spriteName;
@@ -503,7 +480,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CB5 RID: 3253 RVA: 0x0003DAA4 File Offset: 0x0003BCA4
 		private void UpdateRelicAttachedIconSprite(CollectibleEntityView view, DetectionState visibility, bool useUnidentifiedIcon)
 		{
 			string spriteName;
@@ -514,7 +490,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CB6 RID: 3254 RVA: 0x0003DAD6 File Offset: 0x0003BCD6
 		private void UpdateRelicIconTrackOnScreenEdge(CollectibleEntityView view, bool trackOnScreenEdge)
 		{
 			if (view != null)
@@ -523,7 +498,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CB7 RID: 3255 RVA: 0x0003DAE8 File Offset: 0x0003BCE8
 		private void SetAllRelicIconVisibility()
 		{
 			SimStateFrame currentSimFrame = ShipbreakersMain.CurrentSimFrame;
@@ -543,7 +517,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CB8 RID: 3256 RVA: 0x0003DB94 File Offset: 0x0003BD94
 		private void ShowRelicTooltip(Entity relicEntity)
 		{
 			SimStateFrame currentSimFrame = ShipbreakersMain.CurrentSimFrame;
@@ -580,7 +553,6 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CB9 RID: 3257 RVA: 0x0003DCC4 File Offset: 0x0003BEC4
 		private void UpdateRelicView(CollectibleEntityView view, RelicState relicState, CollectibleState collectibleState)
 		{
 			view.UpdateCollectibleView(relicState.Visibility);
@@ -589,7 +561,6 @@ namespace BBI.Unity.Game.UI
 			view.gameObject.SetActive(active);
 		}
 
-		// Token: 0x06000CBA RID: 3258 RVA: 0x0003DD2C File Offset: 0x0003BF2C
 		private void UpdateRelicViewHUDState(CollectibleEntityView view)
 		{
 			SimStateFrame currentSimFrame = ShipbreakersMain.CurrentSimFrame;
@@ -636,67 +607,49 @@ namespace BBI.Unity.Game.UI
 			}
 		}
 
-		// Token: 0x06000CBB RID: 3259 RVA: 0x0003DE0D File Offset: 0x0003C00D
 		private void TriggerPickup(CollectibleEntityView view, Entity newOwnerEntity)
 		{
 			view.PickedUp(newOwnerEntity);
 		}
 
-		// Token: 0x06000CBC RID: 3260 RVA: 0x0003DE16 File Offset: 0x0003C016
 		private void TriggerDetonation(CollectibleEntityView view)
 		{
 			view.Detonate();
 		}
 
-		// Token: 0x06000CBD RID: 3261 RVA: 0x0003DE1E File Offset: 0x0003C01E
 		private void TriggerExtractionFX(CollectibleEntityView view)
 		{
 			view.Extract();
 		}
 
-		// Token: 0x04000B77 RID: 2935
 		private RelicViewController.RelicViewControllerSettings mSettings;
 
-		// Token: 0x04000B78 RID: 2936
 		private UnitInterfaceController mInterfaceController;
 
-		// Token: 0x04000B79 RID: 2937
 		private HUDSystem mHUDSystem;
 
-		// Token: 0x04000B7A RID: 2938
 		private IGameLocalization mLocalizationManager;
 
-		// Token: 0x04000B7B RID: 2939
 		private ICommanderManager mCommanderManager;
 
-		// Token: 0x04000B7C RID: 2940
 		private ICommanderInteractionProvider mInteractionProvider;
 
-		// Token: 0x04000B7D RID: 2941
 		private Dictionary<Entity, CollectibleEntityView> mRelicViews = new Dictionary<Entity, CollectibleEntityView>(20);
 
-		// Token: 0x04000B7E RID: 2942
 		private Entity mShowingTooltipForEntity = Entity.None;
 
-		// Token: 0x020001F9 RID: 505
 		public struct RelicTooltipData
 		{
-			// Token: 0x04000B7F RID: 2943
 			public string LocalizedTitleStringID;
 
-			// Token: 0x04000B80 RID: 2944
 			public string LocalizedShortDescriptionStringID;
 
-			// Token: 0x04000B81 RID: 2945
 			public string LocalizedLongDescriptionStringID;
 		}
 
-		// Token: 0x020001FA RID: 506
 		[Serializable]
 		public class RelicViewControllerSettings
 		{
-			// Token: 0x1700021B RID: 539
-			// (get) Token: 0x06000CBE RID: 3262 RVA: 0x0003DE26 File Offset: 0x0003C026
 			public float MarkerAltitudeOffset
 			{
 				get
@@ -705,8 +658,6 @@ namespace BBI.Unity.Game.UI
 				}
 			}
 
-			// Token: 0x1700021C RID: 540
-			// (get) Token: 0x06000CBF RID: 3263 RVA: 0x0003DE2E File Offset: 0x0003C02E
 			public Transform TooltipAnchor
 			{
 				get
@@ -715,16 +666,13 @@ namespace BBI.Unity.Game.UI
 				}
 			}
 
-			// Token: 0x06000CC0 RID: 3264 RVA: 0x0003DE36 File Offset: 0x0003C036
 			public RelicViewControllerSettings()
 			{
 			}
 
-			// Token: 0x04000B82 RID: 2946
 			[SerializeField]
 			private float m_MarkerAltitudeOffset = 20f;
 
-			// Token: 0x04000B83 RID: 2947
 			[SerializeField]
 			private Transform m_TooltipAnchor;
 		}
