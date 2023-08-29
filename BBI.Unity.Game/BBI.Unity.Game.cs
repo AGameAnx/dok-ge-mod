@@ -1,8 +1,3 @@
-// C:\Games\Steam\steamapps\common\Deserts of Kharak\Data\Managed\BBI.Unity.Game.dll
-// BBI.Unity.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-
-// Timestamp: 64E583A0 (2023-08-23 6:57:20)
-
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -22,7 +17,7 @@ using UnityEngine;
 [assembly: ComVisible(false)]
 [assembly: Guid("5b5b445b-fc18-4d62-af2b-2ff78efd4b22")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("v1.4.0 [b][ GE mod 1.4 ]")]
+[assembly: AssemblyInformationalVersion("v1.4.1 [b][ GE mod 1.4.1 ]")]
 [assembly: UnityAPICompatibilityVersion("5.2.3f1")]
 [assembly: UnityAPICompatibilityVersion("5.2.2f1")]
 [assembly: UnityAPICompatibilityVersion("5.2.0f3")]

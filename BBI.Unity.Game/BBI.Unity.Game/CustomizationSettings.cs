@@ -9,11 +9,8 @@ using UnityEngine;
 
 namespace BBI.Unity.Game
 {
-	// Token: 0x0200016D RID: 365
 	public class CustomizationSettings : SettingsBase
 	{
-		// Token: 0x1700013B RID: 315
-		// (get) Token: 0x0600077A RID: 1914 RVA: 0x00026100 File Offset: 0x00024300
 		public UnitColors UnitColors
 		{
 			get
@@ -22,13 +19,11 @@ namespace BBI.Unity.Game
 			}
 		}
 
-		// Token: 0x0600077B RID: 1915 RVA: 0x00026127 File Offset: 0x00024327
 		public CustomizationSettings()
 		{
 			this.SetToDefaults();
 		}
 
-		// Token: 0x0600077C RID: 1916 RVA: 0x00026138 File Offset: 0x00024338
 		public override void SetToDefaults()
 		{
 			this.UseCustomizationValues = false;
@@ -44,7 +39,6 @@ namespace BBI.Unity.Game
 			this.RandomFaction = false;
 		}
 
-		// Token: 0x0600077D RID: 1917 RVA: 0x000261B8 File Offset: 0x000243B8
 		public DLCPackID GetLocalPlayerSkinPackIDForFaction(DLCManager dlcManager, CustomizationFactionSetting forFaction)
 		{
 			if (forFaction > CustomizationFactionSetting.Gaalsien)
@@ -58,7 +52,6 @@ namespace BBI.Unity.Game
 			return DLCPackID.kInvalidID;
 		}
 
-		// Token: 0x0600077E RID: 1918 RVA: 0x000261FF File Offset: 0x000243FF
 		public UnitColors GetLocalPlayerUnitColors(UnitHUDInteractionAttributes unitHUDInterfaceAttributes)
 		{
 			if (this.UseCustomizationValues)
@@ -68,7 +61,6 @@ namespace BBI.Unity.Game
 			return CustomizationSettings.GetPresetUnitColors(0, unitHUDInterfaceAttributes);
 		}
 
-		// Token: 0x0600077F RID: 1919 RVA: 0x00026218 File Offset: 0x00024418
 		public static UnitColors GetPresetUnitColors(int colorIndex, UnitHUDInteractionAttributes unitHUDInterfaceAttributes)
 		{
 			if (unitHUDInterfaceAttributes == null)
@@ -80,7 +72,6 @@ namespace BBI.Unity.Game
 			return CustomizationSettings.GetPresetUnitColors(colorIndex, playerUnitColors);
 		}
 
-		// Token: 0x06000780 RID: 1920 RVA: 0x00026254 File Offset: 0x00024454
 		public static UnitColors GetPresetUnitColors(int colorIndex, UnitHUDInteractionAttributes.PlayerUnitColours[] unitColors)
 		{
 			if (unitColors.IsNullOrEmpty<UnitHUDInteractionAttributes.PlayerUnitColours>())
@@ -97,25 +88,18 @@ namespace BBI.Unity.Game
 			return new UnitColors(NGUIMath.ColorToInt(playerUnitColours.BaseColour), NGUIMath.ColorToInt(playerUnitColours.TrimColour));
 		}
 
-		// Token: 0x040007EB RID: 2027
 		public bool UseCustomizationValues;
 
-		// Token: 0x040007EC RID: 2028
 		public Color32 PrimaryColor;
 
-		// Token: 0x040007ED RID: 2029
 		public Color32 TrimColor;
 
-		// Token: 0x040007EE RID: 2030
 		public int DecalIndex;
 
-		// Token: 0x040007EF RID: 2031
 		public DLCPackID[] UnitSkinPackID;
 
-		// Token: 0x040007F0 RID: 2032
 		public int FactionIndex;
 
-		// Token: 0x040007F1 RID: 2033
 		public bool RandomFaction;
 	}
 }

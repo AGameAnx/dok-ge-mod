@@ -12,11 +12,8 @@ using System.Linq;
 
 namespace BBI.Unity.Game.World
 {
-	// Token: 0x02000373 RID: 883
 	public class SceneEntityBase : MonoBehaviour
 	{
-		// Token: 0x1700052C RID: 1324
-		// (get) Token: 0x06001E05 RID: 7685 RVA: 0x000B12AC File Offset: 0x000AF4AC
 		public AssetContainer EntityToSpawn
 		{
 			get
@@ -30,8 +27,6 @@ namespace BBI.Unity.Game.World
 			}
 		}
 
-		// Token: 0x1700052D RID: 1325
-		// (get) Token: 0x06001E06 RID: 7686 RVA: 0x000B12D9 File Offset: 0x000AF4D9
 		public string TypeID
 		{
 			get
@@ -45,8 +40,6 @@ namespace BBI.Unity.Game.World
 			}
 		}
 
-		// Token: 0x1700052E RID: 1326
-		// (get) Token: 0x06001E07 RID: 7687 RVA: 0x000B130F File Offset: 0x000AF50F
 		protected Vector2r Position
 		{
 			get
@@ -59,8 +52,6 @@ namespace BBI.Unity.Game.World
 			}
 		}
 
-		// Token: 0x1700052F RID: 1327
-		// (get) Token: 0x06001E08 RID: 7688 RVA: 0x000B1326 File Offset: 0x000AF526
 		protected Fixed64 Height
 		{
 			get
@@ -69,8 +60,6 @@ namespace BBI.Unity.Game.World
 			}
 		}
 
-		// Token: 0x17000530 RID: 1328
-		// (get) Token: 0x06001E09 RID: 7689 RVA: 0x000B1342 File Offset: 0x000AF542
 		protected Orientation2 Orientation
 		{
 			get
@@ -79,8 +68,6 @@ namespace BBI.Unity.Game.World
 			}
 		}
 
-		// Token: 0x17000531 RID: 1329
-		// (get) Token: 0x06001E0A RID: 7690 RVA: 0x000B1360 File Offset: 0x000AF560
 		protected Vector3r ModelOrientationEulersDegrees
 		{
 			get
@@ -89,7 +76,6 @@ namespace BBI.Unity.Game.World
 			}
 		}
 
-		// Token: 0x06001E0B RID: 7691 RVA: 0x000B1388 File Offset: 0x000AF588
 		protected string[] GetAllTags()
 		{
 			if (this.m_AdditionalTags == null)
@@ -105,7 +91,6 @@ namespace BBI.Unity.Game.World
 			return list.ToArray();
 		}
 
-		// Token: 0x06001E0C RID: 7692 RVA: 0x000B13E0 File Offset: 0x000AF5E0
 		public SceneEntityDescriptor CreateDataDescriptor()
 		{
 			SceneEntityDescriptor result = null;
@@ -123,7 +108,6 @@ namespace BBI.Unity.Game.World
 			return result;
 		}
 
-		// Token: 0x06001E0D RID: 7693 RVA: 0x000B143C File Offset: 0x000AF63C
 		protected virtual SceneEntityDescriptor GetDataDescriptor()
 		{
 			if (this.mDescriptor == null)
@@ -133,7 +117,6 @@ namespace BBI.Unity.Game.World
 			return this.mDescriptor;
 		}
 
-		// Token: 0x06001E0E RID: 7694 RVA: 0x000B1678 File Offset: 0x000AF878
 		public static IEnumerable<SceneEntityDescriptor> GetAllEntityCreationData(bool includeMissionOnlyEntities, bool includeArtifactRetrievalOnlyEntities)
 		{
 			IEnumerable<SceneEntityBase> bases = SceneHelper.FindComponentsOfType<SceneEntityBase>(true);
@@ -155,7 +138,6 @@ namespace BBI.Unity.Game.World
 			yield break;
 		}
 
-		// Token: 0x06001E0F RID: 7695 RVA: 0x000B169C File Offset: 0x000AF89C
 		public void SetEnable(bool enable, bool addExcludedSuffix)
 		{
 			base.gameObject.SetActive(enable);
@@ -165,34 +147,26 @@ namespace BBI.Unity.Game.World
 			}
 		}
 
-		// Token: 0x06001E10 RID: 7696 RVA: 0x000B16CD File Offset: 0x000AF8CD
 		public SceneEntityBase()
 		{
 		}
 
-		// Token: 0x040018BD RID: 6333
 		private const float kFloatPointWorkingPrecision = 0.25f;
 
-		// Token: 0x040018BE RID: 6334
 		[SerializeField]
 		protected AssetContainer m_EntityToSpawn;
 
-		// Token: 0x040018BF RID: 6335
 		[SerializeField]
 		protected bool m_TagWithName = true;
 
-		// Token: 0x040018C0 RID: 6336
 		[SerializeField]
 		protected string[] m_AdditionalTags;
 
-		// Token: 0x040018C1 RID: 6337
 		[SerializeField]
 		protected bool m_SkipWhenPersisting;
 
-		// Token: 0x040018C2 RID: 6338
 		public Entity EntityID = Entity.None;
 
-		// Token: 0x040018C3 RID: 6339
 		protected SceneEntityDescriptor mDescriptor;
 	}
 }
