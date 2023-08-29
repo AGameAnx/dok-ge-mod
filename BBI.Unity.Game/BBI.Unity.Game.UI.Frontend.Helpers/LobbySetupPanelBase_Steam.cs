@@ -847,7 +847,6 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 				this.mSharedLobbyData = new SharedLobbyData();
 				this.mSharedLobbyData.Initialize(this.mLobby);
 				this.mSharedLobbyData.LocalPlayerUnitColors = ShipbreakersMain.UserSettings.Customization.GetLocalPlayerUnitColors(this.mUnitHUDInteractionAttributes);
-				EpicMatchmakingIntegration.CacheParty(string.Empty);
 				CustomizationFactionSetting factionIndex = (CustomizationFactionSetting)ShipbreakersMain.UserSettings.Customization.FactionIndex;
 				PlayerFactionSelection factionSelection = new PlayerFactionSelection(factionIndex, ShipbreakersMain.UserSettings.Customization.GetLocalPlayerSkinPackIDForFaction(this.mDLCManager, factionIndex), ShipbreakersMain.UserSettings.Customization.RandomFaction);
 				this.SetFactionSelectionForLocalPlayer(factionSelection, false);
