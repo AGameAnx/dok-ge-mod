@@ -12,11 +12,8 @@ using BBI.Game.SaveLoad;
 
 namespace BBI.Game.Simulation
 {
-	// Token: 0x02000270 RID: 624
 	public sealed class Wreck
 	{
-		// Token: 0x1700018B RID: 395
-		// (get) Token: 0x06000851 RID: 2129 RVA: 0x00026A60 File Offset: 0x00024C60
 		internal Entity Entity
 		{
 			get
@@ -25,8 +22,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x1700018C RID: 396
-		// (get) Token: 0x06000852 RID: 2130 RVA: 0x00026A68 File Offset: 0x00024C68
 		internal int RemainingHealth
 		{
 			get
@@ -35,8 +30,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x1700018D RID: 397
-		// (get) Token: 0x06000853 RID: 2131 RVA: 0x00026A70 File Offset: 0x00024C70
 		internal WreckSection[] WreckSections
 		{
 			get
@@ -45,8 +38,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x1700018E RID: 398
-		// (get) Token: 0x06000854 RID: 2132 RVA: 0x00026A78 File Offset: 0x00024C78
 		internal bool SpawnsArtifact
 		{
 			get
@@ -55,7 +46,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06000855 RID: 2133 RVA: 0x00026A9C File Offset: 0x00024C9C
 		[ObjectConstructor(new string[]
 		{
 			"Entity",
@@ -73,7 +63,6 @@ namespace BBI.Game.Simulation
 			this.mWreckSections = wreckSections;
 		}
 
-		// Token: 0x06000856 RID: 2134 RVA: 0x00026AF8 File Offset: 0x00024CF8
 		private Wreck(Entity owner, WreckSectionAttributes[] sections, string wreckArtifactType, int wreckArtifactSpawnPositionOffsetX, int wreckArtifactSpawnPositionOffsetY, string explosionWeaponTypeID)
 		{
 			this.mEntity = owner;
@@ -129,27 +118,23 @@ namespace BBI.Game.Simulation
 			this.mWeaponAttributes = weaponAttributes;
 		}
 
-		// Token: 0x06000857 RID: 2135 RVA: 0x00026C53 File Offset: 0x00024E53
 		[CustomConverter(ConverterDirection.Save, ClassStateConversionOrder.RunStateDataConversionAfter)]
 		public void OnSave(ref WreckSaveState state)
 		{
 			state.ExplosionWeaponAttributes = ((this.mWeaponAttributes == null) ? string.Empty : this.mWeaponAttributes.Name);
 		}
 
-		// Token: 0x06000858 RID: 2136 RVA: 0x00026C75 File Offset: 0x00024E75
 		[CustomConverter(ConverterDirection.Load, ClassStateConversionOrder.RunStateDataConversionAfter)]
 		public void OnLoad(WreckSaveState state)
 		{
 			this.mWeaponAttributes = (string.IsNullOrEmpty(state.ExplosionWeaponAttributes) ? null : Sim.GetEntityTypeAttributes<WeaponAttributes>(state.ExplosionWeaponAttributes));
 		}
 
-		// Token: 0x06000859 RID: 2137 RVA: 0x00026C9A File Offset: 0x00024E9A
 		internal static Wreck Create(Entity owner, WreckSectionAttributes[] sectionAttributes, string wreckArtifactType, int wreckArtifactSpawnPositionOffsetX, int wreckArtifactSpawnPositionOffsetY, string explosionWeaponTypeID)
 		{
 			return new Wreck(owner, sectionAttributes, wreckArtifactType, wreckArtifactSpawnPositionOffsetX, wreckArtifactSpawnPositionOffsetY, explosionWeaponTypeID);
 		}
 
-		// Token: 0x0600085A RID: 2138 RVA: 0x00026CAC File Offset: 0x00024EAC
 		internal int CurrentSectionIndex()
 		{
 			if (this.mWreckSections != null)
@@ -165,7 +150,6 @@ namespace BBI.Game.Simulation
 			return -1;
 		}
 
-		// Token: 0x0600085B RID: 2139 RVA: 0x00026CE8 File Offset: 0x00024EE8
 		internal int SalvageWreck(Entity harvester, int amount)
 		{
 			int num = 0;
@@ -216,7 +200,6 @@ namespace BBI.Game.Simulation
 			return num;
 		}
 
-		// Token: 0x0600085C RID: 2140 RVA: 0x00026E38 File Offset: 0x00025038
 		private WreckSection CreateWreckSection(int sectionIndex, WreckSectionAttributes sectionAttributes)
 		{
 			List<WreckSectionResourceSpawnable> list = null;
@@ -245,7 +228,6 @@ namespace BBI.Game.Simulation
 			return new WreckSection(sectionIndex, sectionAttributes.Health, sectionAttributes.Health, sectionAttributes.ExplosionChance, sectionAttributes.OffsetFromWreckCenterInLocalSpace, (list != null) ? list.ToArray() : null);
 		}
 
-		// Token: 0x0600085D RID: 2141 RVA: 0x00026F5C File Offset: 0x0002515C
 		private void SpawnSectionResources(WreckSection wreckSection, int sectionIndex)
 		{
 			WreckSectionResourceSpawnable[] spawnables = wreckSection.Spawnables;
@@ -326,7 +308,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600085E RID: 2142 RVA: 0x00027218 File Offset: 0x00025418
 		private Entity TrySpawnArtifact(Entity extractingEntity)
 		{
 			Entity entity = Entity.None;
@@ -398,7 +379,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x0600085F RID: 2143 RVA: 0x000273F4 File Offset: 0x000255F4
 		private bool IsSpawnPositionValidForWreckSpawnable(Vector2r spawnPosition, out Vector2r validPosition)
 		{
 			NavMeshAttributes navMeshAttributes = (Sim.Instance.Settings != null) ? Sim.Instance.Settings.WreckSpawnableNavMesh : null;
@@ -423,7 +403,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x06000860 RID: 2144 RVA: 0x00027478 File Offset: 0x00025678
 		private void TriggerWreckSectionExplosion(WreckSection wreckSection, int sectionIndex)
 		{
 			int explosionChance = wreckSection.ExplosionChance;
@@ -460,7 +439,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06000861 RID: 2145 RVA: 0x00027578 File Offset: 0x00025778
 		internal int GetChecksum()
 		{
 			int num = Checksum.Combine(this.mRemainingHealth, this.mWreckArtifactType.GetHashCode());
@@ -474,31 +452,24 @@ namespace BBI.Game.Simulation
 			return num;
 		}
 
-		// Token: 0x04000A26 RID: 2598
 		[StateData("Entity", ConverterDirection.Save)]
 		private readonly Entity mEntity = Entity.None;
 
-		// Token: 0x04000A27 RID: 2599
 		[StateData("RemainingHealth")]
 		public int mRemainingHealth;
 
-		// Token: 0x04000A28 RID: 2600
 		[StateData("WreckArtifactType", ConverterDirection.Save)]
 		private readonly string mWreckArtifactType = string.Empty;
 
-		// Token: 0x04000A29 RID: 2601
 		[StateData("WreckArtifactSpawnPositionOffsetX", ConverterDirection.Save)]
 		private readonly int mWreckArtifactSpawnPositionOffsetX;
 
-		// Token: 0x04000A2A RID: 2602
 		[StateData("WreckArtifactSpawnPositionOffsetY", ConverterDirection.Save)]
 		private readonly int mWreckArtifactSpawnPositionOffsetY;
 
-		// Token: 0x04000A2B RID: 2603
 		[StateData("WreckSections", ConverterDirection.Save)]
 		private readonly WreckSection[] mWreckSections = EmptyArray<WreckSection>.Empty;
 
-		// Token: 0x04000A2C RID: 2604
 		private WeaponAttributes mWeaponAttributes;
 	}
 }

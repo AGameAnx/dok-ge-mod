@@ -9,10 +9,8 @@ using BBI.Game.Utility;
 
 namespace BBI.Game.Simulation
 {
-	// Token: 0x02000387 RID: 903
 	internal static class DetectableProcessor
 	{
-		// Token: 0x0600119C RID: 4508 RVA: 0x0005B844 File Offset: 0x00059A44
 		internal static void RefreshAllDetectablesOnLoad()
 		{
 			DetectableProcessor.sCommanderDetectableMap.Clear();
@@ -37,7 +35,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600119D RID: 4509 RVA: 0x0005B99C File Offset: 0x00059B9C
 		internal static void ResetDetectables()
 		{
 			foreach (DetectableProcessor.SortedEntityList sortedEntityList in DetectableProcessor.sCommanderDetectableMap.Values<CommanderID, DetectableProcessor.SortedEntityList>())
@@ -128,7 +125,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600119E RID: 4510 RVA: 0x0005BD94 File Offset: 0x00059F94
 		internal static void UpdateDetectionState()
 		{
 			List<Entity> list = TransientLists.GetList<Entity>();
@@ -205,19 +201,16 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600119F RID: 4511 RVA: 0x0005C16C File Offset: 0x0005A36C
 		internal static void UpdateSensorList()
 		{
 			DetectableProcessor.UpdateListHelper(DetectableProcessor.sSensorsToAdd, DetectableProcessor.sCommanderSensorMap, 20);
 		}
 
-		// Token: 0x060011A0 RID: 4512 RVA: 0x0005C17F File Offset: 0x0005A37F
 		internal static void UpdateDetectableList()
 		{
 			DetectableProcessor.UpdateListHelper(DetectableProcessor.sDetectablesToAdd, DetectableProcessor.sCommanderDetectableMap, 21);
 		}
 
-		// Token: 0x060011A1 RID: 4513 RVA: 0x0005C194 File Offset: 0x0005A394
 		internal static void UpdateListHelper(List<Entity> newEntities, Dictionary<CommanderID, DetectableProcessor.SortedEntityList> correspondingMap, int componentID)
 		{
 			if (newEntities.Count > 0)
@@ -251,7 +244,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060011A2 RID: 4514 RVA: 0x0005C2C8 File Offset: 0x0005A4C8
 		private static void AddToCommanderMapHelper(CommanderID commander, Entity entity, Dictionary<CommanderID, DetectableProcessor.SortedEntityList> correspondingMap, int componentID)
 		{
 			DetectableProcessor.SortedEntityList sortedEntityList;
@@ -263,7 +255,6 @@ namespace BBI.Game.Simulation
 			sortedEntityList.Add(entity);
 		}
 
-		// Token: 0x060011A3 RID: 4515 RVA: 0x0005C2F8 File Offset: 0x0005A4F8
 		internal static void Initialize()
 		{
 			DetectableProcessor.sCommanderSensorMap = new Dictionary<CommanderID, DetectableProcessor.SortedEntityList>(6);
@@ -277,7 +268,6 @@ namespace BBI.Game.Simulation
 			DetectableProcessor.sMapMidwayPoint = (Sim.Instance.Map.Min.X + Sim.Instance.Map.Max.X) * Fixed64.Half;
 		}
 
-		// Token: 0x060011A4 RID: 4516 RVA: 0x0005C388 File Offset: 0x0005A588
 		internal static void Shutdown()
 		{
 			if (DetectableProcessor.sCommanderSensorMap != null)
@@ -307,7 +297,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060011A5 RID: 4517 RVA: 0x0005C408 File Offset: 0x0005A608
 		internal static void PostDetectionStateEvents(Entity self)
 		{
 			Detectable component = self.GetComponent<Detectable>(21);
@@ -319,13 +308,11 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060011A6 RID: 4518 RVA: 0x0005C43C File Offset: 0x0005A63C
 		internal static void AddNewSensor(Entity sensorEntity)
 		{
 			DetectableProcessor.sSensorsToAdd.Add(sensorEntity);
 		}
 
-		// Token: 0x060011A7 RID: 4519 RVA: 0x0005C449 File Offset: 0x0005A649
 		internal static void AddNewDetectable(Entity detectableEntity)
 		{
 			if (DetectableProcessor.sDetectablesToAdd == null)
@@ -335,43 +322,32 @@ namespace BBI.Game.Simulation
 			DetectableProcessor.sDetectablesToAdd.Add(detectableEntity);
 		}
 
-		// Token: 0x060011A8 RID: 4520 RVA: 0x0005C46C File Offset: 0x0005A66C
 		// Note: this type is marked as 'beforefieldinit'.
 		static DetectableProcessor()
 		{
 		}
 
-		// Token: 0x04000EA6 RID: 3750
 		private const int kInitializeSize = 200;
 
-		// Token: 0x04000EA7 RID: 3751
 		private static Dictionary<CommanderID, DetectableProcessor.SortedEntityList> sCommanderSensorMap;
 
-		// Token: 0x04000EA8 RID: 3752
 		private static Dictionary<CommanderID, DetectableProcessor.SortedEntityList> sCommanderDetectableMap;
 
-		// Token: 0x04000EA9 RID: 3753
 		private static Dictionary<CommanderID, Dictionary<CommanderID, List<Entity>>> sUnsensedUnitsScratchPad;
 
-		// Token: 0x04000EAA RID: 3754
 		private static List<Entity> sSensorsToAdd = null;
 
-		// Token: 0x04000EAB RID: 3755
 		private static List<Entity> sDetectablesToAdd = null;
 
-		// Token: 0x04000EAC RID: 3756
 		private static Fixed64 sMapMidwayPoint;
 
-		// Token: 0x02000388 RID: 904
 		internal class SortedEntityList : List<Entity>
 		{
-			// Token: 0x060011A9 RID: 4521 RVA: 0x0005C47A File Offset: 0x0005A67A
 			public SortedEntityList(int componentID) : base(200)
 			{
 				this.mComponentID = componentID;
 			}
 
-			// Token: 0x060011AA RID: 4522 RVA: 0x0005C490 File Offset: 0x0005A690
 			internal void Upkeep(CommanderID owner, List<Entity> switchedCommanderList, List<CommanderID> switchedCommanderMap)
 			{
 				for (int i = base.Count - 1; i >= 0; i--)
@@ -394,7 +370,6 @@ namespace BBI.Game.Simulation
 				}
 			}
 
-			// Token: 0x060011AB RID: 4523 RVA: 0x0005C4FC File Offset: 0x0005A6FC
 			internal void SortHorizontally()
 			{
 				bool flag = false;
@@ -435,7 +410,6 @@ namespace BBI.Game.Simulation
 				}
 			}
 
-			// Token: 0x060011AC RID: 4524 RVA: 0x0005C57C File Offset: 0x0005A77C
 			private static int CompareEntities(Entity e1, Entity e2)
 			{
 				Position component = e1.GetComponent<Position>(10);
@@ -456,7 +430,6 @@ namespace BBI.Game.Simulation
 				return 0;
 			}
 
-			// Token: 0x04000EAD RID: 3757
 			private readonly int mComponentID;
 		}
 	}

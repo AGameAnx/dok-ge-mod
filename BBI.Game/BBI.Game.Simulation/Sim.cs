@@ -21,65 +21,30 @@ using BBI.Game.Utility;
 
 namespace BBI.Game.Simulation
 {
-	// Token: 0x020003C1 RID: 961
 	public class Sim
 	{
-		// Token: 0x170003AD RID: 941
-		// (get) Token: 0x0600135F RID: 4959 RVA: 0x0006ABF4 File Offset: 0x00068DF4
-		// (set) Token: 0x06001360 RID: 4960 RVA: 0x0006ABFC File Offset: 0x00068DFC
 		public SimSettings Settings { get; private set; }
 
-		// Token: 0x170003AE RID: 942
-		// (get) Token: 0x06001361 RID: 4961 RVA: 0x0006AC05 File Offset: 0x00068E05
-		// (set) Token: 0x06001362 RID: 4962 RVA: 0x0006AC0D File Offset: 0x00068E0D
 		public IEntitySystem EntitySystem { get; private set; }
 
-		// Token: 0x170003AF RID: 943
-		// (get) Token: 0x06001363 RID: 4963 RVA: 0x0006AC16 File Offset: 0x00068E16
-		// (set) Token: 0x06001364 RID: 4964 RVA: 0x0006AC1E File Offset: 0x00068E1E
 		internal SimMap Map { get; private set; }
 
-		// Token: 0x170003B0 RID: 944
-		// (get) Token: 0x06001365 RID: 4965 RVA: 0x0006AC27 File Offset: 0x00068E27
-		// (set) Token: 0x06001366 RID: 4966 RVA: 0x0006AC2F File Offset: 0x00068E2F
 		internal IEventSystem SimEventSystem { get; private set; }
 
-		// Token: 0x170003B1 RID: 945
-		// (get) Token: 0x06001367 RID: 4967 RVA: 0x0006AC38 File Offset: 0x00068E38
-		// (set) Token: 0x06001368 RID: 4968 RVA: 0x0006AC40 File Offset: 0x00068E40
 		internal IAsynchronousEventSystem SimToPresentationEventSystem { get; set; }
 
-		// Token: 0x170003B2 RID: 946
-		// (get) Token: 0x06001369 RID: 4969 RVA: 0x0006AC49 File Offset: 0x00068E49
-		// (set) Token: 0x0600136A RID: 4970 RVA: 0x0006AC51 File Offset: 0x00068E51
 		public UnitManager UnitManager { get; private set; }
 
-		// Token: 0x170003B3 RID: 947
-		// (get) Token: 0x0600136B RID: 4971 RVA: 0x0006AC5A File Offset: 0x00068E5A
-		// (set) Token: 0x0600136C RID: 4972 RVA: 0x0006AC62 File Offset: 0x00068E62
 		internal CommanderManager CommanderManager { get; private set; }
 
-		// Token: 0x170003B4 RID: 948
-		// (get) Token: 0x0600136D RID: 4973 RVA: 0x0006AC6B File Offset: 0x00068E6B
-		// (set) Token: 0x0600136E RID: 4974 RVA: 0x0006AC73 File Offset: 0x00068E73
 		public ICommanderInteractionProvider InteractionProvider { get; private set; }
 
-		// Token: 0x170003B5 RID: 949
-		// (get) Token: 0x0600136F RID: 4975 RVA: 0x0006AC7C File Offset: 0x00068E7C
-		// (set) Token: 0x06001370 RID: 4976 RVA: 0x0006AC84 File Offset: 0x00068E84
 		internal SelectedUnitManager SelectedUnits { get; private set; }
 
-		// Token: 0x170003B6 RID: 950
-		// (get) Token: 0x06001371 RID: 4977 RVA: 0x0006AC8D File Offset: 0x00068E8D
-		// (set) Token: 0x06001372 RID: 4978 RVA: 0x0006AC95 File Offset: 0x00068E95
 		internal AIManager AIManager { get; private set; }
 
-		// Token: 0x170003B7 RID: 951
-		// (get) Token: 0x06001373 RID: 4979 RVA: 0x0006AC9E File Offset: 0x00068E9E
-		// (set) Token: 0x06001374 RID: 4980 RVA: 0x0006ACA6 File Offset: 0x00068EA6
 		internal SimFrameNumber GlobalFrameCount { get; set; }
 
-		// Token: 0x06001375 RID: 4981 RVA: 0x0006ACB0 File Offset: 0x00068EB0
 		internal Sim(ReplayMode replayMode, IAsynchronousEventSystem simToPresentationEventSystem, SimSettings settings, DependencyContainerBase startupDependencies)
 		{
 			this.mSimStartupDependencies = startupDependencies;
@@ -115,7 +80,6 @@ namespace BBI.Game.Simulation
 			this.mSimInitializationState = Sim.InitializationState.Constructed;
 		}
 
-		// Token: 0x06001376 RID: 4982 RVA: 0x0006AE20 File Offset: 0x00069020
 		internal Checksum Tick(SimFrameNumber frameNumber)
 		{
 			Checksum checksum = new Checksum();
@@ -135,7 +99,6 @@ namespace BBI.Game.Simulation
 			return checksum;
 		}
 
-		// Token: 0x06001377 RID: 4983 RVA: 0x0006AEAF File Offset: 0x000690AF
 		internal void ShutdownGame()
 		{
 			if (this.Settings.GameMode != null)
@@ -145,7 +108,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001378 RID: 4984 RVA: 0x0006AEDC File Offset: 0x000690DC
 		internal void Shutdown()
 		{
 			this.mSimInitializationState = Sim.InitializationState.Uninitialized;
@@ -190,7 +152,6 @@ namespace BBI.Game.Simulation
 			Sim.Instance = null;
 		}
 
-		// Token: 0x06001379 RID: 4985 RVA: 0x0006AFD0 File Offset: 0x000691D0
 		private void OnEntityTypeAttributesSaved(Entity entity, ref EntityTypeAttributesSaveState state)
 		{
 			CommanderID entityCommanderID = Sim.GetEntityCommanderID(entity);
@@ -198,7 +159,6 @@ namespace BBI.Game.Simulation
 			state.EntityTypeCommanderOwner = entityCommanderID.ID;
 		}
 
-		// Token: 0x0600137A RID: 4986 RVA: 0x0006B004 File Offset: 0x00069204
 		[CustomConverter(ConverterDirection.Save, ClassStateConversionOrder.RunStateDataConversionAfter)]
 		internal void OnSave(ref SkirmishSaveState skirmishSaveState)
 		{
@@ -253,7 +213,6 @@ namespace BBI.Game.Simulation
 			skirmishSaveState.CurrentEntityGoalIDCounter = EntityGoalBase.CurrentGoalIDCounter();
 		}
 
-		// Token: 0x0600137B RID: 4987 RVA: 0x0006B264 File Offset: 0x00069464
 		[CustomConverter(ConverterDirection.Load, ClassStateConversionOrder.RunStateDataConversionAfter)]
 		internal void OnLoad(SkirmishSaveState skirmishSaveState)
 		{
@@ -385,7 +344,6 @@ namespace BBI.Game.Simulation
 			Sim.PostEvent(new SceneEntitiesLoadedEvent(array2, list2.ToArray(), newRelicEntities));
 		}
 
-		// Token: 0x0600137C RID: 4988 RVA: 0x0006B8D4 File Offset: 0x00069AD4
 		[CustomConverter(ConverterDirection.Save, ClassStateConversionOrder.RunStateDataConversionAfter)]
 		internal void OnSave(ref CampaignPersistenceSaveState persistenceStruct)
 		{
@@ -638,7 +596,6 @@ namespace BBI.Game.Simulation
 			ExtractorManager.Save<Dictionary<Entity, Experience>, KeyValuePair<Entity, ExperienceSaveState>[]>(dictionary3, ref persistenceStruct.ExperienceComponents);
 		}
 
-		// Token: 0x0600137D RID: 4989 RVA: 0x0006C274 File Offset: 0x0006A474
 		internal void PostMapProcessInit()
 		{
 			if (this.mSimInitializationState != Sim.InitializationState.MapLoaded)
@@ -683,7 +640,6 @@ namespace BBI.Game.Simulation
 			this.mSimInitializationState = Sim.InitializationState.Initialized;
 		}
 
-		// Token: 0x0600137E RID: 4990 RVA: 0x0006C824 File Offset: 0x0006AA24
 		internal IEnumerator PrepareSimMap()
 		{
 			if (this.mSimInitializationState != Sim.InitializationState.LoadingMap)
@@ -795,7 +751,6 @@ namespace BBI.Game.Simulation
 			yield break;
 		}
 
-		// Token: 0x0600137F RID: 4991 RVA: 0x0006C840 File Offset: 0x0006AA40
 		internal static CommanderID GetEntityCommanderID(Entity entity)
 		{
 			if (!entity.IsValid())
@@ -810,7 +765,6 @@ namespace BBI.Game.Simulation
 			return CommanderID.None;
 		}
 
-		// Token: 0x06001380 RID: 4992 RVA: 0x0006C874 File Offset: 0x0006AA74
 		internal static bool EntityShouldMaintainAggroThroughFOW(Entity entity)
 		{
 			CommanderID entityCommanderID = Sim.GetEntityCommanderID(entity);
@@ -818,7 +772,6 @@ namespace BBI.Game.Simulation
 			return commanderFromID != null && commanderFromID.CommanderAttributes != null && commanderFromID.CommanderAttributes.MaintainAggroThroughFOW;
 		}
 
-		// Token: 0x06001381 RID: 4993 RVA: 0x0006C8B4 File Offset: 0x0006AAB4
 		internal static bool IsValidEntityType(string typeID)
 		{
 			if (!string.IsNullOrEmpty(typeID))
@@ -829,31 +782,26 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x06001382 RID: 4994 RVA: 0x0006C8E8 File Offset: 0x0006AAE8
 		internal static bool IsEntityDead(Entity entity)
 		{
 			return !entity.IsValid() || (entity.HasComponent(9) && !entity.GetComponent<Death>(9).WaitingForOnDeathActivity);
 		}
 
-		// Token: 0x06001383 RID: 4995 RVA: 0x0006C910 File Offset: 0x0006AB10
 		internal static bool IsEntityDocked(Entity entity)
 		{
 			return entity.IsValid() && entity.HasComponent(2) && !entity.HasComponent(10);
 		}
 
-		// Token: 0x06001384 RID: 4996 RVA: 0x0006C932 File Offset: 0x0006AB32
 		internal static Entity CreateEmptyEntity()
 		{
 			return Sim.CreateCommanderlessEntity(string.Empty);
 		}
 
-		// Token: 0x06001385 RID: 4997 RVA: 0x0006C940 File Offset: 0x0006AB40
 		internal static Entity CreateCommanderlessEntity(string typeID)
 		{
 			return Sim.Instance.EntitySystem.CreateTypedEntity(typeID);
 		}
 
-		// Token: 0x06001386 RID: 4998 RVA: 0x0006C960 File Offset: 0x0006AB60
 		internal static Entity CreateEntity(string typeID, CommanderID commanderID)
 		{
 			Entity entity = Sim.Instance.EntitySystem.CreateTypedEntity(typeID, commanderID.ID);
@@ -861,13 +809,11 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x06001387 RID: 4999 RVA: 0x0006C993 File Offset: 0x0006AB93
 		internal static void AddEntityTypeBuffs(string unitType, bool useAsPrefix, UnitClass unitClass, FlagOperator classOperator, AttributeBuffSet buffSet, CommanderID commanderID)
 		{
 			Sim.AddEntityTypeBuffs(unitType, useAsPrefix, unitClass, classOperator, buffSet, commanderID, false);
 		}
 
-		// Token: 0x06001388 RID: 5000 RVA: 0x0006C9A4 File Offset: 0x0006ABA4
 		internal static void AddEntityTypeBuffs(string unitType, bool useAsPrefix, UnitClass unitClass, FlagOperator classOperator, AttributeBuffSet buffSet, CommanderID commanderID, bool silent)
 		{
 			Commander commanderFromID = Sim.Instance.CommanderManager.GetCommanderFromID(commanderID);
@@ -926,7 +872,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001389 RID: 5001 RVA: 0x0006CB10 File Offset: 0x0006AD10
 		internal static void RemoveEntityTypeBuffs(string unitType, bool useAsPrefix, UnitClass unitClass, FlagOperator classOperator, AttributeBuffSet buffSet, CommanderID commanderID)
 		{
 			Commander commanderFromID = Sim.Instance.CommanderManager.GetCommanderFromID(commanderID);
@@ -976,7 +921,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600138A RID: 5002 RVA: 0x0006CC4C File Offset: 0x0006AE4C
 		internal static T GetEntityTypeAttributes<T>(string typeID) where T : class
 		{
 			EntityTypeAttributes entityType = Sim.Instance.Settings.EntityTypes.GetEntityType(typeID);
@@ -987,7 +931,6 @@ namespace BBI.Game.Simulation
 			return default(T);
 		}
 
-		// Token: 0x0600138B RID: 5003 RVA: 0x0006CC84 File Offset: 0x0006AE84
 		internal static T GetBuffedEntityTypeAttributes<T>(string typeID, CommanderID commanderID) where T : class
 		{
 			EntityTypeAttributes commanderSpecificEntityType = Sim.Instance.Settings.EntityTypes.GetCommanderSpecificEntityType(typeID, commanderID.ID);
@@ -998,7 +941,6 @@ namespace BBI.Game.Simulation
 			return default(T);
 		}
 
-		// Token: 0x0600138C RID: 5004 RVA: 0x0006CCC1 File Offset: 0x0006AEC1
 		public static void DestroyEntity(Entity entity)
 		{
 			if (entity.IsValid())
@@ -1011,43 +953,36 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600138D RID: 5005 RVA: 0x0006CCFA File Offset: 0x0006AEFA
 		internal static int Rand()
 		{
 			return Sim.Instance.Settings.RandomNumberGenerator.Next();
 		}
 
-		// Token: 0x0600138E RID: 5006 RVA: 0x0006CD10 File Offset: 0x0006AF10
 		internal static int Rand(int max)
 		{
 			return Sim.Instance.Settings.RandomNumberGenerator.Next(max);
 		}
 
-		// Token: 0x0600138F RID: 5007 RVA: 0x0006CD27 File Offset: 0x0006AF27
 		internal static int RandRange(int min, int max)
 		{
 			return Sim.Instance.Settings.RandomNumberGenerator.Next(min, max);
 		}
 
-		// Token: 0x06001390 RID: 5008 RVA: 0x0006CD3F File Offset: 0x0006AF3F
 		internal static Fixed64 Rand01()
 		{
 			return Sim.Instance.Settings.RandomNumberGenerator.NextFixed64();
 		}
 
-		// Token: 0x06001391 RID: 5009 RVA: 0x0006CD55 File Offset: 0x0006AF55
 		internal static Fixed64 Rand(Fixed64 max)
 		{
 			return Sim.Instance.Settings.RandomNumberGenerator.Next(max);
 		}
 
-		// Token: 0x06001392 RID: 5010 RVA: 0x0006CD6C File Offset: 0x0006AF6C
 		internal static Fixed64 RandRange(Fixed64 min, Fixed64 max)
 		{
 			return Sim.Instance.Settings.RandomNumberGenerator.Next(min, max);
 		}
 
-		// Token: 0x06001393 RID: 5011 RVA: 0x0006CD84 File Offset: 0x0006AF84
 		private void ApplyInitialBuffsForCommander(Commander commander, bool silent)
 		{
 			if (commander == null)
@@ -1070,7 +1005,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001394 RID: 5012 RVA: 0x0006CE64 File Offset: 0x0006B064
 		private void InitializeResearchForCommander(Commander commander)
 		{
 			if (commander == null)
@@ -1104,7 +1038,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001395 RID: 5013 RVA: 0x0006CF14 File Offset: 0x0006B114
 		private void GrantStartingGrantedAbilitiesForCommander(Commander commander, bool silent)
 		{
 			if (commander == null)
@@ -1121,7 +1054,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001396 RID: 5014 RVA: 0x0006CF64 File Offset: 0x0006B164
 		private void GetCommanderSpawnPoint(SimSettings simSettings, SimMapDependencies mapDependencies, CommanderID commanderID, out Vector2r spawnPoint, out Orientation2 orientation)
 		{
 			CommanderDirectorAttributes commanderDirectorAttributes = simSettings.CommanderDirectorMap[commanderID];
@@ -1158,7 +1090,6 @@ namespace BBI.Game.Simulation
 			orientation = spawnAttributes2.SpawnOrientation;
 		}
 
-		// Token: 0x06001397 RID: 5015 RVA: 0x0006D0B0 File Offset: 0x0006B2B0
 		private void SplitUnitTypesAndPrepareFormationTrackers(Commander commander, Orientation2 orientation, out List<StartingUnit> carrierUnits, out List<StartingUnit> groundUnits, out List<StartingUnit> airUnits, out Dictionary<string, Sim.FormationTracker> formationTrackers)
 		{
 			carrierUnits = new List<StartingUnit>();
@@ -1219,7 +1150,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001398 RID: 5016 RVA: 0x0006D2A0 File Offset: 0x0006B4A0
 		private void GetMaxClassPatternDimensions(Dictionary<string, Sim.FormationTracker> formationTrackers, out Vector2r maxSmlDimensions, out Vector2r maxMedDimensions)
 		{
 			maxMedDimensions = Vector2r.Zero;
@@ -1255,7 +1185,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001399 RID: 5017 RVA: 0x0006D44C File Offset: 0x0006B64C
 		private void SpawnCarriersInMediumUnitRow(CommanderID commanderID, Dictionary<string, Sim.FormationTracker> formationTrackers, List<StartingUnit> carrierUnits, out Fixed64 oddSide, out Fixed64 evenSide, Vector2r initialSpawnPoint, Orientation2 orientation, ref int medUnitTypes, out UnitHangar hangar, out bool hasCarrierHangar)
 		{
 			oddSide = Fixed64.Zero;
@@ -1317,7 +1246,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600139A RID: 5018 RVA: 0x0006D60C File Offset: 0x0006B80C
 		private void InitializeTrackerPositions(Dictionary<string, Sim.FormationTracker> formationTrackers, Vector2r initialSpawnPoint, Orientation2 orientation, Fixed64 medOddRowGap, Fixed64 medEvenRowGap, Fixed64 smallOddRowGap, Fixed64 smallEvenRowGap, Vector2r maxSmlDimensions, Vector2r maxMedDimensions, int smallUnitTypes, int medUnitTypes)
 		{
 			Vector2r startPosition = initialSpawnPoint + orientation.Forward * ((maxMedDimensions.Y >> 1) + maxSmlDimensions.Y);
@@ -1347,7 +1275,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600139B RID: 5019 RVA: 0x0006D758 File Offset: 0x0006B958
 		private void SetTrackerRowPosition(Sim.FormationTracker tracker, Vector2r startPosition, Orientation2 orientation, ref Fixed64 oddSide, ref Fixed64 evenSide, int count)
 		{
 			Fixed64 @fixed = tracker.Pattern.Width(tracker.TotalUnits) * Fixed64.Half;
@@ -1371,7 +1298,6 @@ namespace BBI.Game.Simulation
 			oddSide += @fixed + this.kFormationGap;
 		}
 
-		// Token: 0x0600139C RID: 5020 RVA: 0x0006D858 File Offset: 0x0006BA58
 		private void SpawnGroundUnits(Dictionary<string, Sim.FormationTracker> formationTrackers, List<StartingUnit> groundUnits, Commander commander, bool hasCarrierHangar, UnitHangar hangar)
 		{
 			string[] array = new string[1];
@@ -1411,7 +1337,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600139D RID: 5021 RVA: 0x0006D9FC File Offset: 0x0006BBFC
 		private void SpawnAirUnits(CommanderID commanderID, List<StartingUnit> airUnits, bool hasCarrierHangar, UnitHangar hangar, Vector2r initialSpawnPoint, Orientation2 orientation)
 		{
 			Fixed64 @fixed = Fixed64.Zero;
@@ -1444,7 +1369,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600139E RID: 5022 RVA: 0x0006DB14 File Offset: 0x0006BD14
 		private void SpawnInitialUnitsForCommander(Commander commander, SimSettings simSettings, SimMapDependencies mapDependencies)
 		{
 			if (commander != null)
@@ -1485,7 +1409,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600139F RID: 5023 RVA: 0x0006DC4C File Offset: 0x0006BE4C
 		internal static void PostEvent(EventBase evt)
 		{
 			if (evt is IPostToSimulation)
@@ -1498,7 +1421,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060013A0 RID: 5024 RVA: 0x0006DC80 File Offset: 0x0006BE80
 		internal static void PostAnalyticsEvent(GameAnalyticsEventBase analyticsEvent)
 		{
 			IAnalyticsService analyticsService = Sim.Instance.mAnalyticsService;
@@ -1508,84 +1430,57 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x04000FF0 RID: 4080
 		private const bool kSilentEventsOnCommanderInitialization = true;
 
-		// Token: 0x04000FF1 RID: 4081
 		public static Sim Instance;
 
-		// Token: 0x04000FF2 RID: 4082
 		private IAnalyticsService mAnalyticsService;
 
-		// Token: 0x04000FF3 RID: 4083
 		private DependencyContainerBase mSimStartupDependencies;
 
-		// Token: 0x04000FF4 RID: 4084
 		private Sim.InitializationState mSimInitializationState;
 
-		// Token: 0x04000FF5 RID: 4085
 		private readonly Fixed64 kGapScale = Fixed64.FromConstFloat(1.5f);
 
-		// Token: 0x04000FF6 RID: 4086
 		private readonly Fixed64 kFormationGap = Fixed64.OneHundred;
 
-		// Token: 0x020003C2 RID: 962
 		private enum InitializationState
 		{
-			// Token: 0x04001003 RID: 4099
 			Uninitialized,
-			// Token: 0x04001004 RID: 4100
 			Constructed,
-			// Token: 0x04001005 RID: 4101
 			LoadingMap,
-			// Token: 0x04001006 RID: 4102
 			MapLoaded,
-			// Token: 0x04001007 RID: 4103
 			Initialized
 		}
 
-		// Token: 0x020003C3 RID: 963
 		private class FormationTracker
 		{
-			// Token: 0x060013A1 RID: 5025 RVA: 0x0006DCBA File Offset: 0x0006BEBA
 			public FormationTracker()
 			{
 			}
 
-			// Token: 0x04001008 RID: 4104
 			public FormationPatternBase Pattern;
 
-			// Token: 0x04001009 RID: 4105
 			public bool StartsInHangar;
 
-			// Token: 0x0400100A RID: 4106
 			public int CurrentCount;
 
-			// Token: 0x0400100B RID: 4107
 			public int TotalUnits;
 
-			// Token: 0x0400100C RID: 4108
 			public int MaxRankCount;
 
-			// Token: 0x0400100D RID: 4109
 			public Fixed64 MemberGap;
 
-			// Token: 0x0400100E RID: 4110
 			public Fixed64 CapsuleWidth;
 
-			// Token: 0x0400100F RID: 4111
 			public Fixed64 CapsuleHeight;
 
-			// Token: 0x04001010 RID: 4112
 			public Vector2r Position;
 
-			// Token: 0x04001011 RID: 4113
 			public Orientation2 Orientation;
 
-			// Token: 0x04001012 RID: 4114
 			public UnitClass Class;
 
-			// Token: 0x04001013 RID: 4115
 			public SpawnFormation FormationOverride;
 		}
 	}
