@@ -10,10 +10,8 @@ using BBI.Game.Queries;
 
 namespace BBI.Game.Simulation
 {
-	// Token: 0x02000396 RID: 918
 	public static class SceneEntityCreator
 	{
-		// Token: 0x06001275 RID: 4725 RVA: 0x00064200 File Offset: 0x00062400
 		public static Entity CreateCollectibleEntity(string entityType, CollectibleType collectibleType, Vector2r spawnPosition, Orientation2 spawnOrientation)
 		{
 			Entity entity = Entity.None;
@@ -36,7 +34,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x06001276 RID: 4726 RVA: 0x00064274 File Offset: 0x00062474
 		internal static Entity CreateEntityFromDescriptor(SceneEntityDescriptor descriptor, ref int artifactsCreated)
 		{
 			if (descriptor == null)
@@ -84,7 +81,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x06001277 RID: 4727 RVA: 0x00064378 File Offset: 0x00062578
 		internal static Entity CreateEntity(string typeID, CommanderID commanderID, Vector2r spawnPosition, Orientation2 spawnOrientation)
 		{
 			Entity entity = Entity.None;
@@ -131,7 +127,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x06001278 RID: 4728 RVA: 0x000644AC File Offset: 0x000626AC
 		private static Entity CreateBasicEntity(string typeID, Vector2r position, Orientation2 orientation, string[] tags)
 		{
 			Entity entity = Sim.CreateCommanderlessEntity(typeID);
@@ -147,7 +142,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x06001279 RID: 4729 RVA: 0x00064508 File Offset: 0x00062708
 		private static Entity CreateRelicFromDescriptor(RelicDescriptor descriptor, ref int artifactsCreated)
 		{
 			Entity result = Entity.None;
@@ -187,7 +181,6 @@ namespace BBI.Game.Simulation
 			return result;
 		}
 
-		// Token: 0x0600127A RID: 4730 RVA: 0x000645D4 File Offset: 0x000627D4
 		public static Entity CreateRelic(string relicTypeID, Vector2r spawnPosition, Orientation2 spawnOrientation, string[] tags, RelicDescriptor descriptor)
 		{
 			Entity entity = SceneEntityCreator.CreateBasicEntity(relicTypeID, spawnPosition, spawnOrientation, tags);
@@ -236,7 +229,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x0600127B RID: 4731 RVA: 0x00064764 File Offset: 0x00062964
 		private static Entity CreateWreckArtifact(string entityType, Vector2r spawnPosition, Orientation2 spawnOrientation)
 		{
 			Entity entity = SceneEntityCreator.CreateBasicEntity(entityType, spawnPosition, spawnOrientation, null);
@@ -267,7 +259,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x0600127C RID: 4732 RVA: 0x000647F8 File Offset: 0x000629F8
 		private static Entity CreateResourcePointFromDescriptor(ResourcePointDescriptor descriptor)
 		{
 			Orientation2 simSpawnOrientation = descriptor.Orientation.RotatedBy(descriptor.SimLocalSpawnOrientationOffsetDegrees * Fixed64.DegreesToRadians);
@@ -275,7 +266,6 @@ namespace BBI.Game.Simulation
 			return SceneEntityCreator.CreateResourcePoint(descriptor.TypeID, descriptor.Position, simSpawnOrientation, descriptor.Tags, descriptor.ResourceAttributes, descriptor.DetectableAttributes, !descriptor.StartEnabled, positionalVariations, false);
 		}
 
-		// Token: 0x0600127D RID: 4733 RVA: 0x0006487C File Offset: 0x00062A7C
 		public static Entity CreateResourcePoint(string typeID, Vector2r modelSpawnPosition, Orientation2 simSpawnOrientation, string[] tags, ResourceAttributes resourceAttributes, DetectableAttributes detectableAttributes, bool startDisabled, ResourcePositionalVariations positionalVariations, bool skipResourceEntityCreatedEvent = false)
 		{
 			Vector2r position = modelSpawnPosition + simSpawnOrientation * positionalVariations.SimLocalSpawnPositionOffset;
@@ -335,7 +325,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x0600127E RID: 4734 RVA: 0x000649D4 File Offset: 0x00062BD4
 		public static Entity CreateWreckFromDescriptor(WreckDescriptor descriptor)
 		{
 			Orientation2 simSpawnOrientation = descriptor.Orientation.RotatedBy(descriptor.SimLocalSpawnOrientationOffsetDegrees * Fixed64.DegreesToRadians);
@@ -345,7 +334,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x0600127F RID: 4735 RVA: 0x00064A70 File Offset: 0x00062C70
 		internal static Entity CreateWreck(string typeID, Vector2r modelSpawnPosition, Orientation2 simSpawnOrientation, string[] tags, WreckAttributes wreckAttributes, string wreckArtifactType, ShapeAttributes shapeAttributes, ResourceAttributes resourceAttributes, DetectableAttributes detectableAttributes, bool startDisabled, ResourcePositionalVariations positionalVariations, bool skipResourceEntityCreatedEvent = false)
 		{
 			Vector2r vector2r = modelSpawnPosition + simSpawnOrientation * positionalVariations.SimLocalSpawnPositionOffset;
@@ -446,13 +434,11 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x06001280 RID: 4736 RVA: 0x00064CC8 File Offset: 0x00062EC8
 		private static bool LinkSimEntityToDescriptor(SceneEntityDescriptor descriptor, Entity simEntity)
 		{
 			return simEntity.IsValid() && descriptor.TypeID == simEntity.GetTypeName() && DynamicSceneSpawner.RegisterDescriptorWithEntity(descriptor, simEntity);
 		}
 
-		// Token: 0x06001281 RID: 4737 RVA: 0x00064CF0 File Offset: 0x00062EF0
 		private static Entity CreateTriggerCircle(TriggerCircleDescriptor descriptor)
 		{
 			Entity entity = Entity.None;
@@ -478,7 +464,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x06001282 RID: 4738 RVA: 0x00064DA0 File Offset: 0x00062FA0
 		public static Entity CreateExtractionZoneEntity(ExtractionZoneDescriptor descriptor)
 		{
 			Entity entity = Entity.None;
@@ -545,7 +530,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x06001283 RID: 4739 RVA: 0x00064F9C File Offset: 0x0006319C
 		private static Entity CreateAIHint(AIHintDescriptor descriptor)
 		{
 			Entity entity = Entity.None;
@@ -565,7 +549,6 @@ namespace BBI.Game.Simulation
 			return entity;
 		}
 
-		// Token: 0x06001284 RID: 4740 RVA: 0x00065018 File Offset: 0x00063218
 		internal static void CreateSceneEntitiesForGameSession(IEnumerable<SceneEntityGroupDescriptor> groupDescriptors, IEnumerable<SceneEntityDescriptor> descriptors, IList<string> randomWreckArtifacts, int maxSpawnedWreckArtifacts, bool skipPersistentSceneEntities)
 		{
 			int num = 0;
@@ -591,7 +574,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001285 RID: 4741 RVA: 0x000650DC File Offset: 0x000632DC
 		private static void InjectRandomWreckArtifacts(IEnumerable<SceneEntityDescriptor> descriptors, IEnumerable<string> randomWreckArtifacts, int maxSpawnedWreckArtifacts)
 		{
 			if (maxSpawnedWreckArtifacts == 0)
@@ -654,7 +636,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001286 RID: 4742 RVA: 0x00065220 File Offset: 0x00063420
 		private static void GetEmptyWreckDescriptors(IEnumerable<SceneEntityDescriptor> descriptors, out List<WreckDescriptor> wreckDescriptors)
 		{
 			wreckDescriptors = new List<WreckDescriptor>();
@@ -682,7 +663,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001287 RID: 4743 RVA: 0x000652DC File Offset: 0x000634DC
 		private static bool PopulateWreckArtifactType(WreckDescriptor wreckDescriptor, string wreckArtifact)
 		{
 			if (!string.IsNullOrEmpty(wreckArtifact) && string.IsNullOrEmpty(wreckDescriptor.WreckArtifactType))
@@ -693,7 +673,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x06001288 RID: 4744 RVA: 0x00065300 File Offset: 0x00063500
 		private static void StripLocalCommandersAcquiredArtifacts(IList<string> randomWreckArtifacts)
 		{
 			foreach (Commander commander in Sim.Instance.CommanderManager.Commanders)
@@ -713,7 +692,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001289 RID: 4745 RVA: 0x000653D0 File Offset: 0x000635D0
 		private static void ShuffleList<E>(this IList<E> inputList)
 		{
 			for (int i = inputList.Count - 1; i >= 0; i--)

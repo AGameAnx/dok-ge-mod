@@ -12,26 +12,14 @@ using BBI.Game.Utility;
 
 namespace BBI.Game.Simulation
 {
-	// Token: 0x020003C6 RID: 966
 	internal sealed class SimMap : IMapQuerier
 	{
-		// Token: 0x170003D3 RID: 979
-		// (get) Token: 0x060013DB RID: 5083 RVA: 0x0006E7BB File Offset: 0x0006C9BB
-		// (set) Token: 0x060013DC RID: 5084 RVA: 0x0006E7C3 File Offset: 0x0006C9C3
 		public Vector2r Min { get; set; }
 
-		// Token: 0x170003D4 RID: 980
-		// (get) Token: 0x060013DD RID: 5085 RVA: 0x0006E7CC File Offset: 0x0006C9CC
-		// (set) Token: 0x060013DE RID: 5086 RVA: 0x0006E7D4 File Offset: 0x0006C9D4
 		public Vector2r Max { get; set; }
 
-		// Token: 0x170003D5 RID: 981
-		// (get) Token: 0x060013DF RID: 5087 RVA: 0x0006E7DD File Offset: 0x0006C9DD
-		// (set) Token: 0x060013E0 RID: 5088 RVA: 0x0006E7E5 File Offset: 0x0006C9E5
 		public int AmbientHeatPoints { get; set; }
 
-		// Token: 0x170003D6 RID: 982
-		// (get) Token: 0x060013E1 RID: 5089 RVA: 0x0006E7EE File Offset: 0x0006C9EE
 		public SimHeightMap HeightMap
 		{
 			get
@@ -40,13 +28,8 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x170003D7 RID: 983
-		// (get) Token: 0x060013E2 RID: 5090 RVA: 0x0006E7F6 File Offset: 0x0006C9F6
-		// (set) Token: 0x060013E3 RID: 5091 RVA: 0x0006E7FE File Offset: 0x0006C9FE
 		public EntitySpatialHashTable SpatialHash { get; set; }
 
-		// Token: 0x170003D8 RID: 984
-		// (get) Token: 0x060013E4 RID: 5092 RVA: 0x0006E807 File Offset: 0x0006CA07
 		public List<Shape> DynamicLineOfFireBlockers
 		{
 			get
@@ -55,7 +38,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060013E5 RID: 5093 RVA: 0x0006E810 File Offset: 0x0006CA10
 		public SimMap(SimHeightMap heightMap, int ambientHeatPoints)
 		{
 			this.mHeightMap = heightMap;
@@ -63,7 +45,6 @@ namespace BBI.Game.Simulation
 			this.mDynamicLineOfFireBlockers = new List<Shape>(200);
 		}
 
-		// Token: 0x060013E6 RID: 5094 RVA: 0x0006E85C File Offset: 0x0006CA5C
 		public SimMap(Vector2r min, Vector2r max, SimHeightMap heightMap, int ambientHeatPoints) : this(heightMap, ambientHeatPoints)
 		{
 			this.Min = min;
@@ -75,20 +56,17 @@ namespace BBI.Game.Simulation
 			this.mStaticLineOfFireHash.Bake(2, 6);
 		}
 
-		// Token: 0x060013E7 RID: 5095 RVA: 0x0006E8C1 File Offset: 0x0006CAC1
 		public void ModifyAmbientHeat(int delta)
 		{
 			this.AmbientHeatPoints = Math.Max(this.AmbientHeatPoints + delta, 0);
 		}
 
-		// Token: 0x060013E8 RID: 5096 RVA: 0x0006E8D8 File Offset: 0x0006CAD8
 		public void AddObstacle(ConvexBase obstacleShape, UnitClass restrictedTypes, bool blocksLOF, bool blocksAllHeights)
 		{
 			MapObstacle mapObstacle = new MapObstacle(blocksLOF, blocksAllHeights, restrictedTypes, obstacleShape);
 			this.AddObstacle(mapObstacle);
 		}
 
-		// Token: 0x060013E9 RID: 5097 RVA: 0x0006E8F8 File Offset: 0x0006CAF8
 		public void AddObstacle(MapObstacle mapObstacle)
 		{
 			if (mapObstacle != null)
@@ -112,7 +90,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060013EA RID: 5098 RVA: 0x0006E978 File Offset: 0x0006CB78
 		public void AddRidgeLine(SimRidgeLine ridgeLine)
 		{
 			foreach (Capsule2 shape in ridgeLine.GetCapsuleSequence())
@@ -121,7 +98,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060013EB RID: 5099 RVA: 0x0006E9CC File Offset: 0x0006CBCC
 		public void BakeSpatialPartition(NavMeshAttributes[] registeredNavMeshAttributes)
 		{
 			this.mPathfindingObstaclesHash.Bake(2, 6);
@@ -141,13 +117,11 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060013EC RID: 5100 RVA: 0x0006EA6A File Offset: 0x0006CC6A
 		public void AddBakedPathNodeCache(NavMeshAttributes attributes, PathNodeNavigationCache bakedCache)
 		{
 			this.mBakedMeshes[attributes] = bakedCache;
 		}
 
-		// Token: 0x060013ED RID: 5101 RVA: 0x0006EA7C File Offset: 0x0006CC7C
 		public PathNodeNavigationCache GetNavMeshFor(NavMeshAttributes navAttributes)
 		{
 			if (navAttributes != null)
@@ -165,7 +139,6 @@ namespace BBI.Game.Simulation
 			return null;
 		}
 
-		// Token: 0x060013EE RID: 5102 RVA: 0x0006EAB0 File Offset: 0x0006CCB0
 		internal bool LineOfFireValid(Segment2 lineOfFire, Fixed64 fromWorldHeightOffset, Fixed64 toWorldHeightOffset, bool checkDynamicLOFBlockers)
 		{
 			if (!Fixed64.BigEnoughSquared(lineOfFire.LengthSqr))
@@ -199,13 +172,11 @@ namespace BBI.Game.Simulation
 			return true;
 		}
 
-		// Token: 0x060013EF RID: 5103 RVA: 0x0006EBB0 File Offset: 0x0006CDB0
 		internal bool LineOfFireValid(Segment2 lineOfFire, Fixed64 fromWorldHeightOffset, Fixed64 toWorldHeightOffset, out Vector2r positionOfBlockage)
 		{
 			return this.LineOfFireValid(lineOfFire, fromWorldHeightOffset, toWorldHeightOffset, true, out positionOfBlockage);
 		}
 
-		// Token: 0x060013F0 RID: 5104 RVA: 0x0006EBC0 File Offset: 0x0006CDC0
 		internal bool LineOfFireValid(Segment2 lineOfFire, Fixed64 fromWorldHeightOffset, Fixed64 toWorldHeightOffset, bool checkDynamicLOFBlockers, out Vector2r positionOfBlockage)
 		{
 			positionOfBlockage = lineOfFire.To;
@@ -257,7 +228,6 @@ namespace BBI.Game.Simulation
 			return !flag;
 		}
 
-		// Token: 0x060013F1 RID: 5105 RVA: 0x0006ED54 File Offset: 0x0006CF54
 		public bool LineOfFireIsHeightBlockedByObstacle(ConvexBase obstacle, Orientation2 direction, Vector2r from, Vector2r to, ref Vector2r blockagePoint, Fixed64 fromWorldHeightOffset, Fixed64 toWorldHeightOffset)
 		{
 			if (this.mHeightMap != null)
@@ -300,13 +270,11 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x060013F2 RID: 5106 RVA: 0x0006EEFC File Offset: 0x0006D0FC
 		public bool PositionInsideMap(Vector2r position)
 		{
 			return position.X >= this.Min.X && position.X <= this.Max.X && position.Y >= this.Min.Y && position.Y <= this.Max.Y;
 		}
 
-		// Token: 0x060013F3 RID: 5107 RVA: 0x0006EF70 File Offset: 0x0006D170
 		public bool MapPositionValid(Vector2r position, UnitClass layerInfo)
 		{
 			bool result = true;
@@ -321,7 +289,6 @@ namespace BBI.Game.Simulation
 			return result;
 		}
 
-		// Token: 0x060013F4 RID: 5108 RVA: 0x0006EF9C File Offset: 0x0006D19C
 		public bool MapPositionValid(Vector2r position, UnitClass targetLayer, out InvalidMapPositionReason reason)
 		{
 			bool result = true;
@@ -339,7 +306,6 @@ namespace BBI.Game.Simulation
 			return result;
 		}
 
-		// Token: 0x060013F5 RID: 5109 RVA: 0x0006EFD0 File Offset: 0x0006D1D0
 		public bool LineOfFireClear(Vector2r from, Vector2r to, Entity fromEntity, Entity targetEntity, out Vector2r positionOfBlockage)
 		{
 			Fixed64 fromWorldHeightOffset = Fixed64.Zero;
@@ -363,7 +329,6 @@ namespace BBI.Game.Simulation
 			return this.LineOfFireValid(new Segment2(from, to), fromWorldHeightOffset, toWorldHeightOffset, false, out positionOfBlockage);
 		}
 
-		// Token: 0x060013F6 RID: 5110 RVA: 0x0006F030 File Offset: 0x0006D230
 		public Vector2r GetPositionOfHighestValueBetweenPoints(Vector2r from, Vector2r to, out Fixed64 highestPoint)
 		{
 			highestPoint = Fixed64.Zero;
@@ -391,7 +356,6 @@ namespace BBI.Game.Simulation
 			return result;
 		}
 
-		// Token: 0x060013F7 RID: 5111 RVA: 0x0006F0F0 File Offset: 0x0006D2F0
 		public bool NearbyValidPositionAvailable(Vector2r position, UnitClass targetLayer, InvalidMapPositionReason reasonInvalid, Fixed64 distanceFromObstacle, out Vector2r validPosition)
 		{
 			int i = 0;
@@ -424,7 +388,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x060013F8 RID: 5112 RVA: 0x0006F178 File Offset: 0x0006D378
 		public bool PositionInsideObstacles(Vector2r position, UnitClass targetLayer)
 		{
 			using (IEnumerator<ConvexBase> enumerator = this.mPathfindingObstaclesHash.BroadSearchForPoint(position, (uint)targetLayer))
@@ -441,7 +404,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x060013F9 RID: 5113 RVA: 0x0006F1D0 File Offset: 0x0006D3D0
 		public bool PositionInsideObstacles(Vector2r position, UnitClass targetLayer, out ConvexBase containingObstacle)
 		{
 			containingObstacle = null;
@@ -460,7 +422,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x060013FA RID: 5114 RVA: 0x0006F230 File Offset: 0x0006D430
 		public bool SegmentBlockedByObstacles(Segment2 segment, UnitClass targetLayer)
 		{
 			using (IEnumerator<ConvexBase> enumerator = this.mPathfindingObstaclesHash.BroadSearchForSegment(segment, (uint)targetLayer))
@@ -477,7 +438,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x060013FB RID: 5115 RVA: 0x0006F288 File Offset: 0x0006D488
 		public bool SegmentRaycastHits(Segment2 segment, UnitClass targetLayer, out Vector2r hitLocation)
 		{
 			hitLocation = segment.To;
@@ -505,7 +465,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x060013FC RID: 5116 RVA: 0x0006F33C File Offset: 0x0006D53C
 		public void FindSegmentIntersectingObstacleShapes(Segment2 segment, UnitClass targetLayer, List<ConvexBase> blockingObstaclesList)
 		{
 			using (IEnumerator<ConvexBase> enumerator = this.mPathfindingObstaclesHash.BroadSearchForSegment(segment, (uint)targetLayer))
@@ -521,13 +480,11 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060013FD RID: 5117 RVA: 0x0006F394 File Offset: 0x0006D594
 		public IEnumerator<ConvexBase> GetObstacleCircleBroadSearch(Vector2r centerPoint, Fixed64 searchRadius, UnitClass targetLayer)
 		{
 			return this.mPathfindingObstaclesHash.BroadSearchForCircle(new Circle(centerPoint, searchRadius), (uint)targetLayer);
 		}
 
-		// Token: 0x060013FE RID: 5118 RVA: 0x0006F3A9 File Offset: 0x0006D5A9
 		public Fixed64 GroundHeightDelta(Vector2r from, Vector2r relativeTo)
 		{
 			if (this.HeightMap == null)
@@ -537,7 +494,6 @@ namespace BBI.Game.Simulation
 			return this.HeightMap.GetWorldHeight(from) - this.HeightMap.GetWorldHeight(relativeTo);
 		}
 
-		// Token: 0x060013FF RID: 5119 RVA: 0x0006F3D8 File Offset: 0x0006D5D8
 		public void Write(BinaryStreamWriter writer)
 		{
 			writer.WriteVector2r(this.Min);
@@ -571,7 +527,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001400 RID: 5120 RVA: 0x0006FA0C File Offset: 0x0006DC0C
 		public IEnumerator Read(BinaryStreamReader reader)
 		{
 			this.Min = reader.ReadVector2r();
@@ -635,7 +590,6 @@ namespace BBI.Game.Simulation
 			yield break;
 		}
 
-		// Token: 0x06001401 RID: 5121 RVA: 0x0006FA30 File Offset: 0x0006DC30
 		private static ConvexBase ReadConvexShapeFromStream(BinaryStreamReader reader)
 		{
 			string text = reader.ReadString();
@@ -662,61 +616,45 @@ namespace BBI.Game.Simulation
 			throw new NotImplementedException(string.Format("Convex shape type {0} not supported for serialization in SimMap!", text));
 		}
 
-		// Token: 0x06001402 RID: 5122 RVA: 0x0006FA9D File Offset: 0x0006DC9D
 		// Note: this type is marked as 'beforefieldinit'.
 		static SimMap()
 		{
 		}
 
-		// Token: 0x04001032 RID: 4146
 		public const int kMaxStepsForRaycast = 100;
 
-		// Token: 0x04001033 RID: 4147
 		public static readonly SimMap.NavMeshAttributesComparer sStaticNavMeshAttributesComparer = new SimMap.NavMeshAttributesComparer();
 
-		// Token: 0x04001034 RID: 4148
 		public readonly SimHeightMap mHeightMap;
 
-		// Token: 0x04001035 RID: 4149
 		public Dictionary<NavMeshAttributes, PathNodeNavigationCache> mBakedMeshes = new Dictionary<NavMeshAttributes, PathNodeNavigationCache>(SimMap.sStaticNavMeshAttributesComparer);
 
-		// Token: 0x04001036 RID: 4150
 		public QuadTree mPathfindingObstaclesHash;
 
-		// Token: 0x04001037 RID: 4151
 		public HashSet<ConvexBase> mAllHeightBlockers = new HashSet<ConvexBase>();
 
-		// Token: 0x04001038 RID: 4152
 		public QuadTree mStaticLineOfFireHash;
 
-		// Token: 0x04001039 RID: 4153
 		public List<Shape> mDynamicLineOfFireBlockers;
 
-		// Token: 0x0400103A RID: 4154
 		public static readonly Fixed64 kSegmentLengthThresholdSquared = Fixed64.FromInt(3600);
 
-		// Token: 0x0400103B RID: 4155
 		public static readonly Fixed64 kRaytraceStepSize = Fixed64.FromInt(10);
 
-		// Token: 0x0400103C RID: 4156
 		public static readonly Fixed64 kRaytraceInverseStepSize = Fixed64.Tenth(1);
 
-		// Token: 0x020003C7 RID: 967
 		public class NavMeshAttributesComparer : IEqualityComparer<NavMeshAttributes>
 		{
-			// Token: 0x06001403 RID: 5123 RVA: 0x0006FACF File Offset: 0x0006DCCF
 			public bool Equals(NavMeshAttributes x, NavMeshAttributes y)
 			{
 				return x.Equals(y);
 			}
 
-			// Token: 0x06001404 RID: 5124 RVA: 0x0006FAD8 File Offset: 0x0006DCD8
 			public int GetHashCode(NavMeshAttributes obj)
 			{
 				return Checksum.Combine((int)obj.BlockedBy, obj.DistanceErrorPercentageTolerance.GetChecksum(), obj.DistanceFromObstacles.GetChecksum());
 			}
 
-			// Token: 0x06001405 RID: 5125 RVA: 0x0006FB0C File Offset: 0x0006DD0C
 			public NavMeshAttributesComparer()
 			{
 			}

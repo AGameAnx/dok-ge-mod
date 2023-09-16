@@ -12,36 +12,18 @@ using BBI.Game.Utility;
 
 namespace BBI.Game.Simulation
 {
-	// Token: 0x020003D4 RID: 980
 	public sealed class Unit : IWeaponTrigger
 	{
-		// Token: 0x14000006 RID: 6
-		// (add) Token: 0x0600143A RID: 5178 RVA: 0x000705D0 File Offset: 0x0006E7D0
-		// (remove) Token: 0x0600143B RID: 5179 RVA: 0x00070608 File Offset: 0x0006E808
 		internal event UnitHandlerDestroyed OnUnitDestroyed;
 
-		// Token: 0x14000007 RID: 7
-		// (add) Token: 0x0600143C RID: 5180 RVA: 0x00070640 File Offset: 0x0006E840
-		// (remove) Token: 0x0600143D RID: 5181 RVA: 0x00070678 File Offset: 0x0006E878
 		internal event UnitHandlerRemoved OnUnitDespawned;
 
-		// Token: 0x14000008 RID: 8
-		// (add) Token: 0x0600143E RID: 5182 RVA: 0x000706B0 File Offset: 0x0006E8B0
-		// (remove) Token: 0x0600143F RID: 5183 RVA: 0x000706E8 File Offset: 0x0006E8E8
 		internal event UnitHandlerRemoved OnUnitDocked;
 
-		// Token: 0x14000009 RID: 9
-		// (add) Token: 0x06001440 RID: 5184 RVA: 0x00070720 File Offset: 0x0006E920
-		// (remove) Token: 0x06001441 RID: 5185 RVA: 0x00070758 File Offset: 0x0006E958
 		internal event UnitUndockedHandler OnUnitUndocked;
 
-		// Token: 0x1400000A RID: 10
-		// (add) Token: 0x06001442 RID: 5186 RVA: 0x00070790 File Offset: 0x0006E990
-		// (remove) Token: 0x06001443 RID: 5187 RVA: 0x000707C8 File Offset: 0x0006E9C8
 		internal event UnitHandlerFiredWeapon OnUnitFiredWeapon;
 
-		// Token: 0x170003E5 RID: 997
-		// (get) Token: 0x06001444 RID: 5188 RVA: 0x000707FD File Offset: 0x0006E9FD
 		public Entity Entity
 		{
 			get
@@ -50,8 +32,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x170003E6 RID: 998
-		// (get) Token: 0x06001445 RID: 5189 RVA: 0x00070805 File Offset: 0x0006EA05
 		public string TypeName
 		{
 			get
@@ -60,14 +40,11 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001446 RID: 5190 RVA: 0x00070812 File Offset: 0x0006EA12
 		public UnitState GetState()
 		{
 			return new UnitState(this);
 		}
 
-		// Token: 0x170003E7 RID: 999
-		// (get) Token: 0x06001447 RID: 5191 RVA: 0x0007081A File Offset: 0x0006EA1A
 		public UnitAttributes Attributes
 		{
 			get
@@ -76,8 +53,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x170003E8 RID: 1000
-		// (get) Token: 0x06001448 RID: 5192 RVA: 0x00070822 File Offset: 0x0006EA22
 		public UnitMovementAttributes MovementAttributes
 		{
 			get
@@ -86,8 +61,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x170003E9 RID: 1001
-		// (get) Token: 0x06001449 RID: 5193 RVA: 0x0007082A File Offset: 0x0006EA2A
 		public UnitStatus Status
 		{
 			get
@@ -96,13 +69,11 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600144A RID: 5194 RVA: 0x00070832 File Offset: 0x0006EA32
 		public bool IsStatusActive(UnitStatus status)
 		{
 			return (this.mUnitStatus & status) != UnitStatus.None;
 		}
 
-		// Token: 0x0600144B RID: 5195 RVA: 0x00070844 File Offset: 0x0006EA44
 		public void SetStatus(UnitStatus status)
 		{
 			if (status == UnitStatus.Attacking)
@@ -131,7 +102,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600144C RID: 5196 RVA: 0x000708E4 File Offset: 0x0006EAE4
 		public void ClearStatus(UnitStatus status)
 		{
 			if (this.IsStatusActive(status) && this.mUnitStatus != UnitStatus.None)
@@ -153,8 +123,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x170003EA RID: 1002
-		// (get) Token: 0x0600144D RID: 5197 RVA: 0x00070950 File Offset: 0x0006EB50
 		public Fixed64 Diagonal
 		{
 			get
@@ -169,7 +137,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600144E RID: 5198 RVA: 0x000709A8 File Offset: 0x0006EBA8
 		public static Unit CreateUnit(Entity entity)
 		{
 			Unit unit = new Unit(entity);
@@ -178,7 +145,6 @@ namespace BBI.Game.Simulation
 			return unit;
 		}
 
-		// Token: 0x0600144F RID: 5199 RVA: 0x000709CC File Offset: 0x0006EBCC
 		internal static void AttachUnitRelatedComponentsToEntity(Entity entity)
 		{
 			Unit.CreateUnitRelatedComponents(entity);
@@ -189,7 +155,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001450 RID: 5200 RVA: 0x00070A04 File Offset: 0x0006EC04
 		[ObjectConstructor(new string[]
 		{
 			"Entity"
@@ -206,7 +171,6 @@ namespace BBI.Game.Simulation
 			this.HasBeenSpawnedIntoWorldBefore = false;
 		}
 
-		// Token: 0x06001451 RID: 5201 RVA: 0x00070A6C File Offset: 0x0006EC6C
 		internal void OnBuffChangedEvent(BuffChangedEvent ev)
 		{
 			this.mUnitAttributes = this.mEntity.GetTypeAttributes<UnitAttributes>();
@@ -396,7 +360,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001452 RID: 5202 RVA: 0x00070EE4 File Offset: 0x0006F0E4
 		private static void CreateUnitRelatedComponents(Entity unitEntity)
 		{
 			unitEntity.AddComponent<StatusEffects>(28, StatusEffects.Create(unitEntity));
@@ -500,7 +463,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001453 RID: 5203 RVA: 0x000711BA File Offset: 0x0006F3BA
 		internal void Tick(Checksum check, Fixed64 tickPeriod)
 		{
 			this.AddChecksum(check);
@@ -511,7 +473,6 @@ namespace BBI.Game.Simulation
 			this.UpdateGuards();
 		}
 
-		// Token: 0x06001454 RID: 5204 RVA: 0x000711D4 File Offset: 0x0006F3D4
 		private void UpdateGuards()
 		{
 			if (this.EntityGuardGroup != null)
@@ -555,7 +516,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001455 RID: 5205 RVA: 0x000712F8 File Offset: 0x0006F4F8
 		public void DespawnUnit()
 		{
 			if (this.OnUnitDespawned != null)
@@ -564,7 +524,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001456 RID: 5206 RVA: 0x00071310 File Offset: 0x0006F510
 		private bool DestroyUnit(UnitRemoveReason reason, bool skipDeathSequence, CommanderID killingCommander, Entity killingEntity)
 		{
 			UnitHangar component = this.Entity.GetComponent<UnitHangar>(23);
@@ -593,7 +552,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x06001457 RID: 5207 RVA: 0x00071383 File Offset: 0x0006F583
 		public void UndockSequenceComplete(Unit undockedUnit, int bayId)
 		{
 			if (this.OnUnitUndocked != null)
@@ -602,7 +560,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001458 RID: 5208 RVA: 0x0007139C File Offset: 0x0006F59C
 		public void DockDespawn()
 		{
 			this.SetPresentationOnlyAndSuspend(false);
@@ -615,13 +572,11 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001459 RID: 5209 RVA: 0x000713EB File Offset: 0x0006F5EB
 		public void RetireDespawn()
 		{
 			ModifyHealthProcessor.DestroyEntity(this.Entity, UnitRemoveReason.Despawn);
 		}
 
-		// Token: 0x0600145A RID: 5210 RVA: 0x000713FA File Offset: 0x0006F5FA
 		private void ClearEntityPropertiesForDespawn()
 		{
 			this.SetStatus(UnitStatus.None);
@@ -632,7 +587,6 @@ namespace BBI.Game.Simulation
 			WeaponsProcessor.DeactivateWeaponsForUnit(this.Entity);
 		}
 
-		// Token: 0x0600145B RID: 5211 RVA: 0x00071438 File Offset: 0x0006F638
 		internal void AddChecksum(Checksum check)
 		{
 			check.Add(this.Entity.ToReference());
@@ -665,12 +619,10 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600145C RID: 5212 RVA: 0x00071581 File Offset: 0x0006F781
 		void IWeaponTrigger.PrepareWeapon(WeaponFireOperation weaponFireOperation)
 		{
 		}
 
-		// Token: 0x0600145D RID: 5213 RVA: 0x00071583 File Offset: 0x0006F783
 		void IWeaponTrigger.TriggerWeapon(Entity attackingEntity, WeaponFireOperation weaponFireOperation, WeaponFireTrigger weaponTrigger)
 		{
 			if (this.OnUnitFiredWeapon != null)
@@ -679,8 +631,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x170003EB RID: 1003
-		// (get) Token: 0x0600145E RID: 5214 RVA: 0x0007159B File Offset: 0x0006F79B
 		public bool PresentationOnly
 		{
 			get
@@ -689,8 +639,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x170003EC RID: 1004
-		// (get) Token: 0x0600145F RID: 5215 RVA: 0x000715A3 File Offset: 0x0006F7A3
 		public int BonePositionOverrideIndex
 		{
 			get
@@ -699,7 +647,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001460 RID: 5216 RVA: 0x000715AC File Offset: 0x0006F7AC
 		public void SetPresentationOnlyAndSuspend(bool value)
 		{
 			if (!value)
@@ -720,13 +667,11 @@ namespace BBI.Game.Simulation
 			this.mPresentationOnly = value;
 		}
 
-		// Token: 0x06001461 RID: 5217 RVA: 0x0007161D File Offset: 0x0006F81D
 		public void Die(UnitRemoveReason reason, bool skipDeathSequence, CommanderID killingCommanderID, Entity killingEntity)
 		{
 			this.DestroyUnit(reason, skipDeathSequence, killingCommanderID, killingEntity);
 		}
 
-		// Token: 0x06001462 RID: 5218 RVA: 0x0007162B File Offset: 0x0006F82B
 		[CustomConverter(ConverterDirection.Save, ClassStateConversionOrder.RunStateDataConversionAfter)]
 		private void OnSave(ref UnitSaveState state)
 		{
@@ -737,7 +682,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001463 RID: 5219 RVA: 0x00071658 File Offset: 0x0006F858
 		[CustomConverter(ConverterDirection.Load, ClassStateConversionOrder.RunStateDataConversionAfter)]
 		private void OnLoad(ref UnitSaveState state)
 		{
@@ -747,7 +691,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001464 RID: 5220 RVA: 0x00071674 File Offset: 0x0006F874
 		public static string EntityDebugString(Entity entity)
 		{
 			string text = "invalid";
@@ -762,52 +705,39 @@ namespace BBI.Game.Simulation
 			return entity.ToReference().ToString() + "-" + text;
 		}
 
-		// Token: 0x0400108C RID: 4236
 		private UnitAttributes mUnitAttributes;
 
-		// Token: 0x0400108D RID: 4237
 		private UnitMovementAttributes mUnitMovementAttributes;
 
-		// Token: 0x0400108E RID: 4238
 		[StateData("Entity", ConverterDirection.Save)]
 		private readonly Entity mEntity;
 
-		// Token: 0x0400108F RID: 4239
 		internal EntityGuardGroup EntityGuardGroup;
 
-		// Token: 0x04001090 RID: 4240
 		[StateData("DeathScheduled")]
 		private bool mDeathScheduled;
 
-		// Token: 0x04001091 RID: 4241
 		[StateData("HasBeenSpawnedIntoWorldBefore")]
 		internal bool HasBeenSpawnedIntoWorldBefore;
 
-		// Token: 0x04001092 RID: 4242
 		[StateData("PresentationOnly")]
 		private bool mPresentationOnly;
 
-		// Token: 0x04001093 RID: 4243
 		[StateData("BonePositionIndexOverride")]
 		private int mBonePositionIndexOverride = -1;
 
-		// Token: 0x04001094 RID: 4244
 		[StateData("UnitStatus")]
 		private UnitStatus mUnitStatus;
 
-		// Token: 0x04001095 RID: 4245
 		[StateData("AttackingTimerMS")]
 		internal int AttackingTimerMS;
 
-		// Token: 0x04001096 RID: 4246
 		[StateData("UnderAttackTimerMS")]
 		internal int UnderAttackTimerMS;
 
-		// Token: 0x04001097 RID: 4247
 		[StateData("LastAttackedByEntity")]
 		internal Entity LastAttackedByEntity;
 
-		// Token: 0x04001098 RID: 4248
 		public readonly UnitClass UnitClass;
 	}
 }

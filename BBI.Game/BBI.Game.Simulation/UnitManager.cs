@@ -12,11 +12,8 @@ using BBI.Game.SaveLoad;
 
 namespace BBI.Game.Simulation
 {
-	// Token: 0x020003DF RID: 991
 	public sealed class UnitManager
 	{
-		// Token: 0x17000402 RID: 1026
-		// (get) Token: 0x060014F5 RID: 5365 RVA: 0x00074BBB File Offset: 0x00072DBB
 		internal HashSet<Entity> DeployingUnits
 		{
 			get
@@ -25,12 +22,8 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x17000403 RID: 1027
-		// (get) Token: 0x060014F6 RID: 5366 RVA: 0x00074BC3 File Offset: 0x00072DC3
-		// (set) Token: 0x060014F7 RID: 5367 RVA: 0x00074BCA File Offset: 0x00072DCA
 		public static Fixed64 sMaxUnitDiagonal { get; private set; }
 
-		// Token: 0x060014F8 RID: 5368 RVA: 0x00074BD4 File Offset: 0x00072DD4
 		public UnitManager(Sim sim)
 		{
 			this.Sim = sim;
@@ -42,7 +35,6 @@ namespace BBI.Game.Simulation
 			Sim.Instance.SimEventSystem.AddHandler<UnitDestroyedEvent>(new BBI.Core.Events.EventHandler<UnitDestroyedEvent>(this.OnUnitDestroyed));
 		}
 
-		// Token: 0x060014F9 RID: 5369 RVA: 0x00074CB8 File Offset: 0x00072EB8
 		internal void Shutdown()
 		{
 			this.mUnits.Clear();
@@ -53,7 +45,6 @@ namespace BBI.Game.Simulation
 			Sim.Instance.SimEventSystem.RemoveHandler<UnitDestroyedEvent>(new BBI.Core.Events.EventHandler<UnitDestroyedEvent>(this.OnUnitDestroyed));
 		}
 
-		// Token: 0x060014FA RID: 5370 RVA: 0x00074D58 File Offset: 0x00072F58
 		internal static void TransferUnitToCommander(Unit unitToTransfer, CommanderID newCommanderID)
 		{
 			if (unitToTransfer == null || !unitToTransfer.Entity.IsValid())
@@ -114,7 +105,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060014FB RID: 5371 RVA: 0x00074F00 File Offset: 0x00073100
 		private static void PostUnitRemovedEvent(Entity removedUnitEntityID, SimFrameNumber frameNumber)
 		{
 			Unit component = removedUnitEntityID.GetComponent<Unit>(2);
@@ -125,7 +115,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060014FC RID: 5372 RVA: 0x00074F34 File Offset: 0x00073134
 		private static void PostUnitDiedEvent(Entity dyingUnitEntityID, bool skipDeathSequence, SimFrameNumber frameNumber)
 		{
 			Unit component = dyingUnitEntityID.GetComponent<Unit>(2);
@@ -136,7 +125,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060014FD RID: 5373 RVA: 0x00074F68 File Offset: 0x00073168
 		private static void PostUnitDockedEvent(Entity dockingUnitEntityID, SimFrameNumber frameNumber)
 		{
 			Unit component = dockingUnitEntityID.GetComponent<Unit>(2);
@@ -147,7 +135,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060014FE RID: 5374 RVA: 0x00074F9C File Offset: 0x0007319C
 		private void OnUnitDestroyed(UnitDestroyedEvent ev)
 		{
 			if (ev.KillingEntity.IsValid() && ev.KillingEntity.HasComponent(39))
@@ -157,7 +144,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x060014FF RID: 5375 RVA: 0x00074FDC File Offset: 0x000731DC
 		private void OnHangarDespawnUnitMessage(HangarDespawnUnitEvent ce)
 		{
 			if (!ce.DespawnUnit.IsValid())
@@ -177,7 +163,6 @@ namespace BBI.Game.Simulation
 			});
 		}
 
-		// Token: 0x06001500 RID: 5376 RVA: 0x00075048 File Offset: 0x00073248
 		private void OnDockingMessage(DockingUnitOperationEvent ce)
 		{
 			Entity dockingEntity = ce.DockingEntity;
@@ -216,7 +201,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001501 RID: 5377 RVA: 0x000750EC File Offset: 0x000732EC
 		private void OnBuffChangedEvent(BuffChangedEvent ev)
 		{
 			foreach (Unit unit in this.mUnits)
@@ -228,7 +212,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001502 RID: 5378 RVA: 0x00075150 File Offset: 0x00073350
 		private void OnModifyAbilityListEvent(ModifyAbilityListEvent ev)
 		{
 			if (ev.TargetType == ModifyAbilityListTargetType.UnitTypeForCommander || ev.TargetType == ModifyAbilityListTargetType.Commander)
@@ -282,7 +265,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001503 RID: 5379 RVA: 0x00075330 File Offset: 0x00073530
 		internal void Tick(Checksum check, SimFrameNumber frameNumber)
 		{
 			foreach (Unit unit in this.mUnitsReadyForSimRemoval)
@@ -309,8 +291,6 @@ namespace BBI.Game.Simulation
 			this.mUnitsReadyDelayedDocking.Clear();
 		}
 
-		// Token: 0x17000404 RID: 1028
-		// (get) Token: 0x06001504 RID: 5380 RVA: 0x0007548C File Offset: 0x0007368C
 		public IEnumerable<Unit> Units
 		{
 			get
@@ -319,7 +299,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001505 RID: 5381 RVA: 0x00075650 File Offset: 0x00073850
 		internal IEnumerable<Unit> GetUnitsForCommander(CommanderID commanderID)
 		{
 			foreach (Unit unit in this.mUnits)
@@ -332,7 +311,6 @@ namespace BBI.Game.Simulation
 			yield break;
 		}
 
-		// Token: 0x06001506 RID: 5382 RVA: 0x00075674 File Offset: 0x00073874
 		private void RemoveUnitFromSim(Unit unit, SimFrameNumber frame, bool removeFromUnitList)
 		{
 			UnitManager.PostUnitRemovedEvent(unit.Entity, frame);
@@ -345,7 +323,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001507 RID: 5383 RVA: 0x000756AC File Offset: 0x000738AC
 		internal void RemoveAllUnits(SimFrameNumber frame)
 		{
 			UnitManager.sMaxUnitDiagonal = Fixed64.Zero;
@@ -356,7 +333,6 @@ namespace BBI.Game.Simulation
 			this.mUnits.Clear();
 		}
 
-		// Token: 0x06001508 RID: 5384 RVA: 0x00075718 File Offset: 0x00073918
 		internal void OnUnitsLoaded(IEnumerable<Entity> loadedEntities, Entity[] deployingUnits)
 		{
 			foreach (Entity entity in loadedEntities)
@@ -380,7 +356,6 @@ namespace BBI.Game.Simulation
 			this.mDeployingUnits.UnionWith(deployingUnits);
 		}
 
-		// Token: 0x06001509 RID: 5385 RVA: 0x000757D4 File Offset: 0x000739D4
 		internal bool SpawnNewUntrackedUnitFromHangar(string unitType, UnitHangar hangar, CommanderID commanderID, UntrackedUnitSpawnMode untrackedSpawnMode, out Entity newEntity, string[] tags = null)
 		{
 			if (hangar == null || !hangar.StoresUntrackedUnitClass(unitType))
@@ -418,7 +393,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x0600150A RID: 5386 RVA: 0x000758D8 File Offset: 0x00073AD8
 		internal bool SpawnNewTrackedUnitIntoHangar(string typeToSpawn, UnitHangar hangar, CommanderID commanderID, bool reserveNewSlot, out Entity newEntity, string[] tags = null)
 		{
 			newEntity = Entity.None;
@@ -439,7 +413,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x0600150B RID: 5387 RVA: 0x0007597C File Offset: 0x00073B7C
 		internal bool SpawnNewUnitIntoWorld(string typeToSpawn, CommanderID commanderID, Vector2r spawnPoint, Orientation2 spawnOrientation, out Entity newEntity, string[] tags = null)
 		{
 			newEntity = Sim.CreateEntity(typeToSpawn, commanderID);
@@ -463,7 +436,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x0600150C RID: 5388 RVA: 0x00075A30 File Offset: 0x00073C30
 		internal static bool SpawnDockedUnitIntoWorld(Unit unit, Vector2r spawnPoint, Orientation2 spawnOrientation)
 		{
 			if (unit != null && unit.Entity.IsValid())
@@ -481,7 +453,6 @@ namespace BBI.Game.Simulation
 			return false;
 		}
 
-		// Token: 0x0600150D RID: 5389 RVA: 0x00075A94 File Offset: 0x00073C94
 		internal static void AddComponentsOnSpawnIntoWorld(Unit unit, Vector2r position, Orientation2 orientation)
 		{
 			if (unit != null && unit.Entity.IsValid())
@@ -508,7 +479,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600150E RID: 5390 RVA: 0x00075BEC File Offset: 0x00073DEC
 		internal static void ActivateAbilitiesOnSpawnIntoWorld(Unit unit)
 		{
 			UnitManager.ActivatePassiveAbilities(unit);
@@ -518,7 +488,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x0600150F RID: 5391 RVA: 0x00075C04 File Offset: 0x00073E04
 		internal static void RemoveComponentsOnDespawnFromWorld(Unit unit, bool dockDespawn)
 		{
 			if (unit != null && unit.Entity.IsValid())
@@ -535,7 +504,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001510 RID: 5392 RVA: 0x00075C74 File Offset: 0x00073E74
 		private static void ActivateAutocastAbilities(Unit unit)
 		{
 			List<Ability> listComponent = unit.Entity.GetListComponent<Ability>(17);
@@ -551,7 +519,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001511 RID: 5393 RVA: 0x00075D08 File Offset: 0x00073F08
 		private static void ActivatePassiveAbilities(Unit unit)
 		{
 			List<Ability> listComponent = unit.Entity.GetListComponent<Ability>(17);
@@ -568,7 +535,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001512 RID: 5394 RVA: 0x00075D94 File Offset: 0x00073F94
 		internal static void DeactivatePassiveAbilities(Unit unit)
 		{
 			List<Ability> listComponent = unit.Entity.GetListComponent<Ability>(17);
@@ -585,7 +551,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001513 RID: 5395 RVA: 0x00075E20 File Offset: 0x00074020
 		private void SubscribeToUnitEvents(Unit unit)
 		{
 			if (unit != null)
@@ -596,7 +561,6 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001514 RID: 5396 RVA: 0x00075E5B File Offset: 0x0007405B
 		private void UnsubscribeToUnitEvents(Unit unit)
 		{
 			if (unit != null)
@@ -607,25 +571,21 @@ namespace BBI.Game.Simulation
 			}
 		}
 
-		// Token: 0x06001515 RID: 5397 RVA: 0x00075E96 File Offset: 0x00074096
 		private void HandleUnitDespawned(Unit dyingUnit)
 		{
 			this.mUnitsReadyForSimRemoval.Add(dyingUnit);
 		}
 
-		// Token: 0x06001516 RID: 5398 RVA: 0x00075EA4 File Offset: 0x000740A4
 		private void HandleUnitDestroyed(Unit destroyedUnit, bool skipDeathSequence, CommanderID killingCommander, Entity killingEntity)
 		{
 			this.mUnitsDestroyedThisFrame.Add(destroyedUnit, skipDeathSequence);
 		}
 
-		// Token: 0x06001517 RID: 5399 RVA: 0x00075EB3 File Offset: 0x000740B3
 		private void HandleUnitDocked(Unit dockedUnit)
 		{
 			UnitManager.PostUnitDockedEvent(dockedUnit.Entity, Sim.Instance.GlobalFrameCount);
 		}
 
-		// Token: 0x06001518 RID: 5400 RVA: 0x00075ECC File Offset: 0x000740CC
 		internal static Unit FindLongestUnit(IEnumerable<Unit> units)
 		{
 			Fixed64 y = Fixed64.Zero;
@@ -642,7 +602,6 @@ namespace BBI.Game.Simulation
 			return result;
 		}
 
-		// Token: 0x06001519 RID: 5401 RVA: 0x00075F3C File Offset: 0x0007413C
 		internal static Unit FindSlowestUnit(IEnumerable<Unit> units)
 		{
 			Fixed64 y = Fixed64.PositiveInfinity;
@@ -659,22 +618,16 @@ namespace BBI.Game.Simulation
 			return result;
 		}
 
-		// Token: 0x040010D3 RID: 4307
 		private readonly HashSet<Unit> mUnits = new HashSet<Unit>();
 
-		// Token: 0x040010D4 RID: 4308
 		private readonly HashSet<Entity> mDeployingUnits = new HashSet<Entity>();
 
-		// Token: 0x040010D5 RID: 4309
 		private readonly List<Unit> mUnitsReadyForSimRemoval = new List<Unit>(100);
 
-		// Token: 0x040010D6 RID: 4310
 		private readonly List<Unit> mUnitsReadyDelayedDocking = new List<Unit>();
 
-		// Token: 0x040010D7 RID: 4311
 		public readonly Sim Sim;
 
-		// Token: 0x040010D8 RID: 4312
 		private Dictionary<Unit, bool> mUnitsDestroyedThisFrame = new Dictionary<Unit, bool>();
 	}
 }
