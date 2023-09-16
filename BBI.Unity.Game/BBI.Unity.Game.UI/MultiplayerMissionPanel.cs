@@ -11,6 +11,7 @@ using BBI.Unity.Game.Network;
 using BBI.Unity.Game.UI.Frontend.Helpers;
 using BBI.Unity.Game.Utility;
 using BBI.Unity.Game.World;
+using BBI.Steam; // Steam only
 using GG.EpicGames;
 using UnityEngine;
 
@@ -260,6 +261,7 @@ namespace BBI.Unity.Game.UI
 		private void OnConvertToPublicButtonClicked()
 		{
 			this.mLobby.LobbyType = LobbyType.Public;
+			this.mDummySteamLobby.LobbyType = this.mLobby.LobbyType; // Steam only
 		}
 
 		private void OnAIAdded()
@@ -297,7 +299,7 @@ namespace BBI.Unity.Game.UI
 			// Steam:
 			if (EpicAPIIntegration.IsConnectedToEpicServers && SteamAPIIntegration.IsSteamOverlayEnabled)
 			{
-				SteamFriendsIntegration.ActivateGameOverlayInviteDialog(this.mLobby.GroupID);
+				SteamFriendsIntegration.ActivateGameOverlayInviteDialog(this.mDummySteamLobby.GroupID);
 			}
 		}
 
