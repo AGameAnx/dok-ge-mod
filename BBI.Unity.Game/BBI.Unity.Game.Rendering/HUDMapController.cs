@@ -430,8 +430,9 @@ namespace BBI.Unity.Game.Rendering
 			float num = (flag && this.mSettings != null) ? this.mSettings.FadeCurve.Evaluate(time) : 1f;
 			num *= this.mAnimFade.Value;
 			Shader.SetGlobalFloat("_HUDHorizonFade", num);
-			Shader.SetGlobalVector("_NavRegionOrigin", this.mMapBounds.min);
-			Vector3 v = new Vector3(1f / this.mMapBounds.size.x, 1f / this.mMapBounds.size.y, 1f / this.mMapBounds.size.z);
+			float num2 = Math.Max(this.mMapBounds.size.x, this.mMapBounds.size.z);
+			Shader.SetGlobalVector("_NavRegionOrigin", this.mMapBounds.min + new Vector3(this.mMapBounds.size.x - num2, 0f, this.mMapBounds.size.z - num2) * 0.5f);
+			Vector3 v = new Vector3(1f / num2, 1f / this.mMapBounds.size.y, 1f / num2);
 			Shader.SetGlobalVector("_NavInverseRegionSize", v);
 		}
 
