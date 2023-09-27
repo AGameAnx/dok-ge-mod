@@ -17,7 +17,7 @@ using UnityEngine;
 [assembly: ComVisible(false)]
 [assembly: Guid("5b5b445b-fc18-4d62-af2b-2ff78efd4b22")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("v1.4.2 [b][ GE mod 1.4.2.1 ]")]
+[assembly: AssemblyInformationalVersion("v1.4.3 [b][ GE mod 1.4.3 ]")]
 [assembly: UnityAPICompatibilityVersion("5.2.3f1")]
 [assembly: UnityAPICompatibilityVersion("5.2.2f1")]
 [assembly: UnityAPICompatibilityVersion("5.2.0f3")]
