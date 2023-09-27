@@ -653,7 +653,6 @@ namespace BBI.Unity.Game.UI
 		protected override void InitiateStartGame()
 		{
 			base.InitiateStartGame();
-			this.UpdateLobbyJoinableStatus();
 			if (this.m_LobbyViewPanel != null)
 			{
 				this.m_LobbyViewPanel.UnloadPreviewImageStreamedAssets();
