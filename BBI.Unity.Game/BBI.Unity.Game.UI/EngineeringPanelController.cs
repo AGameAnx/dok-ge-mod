@@ -230,6 +230,7 @@ namespace BBI.Unity.Game.UI
 
 		private void RebuildTreeView()
 		{
+			this.mCommanderTechTree = this.mCommanderManager.GetCommanderTechTree(this.mMostRecentLocalCommanderState.CommanderID);
 			if (this.mMostRecentLocalCommanderState != null && this.mCommanderTechTree != null && this.mSettings != null && this.mSettings.TechTreeGrids != null && this.mSettings.ButtonPrefab != null)
 			{
 				this.DestroyResearchButtons();
