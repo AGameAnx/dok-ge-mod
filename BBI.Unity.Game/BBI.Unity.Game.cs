@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Security.Permissions;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ using UnityEngine;
 [assembly: ComVisible(false)]
 [assembly: Guid("5b5b445b-fc18-4d62-af2b-2ff78efd4b22")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("v1.4.3 [b][ GE mod 1.4.3 ]")]
+[assembly: AssemblyInformationalVersion("v1.4.4 [b][ GE mod 1.4.4 ]")]
 [assembly: UnityAPICompatibilityVersion("5.2.3f1")]
 [assembly: UnityAPICompatibilityVersion("5.2.2f1")]
 [assembly: UnityAPICompatibilityVersion("5.2.0f3")]
@@ -29,3 +30,4 @@ using UnityEngine;
 [assembly: AssemblyTitle("BBI.Unity.Game")]
 [assembly: AssemblyDescription("")]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
+[module: UnverifiableCode]

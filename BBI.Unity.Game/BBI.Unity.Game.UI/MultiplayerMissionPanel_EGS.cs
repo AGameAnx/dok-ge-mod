@@ -551,7 +551,7 @@ namespace BBI.Unity.Game.UI
 			});
 		}
 
-		protected override void OnLobbyMigrate(ulong newLobbyID)
+		protected override void OnLobbyMigrate(ulong newLobbyID, string newEpicLobbyID)
 		{
 		}
 
@@ -718,6 +718,7 @@ namespace BBI.Unity.Game.UI
 				{
 					this.ConvertToPublicButtonState = UIWidgetState.Hidden;
 				}
+				this.m_FleetSelectionButton.isEnabled = !this.m_GameStartCountdown.activeInHierarchy;
 				if (this.m_LobbyViewPanel.SelectedMap != null)
 				{
 					this.m_LobbyViewPanel.ShowTooManyPlayersWarning = !this.CanMapHoldAllPlayers;

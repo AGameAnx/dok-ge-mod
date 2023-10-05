@@ -25,7 +25,8 @@ using System.Xml;
 using System.Text.RegularExpressions;
 
 namespace BBI.Unity.Game.UI.Frontend.Helpers
-{	public abstract class LobbySetupPanelBase : BlackbirdPanelBase
+{
+	public abstract class LobbySetupPanelBase : BlackbirdPanelBase
 	{
 		protected virtual UIWidgetState StartButtonState
 		{
@@ -661,6 +662,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 
 		protected virtual void OnClickLeave(NGUIEventHandler handler)
 		{
+			this.m_FleetSelectionButton.isEnabled = true;
 			this.LeaveLobbyPanel(PlayerGroupLeaveReason.Normal);
 		}
 
@@ -892,7 +894,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 
 		protected abstract void OnLobbyKicked(ulong groupID, NetworkPlayerID targePlayerID);
 
-		protected abstract void OnLobbyMigrate(ulong newLobbyID);
+		protected abstract void OnLobbyMigrate(ulong newLobbyID, string newEpicLobbyID);
 
 		protected virtual void OnLobbyDisconnect()
 		{
@@ -1464,13 +1466,16 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 		private int m_GameStartCountdownSec = 10;
 
 		[SerializeField]
-		private GameObject m_GameStartCountdown;
+		protected GameObject m_GameStartCountdown;
 
 		[SerializeField]
 		private UILabel m_GameStartCountdownValue;
 
 		[SerializeField]
 		protected NGUIEventHandler m_StartCountdownButton;
+
+		[SerializeField]
+		protected UIButton m_FleetSelectionButton;
 
 		[SerializeField]
 		protected NGUIEventHandler m_CancelCountDownButton;
@@ -1512,7 +1517,7 @@ namespace BBI.Unity.Game.UI.Frontend.Helpers
 
 		protected MultiplayerUIEventsHandler mUIEventHandler;
 
-		private UIWidgetState mStartButtonState;
+		protected UIWidgetState mStartButtonState;
 
 		private UIWidgetState mCancelCoutdownButtonState;
 
