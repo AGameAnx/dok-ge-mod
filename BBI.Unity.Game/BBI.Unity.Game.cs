@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Security.Permissions;
 using UnityEngine;
 
@@ -29,3 +30,4 @@ using UnityEngine;
 [assembly: AssemblyTitle("BBI.Unity.Game")]
 [assembly: AssemblyDescription("")]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
+[module: UnverifiableCode]

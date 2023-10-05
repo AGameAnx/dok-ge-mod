@@ -6,12 +6,12 @@ using BBI.Core.Utility;
 using BBI.Game.Data;
 using BBI.Game.Network;
 using BBI.Game.Simulation;
+using BBI.Steam;
 using BBI.Unity.Game.Data;
 using BBI.Unity.Game.Network;
 using BBI.Unity.Game.UI.Frontend.Helpers;
 using BBI.Unity.Game.Utility;
 using BBI.Unity.Game.World;
-using BBI.Steam;
 using GG.EpicGames;
 using UnityEngine;
 
@@ -553,7 +553,7 @@ namespace BBI.Unity.Game.UI
 			});
 		}
 
-		protected override void OnLobbyMigrate(ulong newLobbyID)
+		protected override void OnLobbyMigrate(ulong newLobbyID, string newEpicLobbyID)
 		{
 		}
 
@@ -720,6 +720,7 @@ namespace BBI.Unity.Game.UI
 				{
 					this.ConvertToPublicButtonState = UIWidgetState.Hidden;
 				}
+				this.m_FleetSelectionButton.isEnabled = !this.m_GameStartCountdown.activeInHierarchy;
 				if (this.m_LobbyViewPanel.SelectedMap != null)
 				{
 					this.m_LobbyViewPanel.ShowTooManyPlayersWarning = !this.CanMapHoldAllPlayers;
